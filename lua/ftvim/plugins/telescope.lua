@@ -16,7 +16,7 @@ return {
         end,
       },
     },
-    local LazyVim = require('telescope.builtin')
+    local LazyVim = require('telescope')
     keys = {
       {
         "<leader>,",
