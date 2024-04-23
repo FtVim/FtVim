@@ -14,7 +14,7 @@ local plugins = {
 		"folke/tokyonight.nvim",
 		priority = 1000,
 		init = function()
-			vim.cmd.colorscheme("onedark")
+			vim.cmd.colorscheme("tokyonight-moon")
 		end,
 		opts = {
 			style = "moon",
