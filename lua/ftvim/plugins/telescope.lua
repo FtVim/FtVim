@@ -1,32 +1,41 @@
 return {
-     {
-    "nvim-telescope/telescope.nvim",
-    optional = true,
-    opts = function(_, opts)
-      if not LazyVim.has("flash.nvim") then
-        return
-      end
-      local function flash(prompt_bufnr)
-        require("flash").jump({
-          pattern = "^",
-          label = { after = { 0, 0 } },
-          search = {
-            mode = "search",
-            exclude = {
-              function(win)
-                return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
-              end,
-            },
-          },
-          action = function(match)
-            local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
-            picker:set_selection(match.pos[1] - 1)
-          end,
-        })
-      end
-      opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
-        mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
-      })
-    end,
+  "nvim-telescope/telescope.nvim",
+  branch = "0.1.x",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    "nvim-tree/nvim-web-devicons",
+    "folke/todo-comments.nvim",
   },
+  config = function()
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
+    local transform_mod = require("telescope.actions.mt").transform_mod
+
+    local trouble = require("trouble")
+    local trouble_telescope = require("trouble.providers.telescope")
+
+    -- or create your custom action
+    local custom_actions = transform_mod({
+      open_trouble_qflist = function(prompt_bufnr)
+        trouble.toggle("quickfix")
+      end,
+    })
+
+    telescope.setup({
+      defaults = {
+        path_display = { "smart" },
+        mappings = {
+          i = {
+            ["<C-k>"] = actions.move_selection_previous, -- move to prev result
+            ["<C-j>"] = actions.move_selection_next, -- move to next result
+            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
+            ["<C-t>"] = trouble_telescope.smart_open_with_trouble,
+          },
+        },
+      },
+    })
+
+    telescope.load_extension("fzf")
+    end,
 }
