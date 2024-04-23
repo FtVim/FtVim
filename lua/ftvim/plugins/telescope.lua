@@ -13,11 +13,6 @@ return {
     local transform_mod = require("telescope.actions.mt").transform_mod
 
     -- or create your custom action
-    local custom_actions = transform_mod({
-      open_trouble_qflist = function(prompt_bufnr)
-        trouble.toggle("quickfix")
-      end,
-    })
 
     telescope.setup({
       defaults = {
