@@ -8,4 +8,23 @@ if vim.fn.has("nvim-0.9.0") == 0 then
 	return {}
 end
 
-return {}
+local plugins = {
+	-- tokyonight
+	{
+		"folke/tokyonight.nvim",
+		priority = 1000,
+		init = function()
+			vim.cmd.colorscheme("onedark")
+		end,
+		opts = {
+			style = "moon",
+			transparent = true,
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent",
+			},
+		},
+	},
+}
+
+return plugins
