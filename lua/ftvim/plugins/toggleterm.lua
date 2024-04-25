@@ -10,7 +10,6 @@ return {
                 require("toggleterm").toggle(count, 0, vim.loop.cwd(), "vertical")
               end,
               desc = "ToggleTerm (vertical)",
-              size = 15,
             },
             {
               "<leader>th",
@@ -26,7 +25,7 @@ return {
                     if term.direction == "horizontal" then
                         return 15
                     elseif term.direction == "vertical" then
-                        return vim.o.columns * 0.4
+                        return vim.o.columns * 15
                     end
                 end,
                 open_mapping = [[<c-\>]],
