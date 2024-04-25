@@ -1,32 +1,23 @@
 return {
     {
         "akinsho/toggleterm.nvim",
-        lazy = true,
         cmd = { "ToggleTerm" },
         keys = {
             {
-                "<leader>Tf",
-                function()
-                    local count = vim.v.count1
-                    require("toggleterm").toggle(count, 0, LazyVim.root.get(), "float")
-                end,
-                desc = "ToggleTerm (float root_dir)",
+              "<leader>tv",
+              function()
+                local count = vim.v.count1
+                require("toggleterm").toggle(count, 0, vim.loop.cwd(), "vertical")
+              end,
+              desc = "ToggleTerm (vertical)",
             },
             {
-                "<leader>Th",
-                function()
-                    local count = vim.v.count1
-                    require("toggleterm").toggle(count, 15, LazyVim.root.get(), "horizontal")
-                end,
-                desc = "ToggleTerm (horizontal root_dir)",
-            },
-            {
-                "<leader>Tv",
-                function()
-                    local count = vim.v.count1
-                    require("toggleterm").toggle(count, vim.o.columns * 0.4, LazyVim.root.get(), "vertical")
-                end,
-                desc = "ToggleTerm (vertical root_dir)",
+              "<leader>th",
+              function()
+                local count = vim.v.count1
+                require("toggleterm").toggle(count, 10, vim.loop.cwd(), "horizontal")
+              end,
+              desc = "ToggleTerm (horizontal)",
             },
             opts = {
                 -- size can be a number or function which is passed the current terminal
