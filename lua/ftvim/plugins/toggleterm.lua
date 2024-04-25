@@ -3,7 +3,6 @@ return {
         "akinsho/toggleterm.nvim",
         version = "*"
         cmd = { "ToggleTerm" },
-        config = true,
         keys = {
             {
               "<leader>tv",
@@ -45,11 +44,6 @@ return {
                         return vim.o.columns * 0.4
                     end
                 end,
-                float_opts = function(term)
-                    if term.direction == "float" then
-                        border = 'curved'
-                    end
-                end,
                 open_mapping = [[<c-\>]],
                 hide_numbers = true, -- hide the number column in toggleterm buffers
                 shade_filetypes = {},
@@ -62,5 +56,5 @@ return {
                 close_on_exit = true, -- close the terminal window when the process exits
             },
         },
-    },
+    }
 }
