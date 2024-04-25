@@ -25,7 +25,7 @@ return {
                     if term.direction == "horizontal" then
                         return 15
                     elseif term.direction == "vertical" then
-                        return vim.o.columns * 2
+                        return 20
                     end
                 end,
                 open_mapping = [[<c-\>]],
