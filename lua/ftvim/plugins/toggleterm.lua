@@ -10,6 +10,7 @@ return {
                 require("toggleterm").toggle(count, 0, vim.loop.cwd(), "vertical")
               end,
               desc = "ToggleTerm (vertical)",
+              size = 15,
             },
             {
               "<leader>th",
