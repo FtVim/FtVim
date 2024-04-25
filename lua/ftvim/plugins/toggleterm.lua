@@ -1,7 +1,9 @@
 return {
     {
         "akinsho/toggleterm.nvim",
+        version = "*"
         cmd = { "ToggleTerm" },
+        config = true,
         keys = {
             {
               "<leader>tv",
@@ -60,5 +62,5 @@ return {
                 close_on_exit = true, -- close the terminal window when the process exits
             },
         },
-    }
+    },
 }
