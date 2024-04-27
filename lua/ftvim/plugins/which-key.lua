@@ -1,4 +1,4 @@
-local wk = require("which-key")
+local wk = require("ftvim.plugins.which-key")
 
 return {
   "folke/which-key.nvim",
