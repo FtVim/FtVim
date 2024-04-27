@@ -1,3 +1,5 @@
+local wk = require("which-key")
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -6,8 +8,31 @@ return {
     vim.o.timeoutlen = 500
   end,
   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
+      wk.register({
+      f = {
+        name = "file", -- optional group name
+      },
+      b = {
+          name = "buffer",
+      },
+      c = {
+          name = "code",
+      },
+      q = {
+          name = "quit",
+      },
+      s = {
+          name = "search and replace",
+      },
+      t = {
+          name = "term",
+      },
+      u = {
+          name = "ui",
+      },
+      w = {
+          name = "window",
+      }
+    }, { prefix = "<leader>" })
   },
 }
