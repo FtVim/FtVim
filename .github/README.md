@@ -32,20 +32,61 @@
 
 - Tuqui.
 
+## 🚀 Getting Started
+
+You can find a starter template for **FtVim** [here](https://github.com/FtVim/starter)
+
+<details><summary>Install the <a href="https://github.com/FtVim/starter">FtVim Starter</a></summary>
+
+- Make a backup of your current Neovim files:
+
+  ```sh
+  mv ~/.config/nvim ~/.config/nvim.bak
+  mv ~/.local/share/nvim ~/.local/share/nvim.bak
+  ```
+
+- Clone the starter
+
+  ```sh
+  git clone https://github.com/FtVim/starter ~/.config/nvim
+  ```
+
+- Remove the `.git` folder, so you can add it to your own repo later
+
+  ```sh
+  rm -rf ~/.config/nvim/.git
+  ```
+
+- Start Neovim!
+
+  ```sh
+  nvim
+  ```
+
+  Refer to the comments in the files on how to customize **FtVim**.
+
+</details>
+
 ## Plugins list
 
-- Many beautiful themes, theme toggler by our [base46 plugin](https://github.com/NvChad/base46)
-- Lightweight & performant ui plugin with [NvChad UI](https://github.com/NvChad/ui) It provides statusline modules, tabufline ( tabs + buffer manager) , beautiful cheatsheets, NvChad updater, hide & unhide terminal buffers, theme switcher and much more!
+- Default colorscheme [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
+- Great dashboard [alpha-nvim](https://github.com/goolord/alpha-nvim)
+- Extending UI [dressing.nvim](https://github.com/stevearc/dressing.nvim)
+- Faster statusline [nvim-lualine](https://github.com/nvim-lualine/lualine.nvim)
+- Buffer remover [mini-bufremove](https://github.com/echasnovski/mini.bufremove)
+- Better indent scope [mini-indentscope](https://github.com/echasnovski/mini.indentscope)
+- Better Bufferline with [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
 - File navigation with [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-- Beautiful and configurable icons with [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons)
-- Git diffs and more with [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) 
-- NeoVim Lsp configuration with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) and [mason.nvim](https://github.com/williamboman/mason.nvim)
-- Autocompletion with [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+- Notification manager with [nvim-notify](https://github.com/rcarriga/nvim-notify)
+- Search and replace panel [nvim-spectre](https://github.com/nvim-pack/nvim-spectre)
+- Integrated terminals [toggleterm](https://github.com/akinsho/toggleterm.nvim)
+- Beautiful icons with [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons)
 - File searching, previewing image and text files and more with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
 - Syntax highlighting with [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 - Autoclosing braces and html tags with [nvim-autopairs](https://github.com/windwp/nvim-autopairs)
 - Indentlines with [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-- Useful snippets with [friendly snippets](https://github.com/rafamadriz/friendly-snippets) + [LuaSnip](https://github.com/L3MON4D3/LuaSnip).
+- Startup Info with [vim-startuptime](https://github.com/dstein64/vim-startuptime)
+- Session managment with [persistence.nvim](https://github.com/folke/persistence.nvim)
 - Popup mappings keysheet [whichkey.nvim](https://github.com/folke/which-key.nvim)
 
 ## Credits
