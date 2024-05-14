@@ -69,7 +69,7 @@ You can find a starter template for **FtVim** [here](https://github.com/FtVim/st
 
 ## Plugins list
 
-- Default colorscheme [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
+- Default colorscheme [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
 - Great dashboard [alpha-nvim](https://github.com/goolord/alpha-nvim)
 - Extending UI [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 - Faster statusline [nvim-lualine](https://github.com/nvim-lualine/lualine.nvim)
