@@ -1,5 +1,6 @@
 <h1 align="center">Ft_Vim</h1>
 
+
 <div align="center">
 	<a href="https://ftvim.github.io/installation">Install</a>
   <span> • </span>
