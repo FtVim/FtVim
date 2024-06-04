@@ -2,7 +2,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         cmd = { "ToggleTerm" },
-        config = true,
+        config = require("toggleterm"),
         keys = {
             {
               "<leader>tv",
@@ -31,3 +31,4 @@ return {
         },
     }
 }
+
