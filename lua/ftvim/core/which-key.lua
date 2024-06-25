@@ -111,7 +111,7 @@ M.config = function()
 			["bd"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
 			["f"] = {
 				function()
-					require("ftvim.core.telescope.custom-finders").find_project_files({ previewer = false })
+					require("ftvim.core.telescope.finders").find_project_files({ previewer = false })
 				end,
 				"Find File",
 			},
