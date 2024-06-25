@@ -6,4 +6,4 @@ return{
     cmd = "WhichKey",
     event = "VeryLazy",
     enabled = ftvim.builtin.which_key.active,
-},
+}
