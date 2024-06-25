@@ -23,5 +23,5 @@ return {
 		"hrsh7th/cmp-cmdline",
 		lazy = true,
 		enabled = ftvim.builtin.cmp and ftvim.builtin.cmp.cmdline.enable or false,
-	}
+	},
 }
