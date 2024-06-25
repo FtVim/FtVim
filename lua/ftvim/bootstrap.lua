@@ -1,7 +1,16 @@
-vim.api.nvim_echo({
-  { "FtVim requires Neovim >= 0.9.0\n", "ErrorMsg" },
-  { "Press any key to exit", "MoreMsg" },
-}, true, {})
-vim.fn.getchar()
-vim.cmd([[quit]])
-return {}
+local M = {}
+
+if vim.fn.has "nvim-0.10" ~= 1 then
+  vim.notify("Please upgrade your Neovim base installation. Lunarvim requires v0.10+", vim.log.levels.WARN)
+  vim.wait(5000, function()
+    ---@diagnostic disable-next-line: redundant-return-value
+    return false
+  end)
+  vim.cmd "cquit"
+end
+
+function M:init()
+  return self
+end
+
+return M
