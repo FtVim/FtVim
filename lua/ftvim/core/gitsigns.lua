@@ -72,7 +72,7 @@ M.config = function()
 end
 
 M.setup = function()
-  local gitsigns = reload "gitsigns"
+  local gitsigns = require "gitsigns"
 
   gitsigns.setup(ftvim.builtin.gitsigns.opts)
   if ftvim.builtin.gitsigns.on_config_done then
