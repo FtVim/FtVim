@@ -1,0 +1,1 @@
+require("ftvim.bootstrap"):init()
