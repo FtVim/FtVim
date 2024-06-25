@@ -9,9 +9,6 @@ end
 
 require("ftvim.bootstrap"):init()
 
-local Log = require "ftvim.core.log"
-Log:debug "Starting FtVim"
-
 return {
   { "folke/lazy.nvim", version = "*" },
   { "FtVim/FtVim", priority = 10000, lazy = false, version = "*" },
