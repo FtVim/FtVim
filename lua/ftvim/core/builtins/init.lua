@@ -12,6 +12,7 @@ local builtins = {
 	"ftvim.core.lir",
 	"ftvim.core.illuminate",
 	"ftvim.core.indentlines",
+	"ftvim.core.bufferline",
 }
 
 function M.config()
