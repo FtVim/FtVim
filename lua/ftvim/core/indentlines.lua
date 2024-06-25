@@ -5,6 +5,10 @@ M.config = function()
 		active = true,
 		on_config_done = nil,
 		options = {
+			indent = {
+				char = "│",
+				tab_char = "│",
+			},
 			enabled = true,
 			buftype_exclude = { "terminal", "nofile" },
 			filetype_exclude = {
