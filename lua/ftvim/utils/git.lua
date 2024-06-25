@@ -54,10 +54,6 @@ end
 ---pulls the latest changes from github
 function M.update_base_ftvim()
 
-  if not vim.loop.fs_access(get_ftvim_base_dir(), "w") then
-    return
-  end
-
   if not safe_deep_fetch() then
     return
   end
