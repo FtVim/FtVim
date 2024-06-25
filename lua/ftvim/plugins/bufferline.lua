@@ -1,11 +1,9 @@
 return {
-	-- Status Line and Bufferline
-	-- "hoob3rt/lualine.nvim",
-	"nvim-lualine/lualine.nvim",
-	-- "Lunarvim/lualine.nvim",
-	config = function()
-		require("ftvim.core.lualine").setup()
-	end,
-	event = "VimEnter",
-	enabled = ftvim.builtin.lualine.active,
+    "akinsho/bufferline.nvim",
+    config = function()
+      require("ftvim.core.bufferline").setup()
+    end,
+    branch = "main",
+    event = "User FileOpened",
+    enabled = ftvim.builtin.bufferline.active,
 }
