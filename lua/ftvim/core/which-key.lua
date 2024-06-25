@@ -178,7 +178,6 @@ M.config = function()
 				},
 			},
 			e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
-		},
 		L = {
 			name = "+FtVim",
 			k = { "<cmd>Telescope keymaps<cr>", "View FtVim's keymappings" },
@@ -207,7 +206,8 @@ M.config = function()
 			name = "Treesitter",
 			i = { ":TSConfigInfo<cr>", "Info" },
 		},
-	}
+	},
+}
 end
 
 M.setup = function()
