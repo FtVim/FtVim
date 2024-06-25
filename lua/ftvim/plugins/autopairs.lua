@@ -2,8 +2,8 @@ return {
 	"windwp/nvim-autopairs",
 	event = "InsertEnter",
 	config = function()
-		require("lvim.core.autopairs").setup()
+		require("ftvim.core.autopairs").setup()
 	end,
-	enabled = lvim.builtin.autopairs.active,
+	enabled = ftvim.builtin.autopairs.active,
 	dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
 }
