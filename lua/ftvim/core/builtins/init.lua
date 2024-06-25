@@ -7,7 +7,7 @@ local builtins = {
 
 function M.config()
   for _, builtin_path in ipairs(builtins) do
-    local builtin = reload(builtin_path)
+    local builtin = require(builtin_path)
 
     builtin.config()
   end
