@@ -46,9 +46,6 @@ function M.config()
 		-- * win
 		scope_chdir = "global",
 
-		---@type string
-		---@usage path to store the project history for use in telescope
-		datapath = get_cache_dir(),
 	}
 end
 
