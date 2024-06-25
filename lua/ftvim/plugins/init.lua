@@ -7,6 +7,8 @@ if vim.fn.has "nvim-0.9" ~= 1 then
   vim.cmd "cquit"
 end
 
+require("ftvim.bootstrap"):init()
+
 return {
   { "folke/lazy.nvim", version = "*" },
   { "FtVim/FtVim", priority = 10000, lazy = false, version = "*" },
