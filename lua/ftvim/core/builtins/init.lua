@@ -9,6 +9,7 @@ local builtins = {
 	"ftvim.core.treesitter",
 	"ftvim.core.nvimtree",
 	"ftvim.core.project",
+	"ftvim.core.lir",
 }
 
 function M.config()

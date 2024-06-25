@@ -45,7 +45,6 @@ function M.config()
 		-- * tab
 		-- * win
 		scope_chdir = "global",
-
 	}
 end
 
