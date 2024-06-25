@@ -8,6 +8,7 @@ local builtins = {
 	"ftvim.core.telescope",
 	"ftvim.core.treesitter",
 	"ftvim.core.nvimtree",
+	"ftvim.core.project",
 }
 
 function M.config()
