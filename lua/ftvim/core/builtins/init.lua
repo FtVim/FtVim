@@ -14,6 +14,7 @@ local builtins = {
 	"ftvim.core.indentlines",
 	"ftvim.core.bufferline",
 	"ftvim.core.comment",
+	"ftvim.core.alpha",
 	"ftvim.core.autopairs",
 }
 
