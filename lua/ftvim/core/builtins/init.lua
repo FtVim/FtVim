@@ -10,6 +10,7 @@ local builtins = {
 	"ftvim.core.nvimtree",
 	"ftvim.core.project",
 	"ftvim.core.lir",
+	"ftvim.core.illuminate",
 }
 
 function M.config()
