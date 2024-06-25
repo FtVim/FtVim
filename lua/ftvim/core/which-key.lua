@@ -177,7 +177,6 @@ M.config = function()
 					"Git Diff",
 				},
 			},
-			e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
 			L = {
 				name = "+FtVim",
 				k = { "<cmd>Telescope keymaps<cr>", "View FtVim's keymappings" },
