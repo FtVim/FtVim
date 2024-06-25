@@ -3,7 +3,7 @@ name: format
 on:
   pull_request:
     branches:
-      - "master"
+      - "main"
     paths:
       - 'lua/**'
       - 'snapshots/**'
