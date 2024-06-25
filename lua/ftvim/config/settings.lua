@@ -1,6 +1,6 @@
 local M = {}
 
-M.load_default_options = function()
+M.load_defaults = function()
   local default_options = {
     backup = false, -- creates a backup file
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
@@ -61,18 +61,6 @@ M.load_default_options = function()
       ["[jt]sconfig.*.json"] = "jsonc",
     },
   }
-end
-
-M.load_headless_options = function()
-  vim.opt.shortmess = "" -- try to prevent echom from cutting messages off or prompting
-  vim.opt.more = false -- don't pause listing when screen is filled
-  vim.opt.cmdheight = 9999 -- helps avoiding |hit-enter| prompts.
-  vim.opt.columns = 9999 -- set the widest screen possible
-  vim.opt.swapfile = false -- don't use a swap file
-end
-
-M.load_defaults = function()
-  M.load_default_options()
 end
 
 return M
