@@ -79,6 +79,13 @@ map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
+-- whichkey
+map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
+
+map("n", "<leader>wk", function()
+  vim.cmd("WhichKey " .. vim.fn.input "WhichKey: ")
+end, { desc = "whichkey query lookup" })
+
 -- windows
 map("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
