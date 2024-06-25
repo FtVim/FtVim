@@ -1,20 +1,11 @@
 local M = {}
 
 M.load_defaults = function()
-	local default_options = {
-		-- [[ Setting options ]]
-		local opt = vim.opt
-
-		-- Make line numbers default
-		opt.number = true
-		-- Add relative line numbers, to help with jumping.
-		opt.relativenumber = true
-
-		-- Enable mouse mode
-		opt.mouse = "a"
-
-		-- Don't show the mode
-		opt.showmode = false
+	  local default_options = {
+		number = true, -- Make line numbers default
+		relativenumber = true, -- Add relative line numbers, to help with jumping.
+		mouse = "a", -- Enable mouse mode
+		showmode = false, -- Don't show the mode
 
 		-- Sync clipboard between OS and Neovim.
 		opt.clipboard = "unnamedplus"
@@ -52,17 +43,6 @@ M.load_defaults = function()
 	for k, v in pairs(default_options) do
 		vim.opt[k] = v
 	end
-
-	vim.filetype.add {
-		extension = {
-			tex = "tex",
-			zir = "zir",
-			cr = "crystal",
-		},
-		pattern = {
-			["[jt]sconfig.*.json"] = "jsonc",
-		},
-	}
 end
 
 return M
