@@ -31,14 +31,13 @@ function M.get_sections()
 	}
 
 	local text = require("ftvim.interface.text")
-	local ftvim_version = require("ftvim.utils.git").get_ftvim_version()
 
 	local footer = {
 		type = "text",
 		val = text.align_center({ width = 0 }, {
 			"",
-			"lunarvim.org",
-			ftvim_version,
+			"ftvim.github.io",
+			"By: Tito && Tuta",
 		}, 0.5),
 		opts = {
 			position = "center",
