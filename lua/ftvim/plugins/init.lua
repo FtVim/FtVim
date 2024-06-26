@@ -1,5 +1,4 @@
-vim.api.nvim_out_write("hello out write\n")
-vim.notify("Hello Notify")
+vim.notify("Starting FtVim")
 
 require("ftvim.bootstrap"):init()
 
