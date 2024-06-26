@@ -13,4 +13,8 @@ function M:init()
 	settings.load_defaults()
 end
 
+function M:load(config_path)
+  vim.notify("Loaded")
+end
+
 return M
