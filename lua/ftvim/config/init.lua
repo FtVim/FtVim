@@ -1,6 +1,8 @@
 local M = {}
 
 function M:init()
+	ftvim = vim.deepcopy(require "ftvim.config.defaults")
+
 	local keymappings = require("ftvim.keymappings")
 	keymappings.load_defaults()
 
