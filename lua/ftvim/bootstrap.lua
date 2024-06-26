@@ -34,7 +34,7 @@ function _G.get_cache_dir()
 	return vim.call("stdpath", "cache")
 end
 
-function M:init(base_dir)
+function M:init()
 	self.runtime_dir = get_runtime_dir()
 	self.config_dir = get_config_dir()
 	self.cache_dir = get_cache_dir()
@@ -46,10 +46,6 @@ function M:init(base_dir)
 			return _G.get_cache_dir()
 		end
 		return vim.call("stdpath", what)
-	end
-
-	function _G.get_ftvim_base_dir()
-		return base_dir
 	end
 
 	require("ftvim.config"):init()
