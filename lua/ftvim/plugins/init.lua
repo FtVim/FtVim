@@ -1,29 +1,10 @@
-return {
-        {
-        "williamboman/mason-lspconfig.nvim",
-    },
-    {
-        "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
-    },
-    {
-        "williamboman/mason.nvim",
-        cmd = "Mason",
-        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-        build = ":MasonUpdate",
-        opts = {
-            ensure_installed = {
-                "clangd"
-            },
-        },
-    },
-    {
-		"cacharle/c_formatter_42.vim",
-		config = function() end,
-	},
-	{
-		"42Paris/42header",
-		config = function() end,
-	},
-}
+local base_dir = function()
+	local init_path = debug.getinfo(1, "S").source
+	return init_path:sub(2):match("(.*[/\\])"):sub(1, -2)
+end
+
+if not vim.tbl_contains(vim.opt.rtp:get(), base_dir) then
+	vim.opt.rtp:prepend(base_dir)
+end
+
+require("ftvim.bootstrap"):init(base_dir)
