@@ -11,7 +11,12 @@ local builtins = {
 	"ftvim.core.lir",
 	"ftvim.core.illuminate",
 	"ftvim.core.indentlines",
-	"ftvim.core.project"
+	"ftvim.core.project",
+  	"ftvim.core.bufferline",
+  	"ftvim.core.autopairs",
+  	"ftvim.core.comment",
+  	"ftvim.core.lualine",
+  	"ftvim.core.alpha"
 }
 
 function M.config()
