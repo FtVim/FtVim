@@ -1,7 +1,8 @@
 local M = {}
 
 local builtins = {
-	"ftvim.core.which-key"
+	"ftvim.core.which-key",
+	"ftvim.core.gitsigns"
 }
 
 function M.config()
