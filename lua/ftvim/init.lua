@@ -1,1 +1,0 @@
-require("ftvim.config"):load()

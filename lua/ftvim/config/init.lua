@@ -6,15 +6,11 @@ function M:init()
 	local keymappings = require("ftvim.keymappings")
 	keymappings.load_defaults()
 
-	--local builtins = require("ftvim.core.builtins")
-	--builtins.config()
+	local builtins = require("ftvim.core.builtins")
+	builtins.config() 
 
 	local settings = require("ftvim.config.settings")
 	settings.load_defaults()
-end
-
-function M:load(config_path)
-  vim.notify("Loaded")
 end
 
 return M
