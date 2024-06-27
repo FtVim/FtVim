@@ -5,7 +5,8 @@ local builtins = {
 	"ftvim.core.gitsigns",
 	"ftvim.core.cmp",
 	"ftvim.core.terminal",
-	"ftvim.core.telescope"
+	"ftvim.core.telescope",
+	"ftvim.core.treesitter"
 }
 
 function M.config()
