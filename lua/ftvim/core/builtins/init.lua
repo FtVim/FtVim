@@ -10,6 +10,7 @@ local builtins = {
 	"ftvim.core.nvimtree",
 	"ftvim.core.lir",
 	"ftvim.core.illuminate",
+	"ftvim.core.indentlines"
 }
 
 function M.config()
