@@ -1,6 +1,6 @@
 local M = {}
 M.config = function()
-  lvim.builtin.which_key = {
+  ftvim.builtin.which_key = {
     ---@usage disable which-key completely [not recommended]
     active = true,
     on_config_done = nil,
@@ -35,9 +35,9 @@ M.config = function()
         -- ["<tab>"] = "TAB",
       },
       icons = {
-        breadcrumb = lvim.icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
-        separator = lvim.icons.ui.BoldArrowRight, -- symbol used between a key and it's label
-        group = lvim.icons.ui.Plus, -- symbol prepended to a group
+        breadcrumb = ftvim.icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
+        separator = ftvim.icons.ui.BoldArrowRight, -- symbol used between a key and it's label
+        group = ftvim.icons.ui.Plus, -- symbol prepended to a group
       },
       popup_mappings = {
         scroll_down = "<c-d>", -- binding to scroll down inside the popup
@@ -115,7 +115,7 @@ M.config = function()
       ["c"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
       ["f"] = {
         function()
-          require("lvim.core.telescope.custom-finders").find_project_files { previewer = false }
+          require("ftvim.core.telescope.custom-finders").find_project_files { previewer = false }
         end,
         "Find File",
       },
@@ -185,7 +185,7 @@ M.config = function()
       -- " Debugging
       g = {
         name = "Git",
-        g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
+        g = { "<cmd>lua require 'ftvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
         j = { "<cmd>lua require 'gitsigns'.nav_hunk('next', {navigation_message = false})<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.nav_hunk('prev', {navigation_message = false})<cr>", "Prev Hunk" },
         l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
@@ -215,7 +215,7 @@ M.config = function()
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
         w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-        f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
+        f = { "<cmd>lua require('ftvim.lsp.utils').format()<cr>", "Format" },
         i = { "<cmd>LspInfo<cr>", "Info" },
         I = { "<cmd>Mason<cr>", "Mason Info" },
         j = {
@@ -244,39 +244,39 @@ M.config = function()
         },
         d = { "<cmd>LvimDocs<cr>", "View LunarVim's docs" },
         f = {
-          "<cmd>lua require('lvim.core.telescope.custom-finders').find_lunarvim_files()<cr>",
+          "<cmd>lua require('ftvim.core.telescope.custom-finders').find_lunarvim_files()<cr>",
           "Find LunarVim files",
         },
         g = {
-          "<cmd>lua require('lvim.core.telescope.custom-finders').grep_lunarvim_files()<cr>",
+          "<cmd>lua require('ftvim.core.telescope.custom-finders').grep_lunarvim_files()<cr>",
           "Grep LunarVim files",
         },
         k = { "<cmd>Telescope keymaps<cr>", "View LunarVim's keymappings" },
         i = {
-          "<cmd>lua require('lvim.core.info').toggle_popup(vim.bo.filetype)<cr>",
+          "<cmd>lua require('ftvim.core.info').toggle_popup(vim.bo.filetype)<cr>",
           "Toggle LunarVim Info",
         },
         I = {
-          "<cmd>lua require('lvim.core.telescope.custom-finders').view_lunarvim_changelog()<cr>",
+          "<cmd>lua require('ftvim.core.telescope.custom-finders').view_lunarvim_changelog()<cr>",
           "View LunarVim's changelog",
         },
         l = {
           name = "+logs",
           d = {
-            "<cmd>lua require('lvim.core.terminal').toggle_log_view(require('lvim.core.log').get_path())<cr>",
+            "<cmd>lua require('ftvim.core.terminal').toggle_log_view(require('ftvim.core.log').get_path())<cr>",
             "view default log",
           },
           D = {
-            "<cmd>lua vim.fn.execute('edit ' .. require('lvim.core.log').get_path())<cr>",
+            "<cmd>lua vim.fn.execute('edit ' .. require('ftvim.core.log').get_path())<cr>",
             "Open the default logfile",
           },
           l = {
-            "<cmd>lua require('lvim.core.terminal').toggle_log_view(vim.lsp.get_log_path())<cr>",
+            "<cmd>lua require('ftvim.core.terminal').toggle_log_view(vim.lsp.get_log_path())<cr>",
             "view lsp log",
           },
           L = { "<cmd>lua vim.fn.execute('edit ' .. vim.lsp.get_log_path())<cr>", "Open the LSP logfile" },
           n = {
-            "<cmd>lua require('lvim.core.terminal').toggle_log_view(os.getenv('NVIM_LOG_FILE'))<cr>",
+            "<cmd>lua require('ftvim.core.terminal').toggle_log_view(os.getenv('NVIM_LOG_FILE'))<cr>",
             "view neovim log",
           },
           N = { "<cmd>edit $NVIM_LOG_FILE<cr>", "Open the Neovim logfile" },
@@ -314,19 +314,19 @@ end
 M.setup = function()
   local which_key = require "which-key"
 
-  which_key.setup(lvim.builtin.which_key.setup)
+  which_key.setup(ftvim.builtin.which_key.setup)
 
-  local opts = lvim.builtin.which_key.opts
-  local vopts = lvim.builtin.which_key.vopts
+  local opts = ftvim.builtin.which_key.opts
+  local vopts = ftvim.builtin.which_key.vopts
 
-  local mappings = lvim.builtin.which_key.mappings
-  local vmappings = lvim.builtin.which_key.vmappings
+  local mappings = ftvim.builtin.which_key.mappings
+  local vmappings = ftvim.builtin.which_key.vmappings
 
   which_key.register(mappings, opts)
   which_key.register(vmappings, vopts)
 
-  if lvim.builtin.which_key.on_config_done then
-    lvim.builtin.which_key.on_config_done(which_key)
+  if ftvim.builtin.which_key.on_config_done then
+    ftvim.builtin.which_key.on_config_done(which_key)
   end
 end
 
