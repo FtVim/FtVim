@@ -20,11 +20,11 @@ local builtins = {
   	"ftvim.core.alpha"
 }
 
-function M.config()
+function M.config(config)
   for _, builtin_path in ipairs(builtins) do
     local builtin = reload(builtin_path)
 
-    builtin.config()
+    builtin.config(config)
   end
 end
 
