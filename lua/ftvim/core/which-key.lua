@@ -97,10 +97,6 @@ M.config = function()
 		-- see https://neovim.io/doc/user/map.html#:map-cmd
 		vmappings = {
 			["/"] = { "<Plug>(comment_toggle_linewise_visual)", "Comment toggle linewise (visual)" },
-			l = {
-				name = "LSP",
-				a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-			},
 			g = {
 				name = "Git",
 				r = { "<cmd>Gitsigns reset_hunk<cr>", "Reset Hunk" },
@@ -112,14 +108,13 @@ M.config = function()
 			["w"] = { "<cmd>w!<CR>", "Save" },
 			["q"] = { "<cmd>confirm q<CR>", "Quit" },
 			["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment toggle current line" },
-			["c"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
+			["bd"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
 			["f"] = {
 				function()
-					require("ftvim.core.telescope.custom-finders").find_project_files({ previewer = false })
+					require("ftvim.core.telescope.finders").find_project_files({ previewer = false })
 				end,
 				"Find File",
 			},
-			["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 			["e"] = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
 			b = {
 				name = "Buffers",
@@ -147,42 +142,14 @@ M.config = function()
 					"Sort by language",
 				},
 			},
-			d = {
-				name = "Debug",
-				t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
-				b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
-				c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-				C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-				d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-				g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-				i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
-				o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
-				u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
-				p = { "<cmd>lua require'dap'.pause()<cr>", "Pause" },
-				r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-				s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-				q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
-				U = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", "Toggle UI" },
-			},
 			p = {
 				name = "Plugins",
 				i = { "<cmd>Lazy install<cr>", "Install" },
 				s = { "<cmd>Lazy sync<cr>", "Sync" },
 				S = { "<cmd>Lazy clear<cr>", "Status" },
-				c = { "<cmd>Lazy clean<cr>", "Clean" },
 				u = { "<cmd>Lazy update<cr>", "Update" },
-				p = { "<cmd>Lazy profile<cr>", "Profile" },
-				l = { "<cmd>Lazy log<cr>", "Log" },
-				d = { "<cmd>Lazy debug<cr>", "Debug" },
+				l = { "<cmd>Lazy<cr>", "Log" },
 			},
-
-			-- " Available Debug Adapters:
-			-- "   https://microsoft.github.io/debug-adapter-protocol/implementors/adapters/
-			-- " Adapter configuration and installation instructions:
-			-- "   https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
-			-- " Debug Adapter protocol:
-			-- "   https://microsoft.github.io/debug-adapter-protocol/
-			-- " Debugging
 			g = {
 				name = "Git",
 				g = { "<cmd>lua require 'ftvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
@@ -210,82 +177,13 @@ M.config = function()
 					"Git Diff",
 				},
 			},
-			l = {
-				name = "LSP",
-				a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-				d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
-				w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-				f = { "<cmd>lua require('ftvim.lsp.utils').format()<cr>", "Format" },
-				i = { "<cmd>LspInfo<cr>", "Info" },
-				I = { "<cmd>Mason<cr>", "Mason Info" },
-				j = {
-					"<cmd>lua vim.diagnostic.goto_next()<cr>",
-					"Next Diagnostic",
-				},
-				k = {
-					"<cmd>lua vim.diagnostic.goto_prev()<cr>",
-					"Prev Diagnostic",
-				},
-				l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-				q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
-				r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-				s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-				S = {
-					"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-					"Workspace Symbols",
-				},
-				e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
-			},
 			L = {
-				name = "+LunarVim",
-				c = {
-					"<cmd>edit " .. get_config_dir() .. "/config.lua<cr>",
-					"Edit config.lua",
-				},
-				d = { "<cmd>LvimDocs<cr>", "View LunarVim's docs" },
-				f = {
-					"<cmd>lua require('ftvim.core.telescope.custom-finders').find_lunarvim_files()<cr>",
-					"Find LunarVim files",
-				},
-				g = {
-					"<cmd>lua require('ftvim.core.telescope.custom-finders').grep_lunarvim_files()<cr>",
-					"Grep LunarVim files",
-				},
-				k = { "<cmd>Telescope keymaps<cr>", "View LunarVim's keymappings" },
-				i = {
-					"<cmd>lua require('ftvim.core.info').toggle_popup(vim.bo.filetype)<cr>",
-					"Toggle LunarVim Info",
-				},
-				I = {
-					"<cmd>lua require('ftvim.core.telescope.custom-finders').view_lunarvim_changelog()<cr>",
-					"View LunarVim's changelog",
-				},
-				l = {
-					name = "+logs",
-					d = {
-						"<cmd>lua require('ftvim.core.terminal').toggle_log_view(require('ftvim.core.log').get_path())<cr>",
-						"view default log",
-					},
-					D = {
-						"<cmd>lua vim.fn.execute('edit ' .. require('ftvim.core.log').get_path())<cr>",
-						"Open the default logfile",
-					},
-					l = {
-						"<cmd>lua require('ftvim.core.terminal').toggle_log_view(vim.lsp.get_log_path())<cr>",
-						"view lsp log",
-					},
-					L = { "<cmd>lua vim.fn.execute('edit ' .. vim.lsp.get_log_path())<cr>", "Open the LSP logfile" },
-					n = {
-						"<cmd>lua require('ftvim.core.terminal').toggle_log_view(os.getenv('NVIM_LOG_FILE'))<cr>",
-						"view neovim log",
-					},
-					N = { "<cmd>edit $NVIM_LOG_FILE<cr>", "Open the Neovim logfile" },
-				},
-				r = { "<cmd>LvimReload<cr>", "Reload LunarVim's configuration" },
-				u = { "<cmd>LvimUpdate<cr>", "Update LunarVim" },
+				name = "+FtVim",
+				k = { "<cmd>Telescope keymaps<cr>", "View FtVim's keymappings" },
+				u = { "<cmd>ftvimUpdate<cr>", "Update FtVim" },
 			},
-			s = {
-				name = "Search",
+			f = {
+				name = "Find",
 				b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 				c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
 				f = { "<cmd>Telescope find_files<cr>", "Find File" },
@@ -330,4 +228,4 @@ M.setup = function()
 	end
 end
 
-return M
+return Meturn M
