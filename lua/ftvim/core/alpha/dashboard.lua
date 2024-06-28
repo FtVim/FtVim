@@ -48,11 +48,6 @@ function M.get_sections()
       { "p", ftvim.icons.ui.Project .. "  Projects ", "<CMD>Telescope projects<CR>" },
       { "r", ftvim.icons.ui.History .. "  Recent files", ":Telescope oldfiles <CR>" },
       { "t", ftvim.icons.ui.FindText .. "  Find Text", "<CMD>Telescope live_grep<CR>" },
-      {
-        "c",
-        ftvim.icons.ui.Gear .. "  Configuration",
-        "<CMD>edit " .. require("ftvim.config"):get_user_config_path() .. " <CR>",
-      },
       { "q", ftvim.icons.ui.Close .. "  Quit", "<CMD>quit<CR>" },
     },
   }
