@@ -228,4 +228,4 @@ M.setup = function()
 	end
 end
 
-return Meturn M
+return M
