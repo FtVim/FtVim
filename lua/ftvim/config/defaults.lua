@@ -1,7 +1,7 @@
 return {
 	leader = "space",
 	reload_config_on_save = true,
-	colorscheme = "default",
+	colorscheme = "tokyonight",
 	transparent_window = false,
 	keys = {},
 
