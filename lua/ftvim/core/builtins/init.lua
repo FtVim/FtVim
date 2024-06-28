@@ -2,6 +2,7 @@ local M = {}
 
 local builtins = {
 	"ftvim.core.theme",
+	"ftvim.core.which-key",
 	"ftvim.core.gitsigns",
 	"ftvim.core.cmp",
 	"ftvim.core.terminal",
@@ -17,7 +18,6 @@ local builtins = {
   	"ftvim.core.comment",
   	"ftvim.core.lualine",
   	"ftvim.core.alpha"
-	"ftvim.core.which-key",
 }
 
 function M.config()
