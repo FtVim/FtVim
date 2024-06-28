@@ -1,6 +1,7 @@
 local M = {}
 
 local builtins = {
+	"ftvim.core.theme",
 	"ftvim.core.which-key",
 	"ftvim.core.gitsigns",
 	"ftvim.core.cmp",
