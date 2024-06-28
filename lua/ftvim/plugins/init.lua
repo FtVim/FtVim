@@ -1,6 +1,7 @@
 vim.notify("Starting FtVim")
 
 require("ftvim.bootstrap"):init()
+require("ftvim.config"):load()
 require("ftvim.core.theme").setup()
 
 return {
