@@ -4,9 +4,9 @@ require("ftvim.bootstrap"):init()
 
 vim.g.mapleader = (ftvim.leader == "space" and " ") or ftvim.leader
 
-local plugins = require "ftvim.plugins"
+local plugins = require("ftvim.plugins.core-plugins")
 
-require("ftvim.plugin-loader").load { plugins, ftvim.plugins }
+require("ftvim.plugin-loader").load({ plugins, ftvim.plugins })
 
 require("ftvim.core.theme").setup()
 
