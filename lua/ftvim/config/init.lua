@@ -3,6 +3,10 @@ local M = {}
 function M:init()
 	ftvim = vim.deepcopy(require("ftvim.config.defaults"))
 
+	local theme = require("ftvim.core.theme")
+	theme.config()
+	theme.setup()
+
 	local keymappings = require("ftvim.keymappings")
 	keymappings.load_defaults()
 
@@ -11,6 +15,8 @@ function M:init()
 
 	local settings = require("ftvim.config.settings")
 	settings.load_defaults()
+
+	
 end
 
 return M
