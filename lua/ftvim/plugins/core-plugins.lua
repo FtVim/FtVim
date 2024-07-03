@@ -367,6 +367,5 @@ return {
 		event = "VimEnter",
 
 		enabled = ftvim.builtin.indentlines.active,
-		main = "ibl",
 	},
 }
