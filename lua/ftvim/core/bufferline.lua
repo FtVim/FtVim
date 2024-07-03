@@ -49,7 +49,7 @@ M.config = function()
 			--- some limitations that will *NOT* be fixed.
 			name_formatter = function(buf) -- buf contains a "name", "path" and "bufnr"
 				-- remove extension from markdown files for example
-				if buf.name:match "%.md" then
+				if buf.name:match("%.md") then
 					return vim.fn.fnamemodify(buf.name, ":t:r")
 				end
 			end,
@@ -132,10 +132,10 @@ M.setup = function()
 	-- can't be set in settings.lua because default tabline would flash before bufferline is loaded
 	vim.opt.showtabline = 2
 
-	bufferline.setup {
+	bufferline.setup({
 		options = ftvim.builtin.bufferline.options,
 		highlights = ftvim.builtin.bufferline.highlights,
-	}
+	})
 
 	if ftvim.builtin.bufferline.on_config_done then
 		ftvim.builtin.bufferline.on_config_done()
