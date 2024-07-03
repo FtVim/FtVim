@@ -23,19 +23,16 @@ M.config = function()
 end
 
 M.setup = function()
-	require("ftvim.keymappings").load(ftvim.builtin.bufferline.keymap)
-
 	local status_ok, bufferline = pcall(require, "bufferline")
 	if not status_ok then
 		return
 	end
 
 	-- can't be set in settings.lua because default tabline would flash before bufferline is loaded
-	vim.opt.showtabline = 2
+	--vim.opt.showtabline = 2
 
 	bufferline.setup({
 		options = ftvim.builtin.bufferline.options,
-		highlights = ftvim.builtin.bufferline.highlights,
 	})
 
 	if ftvim.builtin.bufferline.on_config_done then
