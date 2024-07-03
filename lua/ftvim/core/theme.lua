@@ -52,13 +52,13 @@ M.setup = function()
 	end
 
 	local selected_theme = ftvim.builtin.theme.name
-	print("Selected theme: " .. selected_theme)
+	-- print("Selected theme: " .. selected_theme)
 
 	if vim.startswith(ftvim.colorscheme, selected_theme) then
 		local status_ok, plugin = pcall(require, selected_theme)
 		if not status_ok then
-			print("Failed to load theme: " .. selected_theme)
-			print("Error: " .. plugin)  -- Añadir este mensaje para obtener detalles del error
+			-- print("Failed to load theme: " .. selected_theme)
+			-- print("Error: " .. plugin)  -- Añadir este mensaje para obtener detalles del error
 			return
 		end
 		pcall(function()
@@ -68,7 +68,7 @@ M.setup = function()
 
 	local colors = vim.api.nvim_get_runtime_file(("colors/%s.*"):format(ftvim.colorscheme), false)
 	if #colors == 0 then
-		print("Colorscheme file not found: " .. ftvim.colorscheme)
+		-- print("Colorscheme file not found: " .. ftvim.colorscheme)
 		return
 	end
 
