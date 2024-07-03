@@ -108,7 +108,7 @@ M.config = function()
 			["w"] = { "<cmd>w!<CR>", "Save" },
 			["q"] = { "<cmd>confirm q<CR>", "Quit" },
 			["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment toggle current line" },
-			["bd"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
+			-- ["bd"] = { "<cmd>BufferKill<CR>", "Close Buffer" },
 			["f"] = {
 				function()
 					require("ftvim.core.telescope.finders").find_project_files({ previewer = false })
