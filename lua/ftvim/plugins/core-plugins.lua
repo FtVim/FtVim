@@ -284,10 +284,10 @@ return {
 		branch = "main",
 
 		config = function()
-			require("ftvim.core.mini-bufremove").setup()
+			require("ftvim.core.mini_bufremove").setup()
 		end,
 
-		enabled = ftvim.builtin.mini-bufremove.active,
+		--enabled = ftvim.builtin.mini_bufremove.active,
 
 	},
 
