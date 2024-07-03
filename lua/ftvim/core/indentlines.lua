@@ -17,7 +17,7 @@ M.config = function()
 				},
 			},
 		},
-	},
+	}
 end
 
 
