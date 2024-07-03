@@ -273,7 +273,7 @@ return {
 
 		branch = "main",
 
-		--event = "User FileOpened",
+		event = "User FileOpened",
 
 		enabled = ftvim.builtin.bufferline.active,
 	},
