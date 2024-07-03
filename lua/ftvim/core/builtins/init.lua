@@ -13,6 +13,7 @@ local builtins = {
 	"ftvim.core.illuminate",
 	"ftvim.core.indentlines",
 	"ftvim.core.project",
+	"ftvim.core.mini-bufremove",
   	"ftvim.core.bufferline",
   	"ftvim.core.autopairs",
   	"ftvim.core.comment",

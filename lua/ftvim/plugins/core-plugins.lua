@@ -244,7 +244,7 @@ return {
 		lazy = true,
 	},
 
-	-- Status Line and Bufferline
+	-- Status Line and Bufferline && mini-bufremove
 
 	{
 
@@ -276,6 +276,19 @@ return {
 		event = "User FileOpened",
 
 		enabled = ftvim.builtin.bufferline.active,
+	},
+
+	{
+		"echasnovski/mini.bufremove",
+		
+		branch = "main",
+
+		config = function()
+			require("ftvim.core.mini-bufremove").setup()
+		end,
+
+		enabled = ftvim.builtin.mini-bufremove.active,
+
 	},
 
 	-- alpha
