@@ -266,14 +266,16 @@ return {
 	{
 
 		"akinsho/bufferline.nvim",
+		
+		version = "*"
+
+		dependencies = 'nvim-tree/nvim-web-devicons'
 
 		config = function()
 			require("ftvim.core.bufferline").setup()
 		end,
 
-		branch = "main",
-
-		event = "User FileOpened",
+		--event = "User FileOpened",
 
 		enabled = ftvim.builtin.bufferline.active,
 	},
