@@ -50,6 +50,8 @@ function M:init()
 
 	require("ftvim.config"):init()
 
+	vim.cmd("colorscheme " .. ftvim.colorscheme)
+
 	return self
 end
 

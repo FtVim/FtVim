@@ -11,7 +11,6 @@ function M:init()
 
 	local settings = require("ftvim.config.settings")
 	settings.load_defaults()
-	vim.cmd("colorscheme " .. ftvim.colorscheme)
 end
 
 return M
