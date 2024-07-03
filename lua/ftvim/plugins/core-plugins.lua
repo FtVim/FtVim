@@ -212,7 +212,7 @@ return {
 
 		keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
 
-		event = "User FileOpened",
+		event = "VimEnter",
 
 		enabled = ftvim.builtin.comment.active,
 	},

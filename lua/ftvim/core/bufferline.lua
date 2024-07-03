@@ -131,7 +131,7 @@ M.setup = function()
 	end
 
 	-- can't be set in settings.lua because default tabline would flash before bufferline is loaded
-	vim.opt.showtabline = 2
+	vim.opt.showtabline = 1
 
 	bufferline.setup({
 		options = ftvim.builtin.bufferline.options,
