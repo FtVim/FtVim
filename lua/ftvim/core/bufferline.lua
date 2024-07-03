@@ -1,4 +1,4 @@
-cal M = {}
+local M = {}
 
 M.config = function()
 	ftvim.builtin.bufferline = {
