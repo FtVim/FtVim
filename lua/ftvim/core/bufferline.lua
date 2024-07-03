@@ -110,7 +110,7 @@ M.config = function()
 			-- [focused and unfocused]. eg: { '|', '|' }
 			separator_style = "thin",
 			enforce_regular_tabs = false,
-			always_show_bufferline = true,
+			always_show_bufferline = false,
 			hover = {
 				enabled = true, -- requires nvim 0.8+
 				delay = 200,
@@ -131,7 +131,7 @@ M.setup = function()
 	end
 
 	-- can't be set in settings.lua because default tabline would flash before bufferline is loaded
-	vim.opt.showtabline = 1
+	vim.opt.showtabline = 2
 
 	bufferline.setup({
 		options = ftvim.builtin.bufferline.options,
