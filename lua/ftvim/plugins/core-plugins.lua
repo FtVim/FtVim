@@ -366,6 +366,6 @@ return {
 
 		event = "BufReadPost",
 
-		enabled = ftvim.builtin.indentlines.active,
+		enabled = false,
 	},
 }
