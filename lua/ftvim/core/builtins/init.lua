@@ -11,7 +11,7 @@ local builtins = {
 	"ftvim.core.nvimtree",
 	"ftvim.core.lir",
 	"ftvim.core.illuminate",
-	"ftvim.core.indentlines",
+	-- "ftvim.core.indentlines",
 	"ftvim.core.project",
 	"ftvim.core.mini_bufremove",
   	"ftvim.core.bufferline",
