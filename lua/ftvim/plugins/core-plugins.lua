@@ -3,9 +3,11 @@ return {
 	{
 
 		"folke/tokyonight.nvim",
-		priority = 1000,
 
 		lazy = not vim.startswith(ftvim.colorscheme, "tokyonight"),
+		config = function()
+			require("tokyonight").setup(ftvim.builtin.theme.tokyonight.options)
+		end
 	},
 
 	-- Telescope
