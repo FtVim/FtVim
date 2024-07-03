@@ -359,14 +359,14 @@ return {
 	{
 
 		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
 
 		config = function()
 			require("ftvim.core.indentlines").setup()
 		end,
 
-		event = "User FileOpened",
+		event = "VimEnter",
 
 		enabled = ftvim.builtin.indentlines.active,
+		main = "ibl",
 	},
 }
