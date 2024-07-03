@@ -26,12 +26,6 @@ M.config = function()
 			groups = { items = {}, options = { toggle_hidden_on_enter = true } },
 			mode = "buffers", -- set to "tabs" to only show tabpages instead
 			numbers = "none", -- can be "none" | "ordinal" | "buffer_id" | "both" | function
-			close_command = function(n)
-				require("mini.bufremove").delete(n, false)
-			end,
-			right_mouse_command = function(n)
-				require("mini.bufremove").delete(n, false)
-			end,
 			left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
 			middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
 			indicator = {
@@ -110,9 +104,9 @@ M.config = function()
 			-- [focused and unfocused]. eg: { '|', '|' }
 			separator_style = "thin",
 			enforce_regular_tabs = false,
-			always_show_bufferline = false,
+			always_show_bufferline = true,
 			hover = {
-				enabled = false, -- requires nvim 0.8+
+				enabled = true, -- requires nvim 0.8+
 				delay = 200,
 				reveal = { "close" },
 			},
