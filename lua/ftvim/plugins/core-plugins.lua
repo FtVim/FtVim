@@ -365,7 +365,7 @@ return {
 			require("ftvim.core.indentlines").setup()
 		end,
 
-		event = "VimEnter",
+		event = "User FileOpened",
 
 		enabled = ftvim.builtin.indentlines.active,
 	},
