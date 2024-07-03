@@ -359,6 +359,7 @@ return {
 	{
 
 		"lukas-reineke/indent-blankline.nvim",
+		version = "2.20.8"
 
 		config = function()
 			require("ftvim.core.indentlines").setup()
