@@ -1,6 +1,6 @@
 local M = {}
 
-M.config = function() require("ibl").setup {
+M.config = function() 
 
 	ftvim.builtin.indentlines = {
 		active = true,
@@ -18,8 +18,7 @@ M.config = function() require("ibl").setup {
 				},
 			},
 		},
-	},
-}
+	}
 end
 
 
