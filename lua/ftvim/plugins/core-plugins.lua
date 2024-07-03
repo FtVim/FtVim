@@ -3,6 +3,7 @@ return {
 	{
 
 		"folke/tokyonight.nvim",
+		priority = 1000,
 
 		lazy = not vim.startswith(ftvim.colorscheme, "tokyonight"),
 	},
@@ -273,7 +274,7 @@ return {
 
 		branch = "main",
 
-		event = "User FileOpened",
+		event = "VimEnter",
 
 		enabled = ftvim.builtin.bufferline.active,
 	},
@@ -350,7 +351,7 @@ return {
 			require("ftvim.core.illuminate").setup()
 		end,
 
-		event = "User FileOpened",
+		event = "VimEnter",
 
 		enabled = ftvim.builtin.illuminate.active,
 	},
@@ -363,7 +364,7 @@ return {
 			require("ftvim.core.indentlines").setup()
 		end,
 
-		event = "User FileOpened",
+		event = "VimEnter",
 
 		enabled = ftvim.builtin.indentlines.active,
 	},
