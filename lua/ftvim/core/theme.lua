@@ -2,6 +2,7 @@ local M = {}
 
 M.config = function()
 	ftvim.builtin.theme = {
+		event = "VimEnter",
 		name = "tokyonight",
 		tokyonight = {
 			options = {
