@@ -27,10 +27,10 @@ M.config = function()
 			mode = "buffers", -- set to "tabs" to only show tabpages instead
 			numbers = "none", -- can be "none" | "ordinal" | "buffer_id" | "both" | function
 			close_command = function(n)
-				require("ftvim.core.mini_bufremove").delete(n, false)
+				require("mini.bufremove").delete(n, false)
 			end,
 			right_mouse_command = function(n)
-				require("ftvim.core.mini_bufremove").delete(n, false)
+				require("mini.bufremove").delete(n, false)
 			end,
 			left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
 			middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
