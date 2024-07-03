@@ -364,8 +364,8 @@ return {
 			require("ftvim.core.indentlines").setup()
 		end,
 
-		event = "BufReadPost",
+		event = "VimEnter",
 
-		enabled = false,
+		enabled = ftvim.builtin.indentlines.active,
 	},
 }
