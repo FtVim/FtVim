@@ -17,6 +17,7 @@ local builtins = {
   	"ftvim.core.autopairs",
   	"ftvim.core.comment",
   	"ftvim.core.lualine",
+  	"ftvim.core.nvim-cmp",
   	"ftvim.core.alpha"
 }
 

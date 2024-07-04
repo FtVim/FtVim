@@ -68,7 +68,7 @@ M.config = function()
 					text = "Neo-tree",
 					highlight = "Directory",
 					text_align = "left",
-					padding = 1
+					padding = 1,
 				},
 				{
 					filetype = "undotree",
