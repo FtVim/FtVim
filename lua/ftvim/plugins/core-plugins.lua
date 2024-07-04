@@ -1,5 +1,6 @@
 return {
 	{ "folke/lazy.nvim", tag = "stable" },
+	-- Themes
 	{
 
 		"folke/tokyonight.nvim",
@@ -8,6 +9,14 @@ return {
 		config = function()
 			require("tokyonight").setup(ftvim.builtin.theme.tokyonight.options)
 		end
+	},
+	{
+        "rebelot/kanagawa.nvim",
+	},
+	{
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
 	},
 
 	-- Telescope
