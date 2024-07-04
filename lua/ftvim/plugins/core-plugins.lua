@@ -90,7 +90,6 @@ return {
 		lazy = true,
 
 		enabled = ftvim.builtin.cmp and ftvim.builtin.cmp.cmdline.enable or false,
-		print(enabled),
 	},
 
 	-- Autopairs

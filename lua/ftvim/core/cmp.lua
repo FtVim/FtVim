@@ -35,8 +35,6 @@ local function jumpable(dir)
 	local get_current_buf = vim.api.nvim_get_current_buf
 
 	local function seek_luasnip_cursor_node()
-		-- TODO(kylo252): upstream this
-		-- for outdated versions of luasnip
 		if not luasnip.session.current_nodes then
 			return false
 		end
@@ -360,22 +358,43 @@ M.config = function()
 	}
 end
 
-function M.setup()
-	local cmp = require("cmp")
-	cmp.setup(ftvim.builtin.cmp)
+M.setup = function()
+    -- Intentando cargar 'cmp'
+    local cmp_status_ok, cmp = pcall(require, "cmp")
+    if not cmp_status_ok then
+        print("Error: No se pudo cargar 'cmp'")
+        return
+    end
 
-	if ftvim.builtin.cmp.cmdline.enable then
-		for _, option in ipairs(ftvim.builtin.cmp.cmdline.options) do
-			cmp.setup.cmdline(option.type, {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = option.sources,
-			})
-		end
-	end
+    -- Verificar si 'ftvim.builtin.cmp' está definido
+    if not ftvim or not ftvim.builtin or not ftvim.builtin.cmp then
+        print("Error: 'ftvim.builtin.cmp' no está definido")
+        return
+    end
 
-	if ftvim.builtin.cmp.on_config_done then
-		ftvim.builtin.cmp.on_config_done(cmp)
-	end
+    -- Imprimir configuración de 'ftvim.builtin.cmp'
+    print("ftvim.builtin.cmp:", vim.inspect(ftvim.builtin.cmp))
+
+    -- Configurando 'cmp'
+    cmp.setup(ftvim.builtin.cmp)
+
+    -- Verificar si 'cmdline' está habilitado
+    if ftvim.builtin.cmp.cmdline and ftvim.builtin.cmp.cmdline.enable then
+        for _, option in ipairs(ftvim.builtin.cmp.cmdline.options) do
+            -- Configurando 'cmdline'
+            cmp.setup.cmdline(option.type, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = option.sources,
+            })
+        end
+    end
+
+    -- Llamando a 'on_config_done' si está definido
+    if ftvim.builtin.cmp.on_config_done then
+        ftvim.builtin.cmp.on_config_done(cmp)
+    end
+
+    print("Configuración de 'cmp' completada")
 end
 
 return M
