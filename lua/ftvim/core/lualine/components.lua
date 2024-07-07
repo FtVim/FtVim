@@ -14,10 +14,6 @@ end
 
 local branch = ftvim.icons.git.Branch
 
-if ftvim.colorscheme == "lunar" then
-  branch = "%#SLGitIcon#" .. ftvim.icons.git.Branch .. "%*" .. "%#SLBranchName#"
-end
-
 return {
   mode = {
     function()
