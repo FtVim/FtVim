@@ -37,7 +37,6 @@ end
 M.setup = function()
 	local status_ok, mini_bufremove = pcall(require, "mini_bufremove")
 	if not status_ok then
-		print ("Error loading mini_bufremove")
 		return
 	end
 
