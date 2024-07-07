@@ -413,7 +413,7 @@ return {
 	{
 		"folke/persistence.nvim",
 		event = "BufReadPre",
-		print(vim.fn.stdpath("state") .. "/sessions/") -- directory where session files are saved
+		print(vim.fn.stdpath("state")), -- directory where session files are saved
 		-- minimum number of file buffers that need to be open to save
 		-- Set to 0 to always save
 		branch = false, -- use git branch to save session
