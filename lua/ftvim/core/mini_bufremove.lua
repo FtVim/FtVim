@@ -2,6 +2,7 @@ local M = {}
 
 M.config = function()
 	ftvim.builtin.mini_bufremove = {
+		enable = true,
 		keys = {
 			{
 				"<leader>bd",
