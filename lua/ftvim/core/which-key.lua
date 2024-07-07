@@ -106,7 +106,6 @@ M.config = function()
 		mappings = {
 			[";"] = { "<cmd>Alpha<CR>", "Dashboard" },
 			["w"] = { "<cmd>w!<CR>", "Save" },
-			["q"] = { "<cmd>confirm q<CR>", "Quit" },
 			["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment toggle current line" },
 			["bd"] = { "<cmd>bdelete<CR>", "Close Buffer" },
 			["f"] = {
@@ -116,6 +115,11 @@ M.config = function()
 				"Find File",
 			},
 			["e"] = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
+			q = {
+				name = "Quit",
+				q = { "<cmd>confirm q<CR>", "Quit" },
+				s = { function() require("persistence").load() end, "Restore Session"},
+			}
 			b = {
 				name = "Buffers",
 				j = { "<cmd>BufferLinePick<cr>", "Jump" },
