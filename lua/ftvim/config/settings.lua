@@ -24,7 +24,11 @@ M.load_defaults = function()
 	vim.opt.shortmess:append("c") -- don't show redundant messages from ins-completion-menu
 	vim.opt.shortmess:append("I") -- don't show the default intro message
 	vim.opt.whichwrap:append("<,>,[,],h,l")
-	vim.o.noexpandtab = true -- tabs & indentation
+	if vim.fn.has("nvim-0.10.0") == true then
+		vim.o.expandtab = false -- tabs & indentation
+	elseif vim.fn.has("nvim-0.9.5") == true then
+		vim.o.noexpandtab = true -- tabs & indentation
+	end
 
 	for k, v in pairs(default_options) do
 		vim.opt[k] = v
