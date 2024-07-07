@@ -5,7 +5,7 @@ M.config = function()
 		enable = true,
 		opts = {
 			options = { vim.opt.sessionoptions:get(),
-			dir = vim.fn.expand(vim.fn.stdpath('state') .. '/sessions/')
+			dir = vim.fn.expand(vim.fn.stdpath('state') .. '/sessions/'),
 			keys = {
 				{ "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
 				{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
