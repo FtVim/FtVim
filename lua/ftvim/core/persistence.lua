@@ -3,8 +3,7 @@ local M = {}
 M.config = function()
 	ftvim.builtin.persistence = {
 		enable = true,
-		options = { dir = vim.fn.stdpath("state") .. "/sessions/"},
-		opts = { options = vim.opt.sessionoptions:get() },
+		options = vim.opt.sessionoptions:get(),
 		-- stylua: ignore
 		keys = {
 			{ "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
@@ -21,7 +20,7 @@ M.setup = function()
 		return
 	end
 
-	persistence.setup(ftvim.builtin.persistence.opts)
+	persistence.setup(ftvim.builtin.persistence.options)
 	
 
 	if ftvim.builtin.persistence.on_config_done then
