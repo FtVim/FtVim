@@ -382,11 +382,7 @@ return {
 
 	{
 		"folke/persistence.nvim",
-		event = "BufReadPre",
-		config = function ()
-			require("ftvim.core.persistence").setup()
-		end,
-		enabled = ftvim.builtin.persistence.active,
+		config = true,
 		-- library used by other plugins
 		{ "nvim-lua/plenary.nvim", lazy = true },
 	},
