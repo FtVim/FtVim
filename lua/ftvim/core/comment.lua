@@ -77,7 +77,7 @@ end
 function M.setup()
 	local comment_status_ok, nvim_comment = pcall(require, "Comment")
 	if not comment_status_ok then
-		print ("Error loading Comment")
+		print("Error loading Comment")
 		return
 	end
 

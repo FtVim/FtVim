@@ -102,7 +102,7 @@ end
 function M.setup()
 	local status_ok, lir = pcall(require, "lir")
 	if not status_ok then
-		print ("Error loading lir")
+		print("Error loading lir")
 		return
 	end
 

@@ -127,7 +127,7 @@ M.setup = function()
 
 	local status_ok, bufferline = pcall(require, "bufferline")
 	if not status_ok then
-		print ("Error loading bufferline")
+		print("Error loading bufferline")
 		return
 	end
 

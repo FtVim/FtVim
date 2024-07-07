@@ -56,7 +56,7 @@ end
 M.setup = function()
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if not status_ok then
-		print ("Error loading illuminate")
+		print("Error loading illuminate")
 		return
 	end
 

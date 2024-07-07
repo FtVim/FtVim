@@ -68,7 +68,7 @@ end
 function M.setup()
 	local status_ok, alpha = pcall(require, "alpha")
 	if not status_ok then
-		print ("Error loading alpha")
+		print("Error loading alpha")
 		return
 	end
 	local mode = ftvim.builtin.alpha.mode

@@ -55,7 +55,7 @@ end
 function M.setup()
 	local status_ok, project = pcall(require, "project_nvim")
 	if not status_ok then
-		print ("Error loading project_nvim")
+		print("Error loading project_nvim")
 		return
 	end
 
