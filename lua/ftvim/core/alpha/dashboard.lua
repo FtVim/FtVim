@@ -45,7 +45,7 @@ function M.get_sections()
 		entries = {
 			{ "f", ftvim.icons.ui.FindFile .. "  Find File", "<CMD>Telescope find_files<CR>" },
 			{ "n", ftvim.icons.ui.NewFile .. "  New File", "<CMD>ene!<CR>" },
-			{ "s", ftvim.icons.ui.Fordward .. "  Restore Session", [[<CMD>lua require("persistence").load() <CR>]] },
+			{ "s", ftvim.icons.ui.Forward .. "  Restore Session", [[<CMD>lua require("persistence").load() <CR>]] },
 			{ "p", ftvim.icons.ui.Project .. "  Projects ", "<CMD>Telescope projects<CR>" },
 			{ "r", ftvim.icons.ui.History .. "  Recent files", ":Telescope oldfiles <CR>" },
 			{ "t", ftvim.icons.ui.FindText .. "  Find Text", "<CMD>Telescope live_grep<CR>" },
