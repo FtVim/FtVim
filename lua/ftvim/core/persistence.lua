@@ -3,8 +3,6 @@ local M = {}
 M.config = function()
 	ftvim.builtin.persistence = {
 		enable = true,
-		dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
-		vim.opt.sessionoptions:get(),
 		opts = {
 			options = {
 				keys = {
@@ -42,8 +40,8 @@ M.setup = function()
 		return
 	end
 
-	-- Depuración: Imprimir la configuración de 'dir'
 	persistence.setup(ftvim.builtin.persistence.opts)
+	
 
 	if ftvim.builtin.persistence.on_config_done then
 		ftvim.builtin.persistence.on_config_done()
