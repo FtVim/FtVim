@@ -3,6 +3,7 @@ local M = {}
 M.config = function()
 	ftvim.builtin.persistence = {
 		enable = true,
+		options = { dir = vim.fn.stdpath("state") .. "/sessions/"},
 		opts = { options = vim.opt.sessionoptions:get() },
 		-- stylua: ignore
 		keys = {
