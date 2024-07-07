@@ -119,7 +119,7 @@ M.config = function()
 				name = "Quit",
 				q = { "<cmd>confirm q<CR>", "Quit" },
 				s = { function() require("persistence").load() end, "Restore Session"},
-			}
+			},
 			b = {
 				name = "Buffers",
 				j = { "<cmd>BufferLinePick<cr>", "Jump" },
