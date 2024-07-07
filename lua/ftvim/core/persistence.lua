@@ -1,9 +1,17 @@
 local M = {}
 
 M.config = function()
-	vim.g.persistence_opts = {
-		dir = vim.fn.expand(vim.fn.stdpath('data') .. '/sessions/'), -- Aseguramos que el campo 'dir' esté definido
-		options = vim.opt.sessionoptions:get(),
+	ftvim.builtin.persistence = {
+		enable = true,
+		opts = {
+			dir = vim.fn.expand(vim.fn.stdpath('state') .. '/sessions/'),
+			options = vim.opt.sessionoptions:get(),
+		},
+		keys = {
+			{ "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+			{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+			{ "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+		},
 	}
 end
 
@@ -14,15 +22,12 @@ M.setup = function()
 		return
 	end
 
-	-- Depuración: Imprimir la configuración de 'opts'
-	print("Configuración de persistence: " .. vim.inspect(vim.g.persistence_opts))
+	-- Depuración: Imprimir la configuración de 'dir'
+	persistence.setup(ftvim.builtin.persistence.opts)
 
-	if not vim.g.persistence_opts.dir then
-		print("Error: 'dir' no está definido en persistence.opts")
+	if ftvim.builtin.persistence.on_config_done then
+		ftvim.builtin.persistence.on_config_done()
 	end
-
-	persistence.setup(vim.g.persistence_opts)
 end
 
 return M
-

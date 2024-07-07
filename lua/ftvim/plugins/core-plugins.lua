@@ -386,6 +386,7 @@ return {
 		config = function ()
 			require("persistence").setup()
 		end,
+		enabled = ftvim.builtin.persistence.active,
 		-- library used by other plugins
 		{ "nvim-lua/plenary.nvim", lazy = true },
 	},

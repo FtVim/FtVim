@@ -33,7 +33,6 @@ local function resolve_buttons(theme_name, button_section)
 			vim.api.nvim_feedkeys(key, "normal", false)
 		end
 		local button_element = selected_theme.button(entry[1], entry[2], entry[3])
-		-- this became necessary after recent changes in alpha.nvim (06ade3a20ca9e79a7038b98d05a23d7b6c016174)
 		button_element.on_press = on_press
 
 		button_element.opts = vim.tbl_extend("force", button_element.opts, entry[4] or button_section.opts or {})
