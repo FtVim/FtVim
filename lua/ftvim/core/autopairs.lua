@@ -57,6 +57,7 @@ end
 M.setup = function()
 	local status_ok, autopairs = pcall(require, "nvim-autopairs")
 	if not status_ok then
+		print ("Error loading autopairs")
 		return
 	end
 

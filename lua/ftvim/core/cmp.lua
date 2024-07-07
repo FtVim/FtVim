@@ -362,7 +362,7 @@ M.setup = function()
 	-- Intentando cargar 'cmp'
 	local cmp_status_ok, cmp = pcall(require, "cmp")
 	if not cmp_status_ok then
-		print("Error: No se pudo cargar 'cmp'")
+		print ("Error loading cmp")
 		return
 	end
 

@@ -75,7 +75,11 @@ function M.config()
 end
 
 function M.setup()
-	local nvim_comment = require("Comment")
+	local comment_status_ok, nvim_comment = pcall(require, "Comment")
+	if not comment_status_ok then
+		print ("Error loading Comment")
+		return
+	end
 
 	nvim_comment.setup(ftvim.builtin.comment)
 	if ftvim.builtin.comment.on_config_done then
