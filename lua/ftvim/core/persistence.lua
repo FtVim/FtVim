@@ -3,34 +3,9 @@ local M = {}
 M.config = function()
 	ftvim.builtin.persistence = {
 		enable = true,
-		opts = {
-			options = {
-				dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
-				vim.opt.sessionoptions:get(),
-				keys = {
-					{
-						"<leader>qs",
-						function()
-							require("persistence").load()
-						end,
-						desc = "Restore Session",
-					},
-					{
-						"<leader>ql",
-						function()
-							require("persistence").load({ last = true })
-						end,
-						desc = "Restore Last Session",
-					},
-					{
-						"<leader>qd",
-						function()
-							require("persistence").stop()
-						end,
-						desc = "Don't Save Current Session",
-					},
-				},
-			},
+		options = {
+			dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
+			vim.opt.sessionoptions:get(),
 		},
 	}
 end
@@ -42,8 +17,7 @@ M.setup = function()
 		return
 	end
 
-	-- Depuración: Imprimir la configuración de 'dir'
-	persistence.setup(ftvim.builtin.persistence.opts)
+	persistence.setup(ftvim.builtin.persistence.options)
 
 	if ftvim.builtin.persistence.on_config_done then
 		ftvim.builtin.persistence.on_config_done()
