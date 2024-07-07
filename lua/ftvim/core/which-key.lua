@@ -1,4 +1,4 @@
-local M = {}
+local M = {}heads
 M.config = function()
 	ftvim.builtin.which_key = {
 		---@usage disable which-key completely [not recommended]
@@ -118,7 +118,7 @@ M.config = function()
 			q = {
 				name = "Quit",
 				q = { "<cmd>confirm q<CR>", "Quit" },
-				s = { function() require("persistence").load() end, "Restore Session"},
+				s = { function() require("ftvim.core.persistence").load() end, "Restore Session"},
 			},
 			b = {
 				name = "Buffers",
