@@ -153,12 +153,12 @@ M.config = function()
 			},
 			w = {
 				name = "Windows",
-				{ w = "<cmd>split new<cr>", "Other Window" },
-				{ d = "<cmd>q<cr>", "Delete Window" },
+				w = { "<cmd>split new<cr>", "Other Window" },
+				d = { "<cmd>q<cr>", "Delete Window" },
 				s = { 
 					name = "Split",
-					{ h = "<cmd>split<cr>", "Split Horizontal" },
-					{ v = "<cmd>vsplit<cr>", "Split Vertical" },
+					h = { "<cmd>split<cr>", "Split Horizontal" },
+					v = { "<cmd>vsplit<cr>", "Split Vertical" },
 				},
 			},
 			p = {
