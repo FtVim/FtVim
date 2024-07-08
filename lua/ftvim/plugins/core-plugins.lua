@@ -13,29 +13,29 @@ return {
 	},
 
 	-- Mason and lsp
-	
-        {
-        "williamboman/mason-lspconfig.nvim",
-    },
-    {
-        "neovim/nvim-lspconfig",
-        event = { "bufreadpre", "bufnewfile" },
-        dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
-    },
-    {
-        "williamboman/mason.nvim",
-        cmd = "mason",
-        keys = { { "<leader>cm", "<cmd>mason<cr>", desc = "mason" } },
-        build = ":masonupdate",
-        opts = {
-            ensure_installed = {
-                "clangd"
-            },
-        },
-    },
+
+	{
+		"williamboman/mason-lspconfig.nvim",
+	},
+	{
+		"neovim/nvim-lspconfig",
+		event = { "bufreadpre", "bufnewfile" },
+		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
+	},
+	{
+		"williamboman/mason.nvim",
+		cmd = "Mason",
+		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+		build = ":masonupdate",
+		opts = {
+			ensure_installed = {
+				"clangd"
+			},
+		},
+	},
 
 	-- Themes
-	
+
 	{
 
 		"folke/tokyonight.nvim",
