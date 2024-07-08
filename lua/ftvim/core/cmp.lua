@@ -1,4 +1,3 @@
-
 local M = {}
 
 M.config = function()
@@ -80,4 +79,3 @@ M.setup = function()
 end
 
 return M
-

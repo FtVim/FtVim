@@ -21,7 +21,6 @@ M.setup = function()
 	end
 
 	persistence.setup(ftvim.builtin.persistence.options)
-	
 
 	if ftvim.builtin.persistence.on_config_done then
 		ftvim.builtin.persistence.on_config_done()

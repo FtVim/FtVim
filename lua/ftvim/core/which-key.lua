@@ -1,4 +1,5 @@
 local M = {}
+
 M.config = function()
 	ftvim.builtin.which_key = {
 		---@usage disable which-key completely [not recommended]
@@ -132,7 +133,6 @@ M.config = function()
 				b = { "<cmd>BufferLineCyclePrev<cr>", "Previous" },
 				n = { "<cmd>BufferLineCycleNext<cr>", "Next" },
 				W = { "<cmd>noautocmd w<cr>", "Save without formatting (noautocmd)" },
-				-- w = { "<cmd>BufferWipeout<cr>", "Wipeout" }, -- TODO: implement this for bufferline
 				e = {
 					"<cmd>BufferLinePickClose<cr>",
 					"Pick which buffer to close",
@@ -149,6 +149,16 @@ M.config = function()
 				L = {
 					"<cmd>BufferLineSortByExtension<cr>",
 					"Sort by language",
+				},
+			},
+			w = {
+				name = "Windows",
+				{ w = "<cmd>split new<cr>", "Other Window" },
+				{ d = "<cmd>q<cr>", "Delete Window" },
+				s = { 
+					name = "Split",
+					{ h = "<cmd>split<cr>", "Split Horizontal" },
+					{ v = "<cmd>vsplit<cr>", "Split Vertical" },
 				},
 			},
 			p = {
