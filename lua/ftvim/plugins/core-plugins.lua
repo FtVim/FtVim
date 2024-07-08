@@ -12,6 +12,28 @@ return {
 		config = function() end,
 	},
 
+	-- Mason and lsp
+	
+        {
+        "williamboman/mason-lspconfig.nvim",
+    },
+    {
+        "neovim/nvim-lspconfig",
+        event = { "bufreadpre", "bufnewfile" },
+        dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
+    },
+    {
+        "williamboman/mason.nvim",
+        cmd = "mason",
+        keys = { { "<leader>cm", "<cmd>mason<cr>", desc = "mason" } },
+        build = ":masonupdate",
+        opts = {
+            ensure_installed = {
+                "clangd"
+            },
+        },
+    },
+
 	-- Themes
 	
 	{
