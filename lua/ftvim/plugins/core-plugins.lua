@@ -1,6 +1,19 @@
 return {
 	{ "folke/lazy.nvim", tag = "stable" },
+
+	-- 42 Utils
+	
+    {
+		"cacharle/c_formatter_42.vim",
+		config = function() end,
+	},
+	{
+		"42Paris/42header",
+		config = function() end,
+	},
+
 	-- Themes
+	
 	{
 
 		"folke/tokyonight.nvim",
