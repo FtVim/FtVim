@@ -13,7 +13,14 @@ return {
 	},
 
 	-- Mason and lsp
-	
+
+	{ "hrsh7th/cmp-nvim-lsp", lazy = true },
+
+	{ "saadparwaiz1/cmp_luasnip", lazy = true },
+
+	{ "hrsh7th/cmp-buffer", lazy = true },
+
+	{ "hrsh7th/cmp-path", lazy = true },
 
 	{
 		"williamboman/mason.nvim",
@@ -87,14 +94,6 @@ return {
 	},
 
 	-- Install nvim-cmp, and buffer source as a dependency
-
-	{ "hrsh7th/cmp-nvim-lsp", lazy = true },
-
-	{ "saadparwaiz1/cmp_luasnip", lazy = true },
-
-	{ "hrsh7th/cmp-buffer", lazy = true },
-
-	{ "hrsh7th/cmp-path", lazy = true },
 
 	{
 
