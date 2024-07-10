@@ -154,7 +154,7 @@ M.config = function()
 			c = {
 				name = "Code",
 				m = { "<cmd>Mason<cr>", "Mason" },
-				a = { "<cmd>vim.lsp.buf.code_action<cr>",
+				a = { "<cmd>lua vim.lsp.buf.code_action<cr>",
 				"Code action" },
 			},
 			w = {
