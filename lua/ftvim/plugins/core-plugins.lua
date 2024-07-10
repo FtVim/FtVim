@@ -17,36 +17,23 @@ return {
 	{
 		"williamboman/mason.nvim",
 		config = function()
-			require("mason").setup()
+			require("ftvim.core.mason").setup()
 		end,
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		build = ":masonupdate",
+		build = ":MasonUpdate",
 	},
+
 	{
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"clangd",
-					"lua_ls", -- Remove later
-				},
-			})
+			require("ftvim.core.mason").setup()
 		end,
 	},
+
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
 		config = function()
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities
-			})
-			lspconfig.clangd.setup({
-				capabilities = capabilities
-			})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+			require("ftvim.core.lspconfig").setup()
 		end,
 	},
 

@@ -151,6 +151,11 @@ M.config = function()
 					"Sort by language",
 				},
 			},
+			c = {
+				name = "Code",
+				m = "<cmd>Mason<cr>", "Mason",
+				a = vim.lsp.buf.code_action, "Code action",
+			},
 			w = {
 				name = "Windows",
 				w = { "<cmd>split new<cr>", "Other Window" },
