@@ -2,8 +2,8 @@ return {
 	{ "folke/lazy.nvim", tag = "stable" },
 
 	-- 42 Utils
-	
-    {
+
+	{
 		"cacharle/c_formatter_42.vim",
 		config = function() end,
 	},
@@ -15,23 +15,27 @@ return {
 	-- Mason and lsp
 
 	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+		end,
+		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+		build = ":masonupdate",
+	},
+	{
 		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"clangd",
+					"lua_ls",
+				},
+			})
+		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
-		event = { "bufreadpre", "bufnewfile" },
 		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
-	},
-	{
-		"williamboman/mason.nvim",
-		cmd = "Mason",
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		build = ":masonupdate",
-		opts = {
-			ensure_installed = {
-				"clangd"
-			},
-		},
 	},
 
 	-- Themes
@@ -430,7 +434,7 @@ return {
 	{
 		"folke/persistence.nvim",
 		event = "BufReadPre",
-		config = function ()
+		config = function()
 			require("ftvim.core.persistence").setup()
 		end,
 		enabled = ftvim.builtin.persistence.active,
@@ -452,7 +456,7 @@ return {
 	},
 
 	-- Autocompletion
-	
+
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -473,5 +477,4 @@ return {
 		end,
 		enabled = ftvim.builtin.cmp.active,
 	},
-
 }
