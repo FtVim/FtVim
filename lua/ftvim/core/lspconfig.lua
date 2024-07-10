@@ -10,9 +10,9 @@ M.setup = function()
 end
 
 M.config = function()
-	local status_ok, lspconfig = pcall(require, "lspconfig")
+	local status_ok, lspconfig = pcall(require, "nvim-lspconfig")
 	if not status_ok then
-		print("Failed to load lspconfig")
+		print("Failed to load nvim-lspconfig")
 		return
 	end
 
