@@ -14,13 +14,13 @@ return {
 
 	-- Mason and lsp
 
-	{ "hrsh7th/cmp-nvim-lsp", lazy = true },
+	{ "hrsh7th/cmp-nvim-lsp"},
 
-	{ "saadparwaiz1/cmp_luasnip", lazy = true },
+	{ "saadparwaiz1/cmp_luasnip"},
 
-	{ "hrsh7th/cmp-buffer", lazy = true },
+	{ "hrsh7th/cmp-buffer"},
 
-	{ "hrsh7th/cmp-path", lazy = true },
+	{ "hrsh7th/cmp-path"},
 
 	{
 		"williamboman/mason.nvim",
