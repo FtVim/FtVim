@@ -28,7 +28,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"clangd",
-					"lua_ls",
+					"lua_ls", -- Remove later
 				},
 			})
 		end,
