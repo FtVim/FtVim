@@ -57,15 +57,7 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
 		config = function()
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities
-			})
-			lspconfig.clangd.setup({
-				capabilities = capabilities
-			})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+			require("ftvim.core.lspconfig").setup()
 		end,
 	},
 
