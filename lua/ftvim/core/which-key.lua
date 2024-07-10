@@ -153,8 +153,9 @@ M.config = function()
 			},
 			c = {
 				name = "Code",
-				m = "<cmd>Mason<cr>",
-				"Mason",
+				m = { "<cmd>Mason<cr>", "Mason" },
+				a = { "<cmd>vim.lsp.buf.code_action<cr>",
+				"Code action" },
 			},
 			w = {
 				name = "Windows",
