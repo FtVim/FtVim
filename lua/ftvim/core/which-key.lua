@@ -155,8 +155,6 @@ M.config = function()
 				name = "Code",
 				m = "<cmd>Mason<cr>",
 				"Mason",
-				a = vim.lsp.buf.code_action,
-				"Code action",
 			},
 			w = {
 				name = "Windows",
