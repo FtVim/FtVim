@@ -20,7 +20,6 @@ local builtins = {
 	"ftvim.core.lualine",
 	"ftvim.core.persistence",
 	"ftvim.core.mason",
-	"ftvim.core.lspconfig",
 	"ftvim.core.alpha",
 }
 
