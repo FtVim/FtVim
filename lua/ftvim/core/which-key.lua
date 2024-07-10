@@ -153,14 +153,16 @@ M.config = function()
 			},
 			c = {
 				name = "Code",
-				m = "<cmd>Mason<cr>", "Mason",
-				a = vim.lsp.buf.code_action, "Code action",
+				m = "<cmd>Mason<cr>",
+				"Mason",
+				a = vim.lsp.buf.code_action,
+				"Code action",
 			},
 			w = {
 				name = "Windows",
 				w = { "<cmd>split new<cr>", "Other Window" },
 				d = { "<cmd>q<cr>", "Delete Window" },
-				s = { 
+				s = {
 					name = "Split",
 					h = { "<cmd>split<cr>", "Split Horizontal" },
 					v = { "<cmd>vsplit<cr>", "Split Vertical" },

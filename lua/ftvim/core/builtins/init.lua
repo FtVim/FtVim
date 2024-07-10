@@ -13,23 +13,23 @@ local builtins = {
 	"ftvim.core.indentscope",
 	"ftvim.core.project",
 	"ftvim.core.mini_bufremove",
-  	"ftvim.core.bufferline",
-  	"ftvim.core.autopairs",
-  	"ftvim.core.comment",
-  	"ftvim.core.lualine",
+	"ftvim.core.bufferline",
+	"ftvim.core.autopairs",
+	"ftvim.core.comment",
+	"ftvim.core.lualine",
 	"ftvim.core.persistence",
 	"ftvim.core.mason",
 	"ftvim.core.lspconfig",
 	"ftvim.core.which-key",
-  	"ftvim.core.alpha"
+	"ftvim.core.alpha",
 }
 
 function M.config(config)
-  for _, builtin_path in ipairs(builtins) do
-    local builtin = reload(builtin_path)
+	for _, builtin_path in ipairs(builtins) do
+		local builtin = reload(builtin_path)
 
-    builtin.config(config)
-  end
+		builtin.config(config)
+	end
 end
 
 return M

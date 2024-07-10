@@ -13,6 +13,7 @@ return {
 	},
 
 	-- Mason and lsp
+	
 
 	{
 		"williamboman/mason.nvim",
@@ -87,31 +88,31 @@ return {
 
 	-- Install nvim-cmp, and buffer source as a dependency
 
-	-- {
+	 {
 
-	-- 	"hrsh7th/nvim-cmp",
+	 	"hrsh7th/nvim-cmp",
 
-	-- 	config = function()
-	-- 		if ftvim.builtin.cmp then
-	-- 			require("ftvim.core.cmp").setup()
-	-- 		end
-	-- 	end,
+	 	config = function()
+			if ftvim.builtin.cmp then
+	 			require("ftvim.core.cmp").setup()
+	 		end
+	 	end,
 
-	-- 	event = { "InsertEnter", "CmdlineEnter" },
+	 	event = { "InsertEnter", "CmdlineEnter" },
 
-	-- 	dependencies = {
+	 	dependencies = {
 
-	-- 		"cmp-nvim-lsp",
+	 		"cmp-nvim-lsp",
 
-	-- 		"cmp_luasnip",
+	 		"cmp_luasnip",
 
-	-- 		"cmp-buffer",
+	 		"cmp-buffer",
 
-	-- 		"cmp-path",
+	 		"cmp-path",
 
-	-- 		"cmp-cmdline",
-	-- 	},
-	-- },
+	 		"cmp-cmdline",
+	 	},
+	 },
 
 	{ "hrsh7th/cmp-nvim-lsp", lazy = true },
 
