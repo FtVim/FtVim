@@ -76,18 +76,6 @@ return {
 				})
 			end
 
-			if not lspconfig.norminette_lsp then
-				lspconfig.norminette_lsp = {
-					default_config = {
-						cmd = { 'norminette-lsp' },  -- Comando para iniciar norminette-lsp
-						filetypes = { 'c', 'cpp' },  -- Tipos de archivos que norminette-lsp soporta
-						root_dir = lspconfig.util.root_pattern('.git', 'Makefile'),  -- Directorio raíz para buscar configuraciones y archivos
-						capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),  -- Capacidades del cliente LSP
-					},
-				}
-				lspconfig.norminette_lsp.setup {}
-			end
-
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 		end,
