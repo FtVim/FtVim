@@ -57,7 +57,27 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
 		config = function()
-			require("ftvim.core.lspconfig").setup()
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			local lspconfig = require("lspconfig")
+			local lsp_available = function(server_name)
+				local server_available, server = lspconfig.util.available_servers(server_name)
+				return server_available
+			end
+
+			if lsp_available("lua_ls") then
+				lspconfig.lua_ls.setup({
+					capabilities = capabilities
+				})
+			end
+
+			if lsp_available("clangd") then
+				lspconfig.clangd.setup({
+					capabilities = capabilities
+				})
+			end
+
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 		end,
 	}
 
