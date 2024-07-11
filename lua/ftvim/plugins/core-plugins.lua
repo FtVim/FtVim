@@ -76,6 +76,16 @@ return {
 				})
 			end
 
+			-- Configuración para norminette-lsp
+			if vim.fn.executable("norminette-lsp") == 1 then
+				lspconfig.norminette.setup({
+					cmd = { "norminette-lsp" },
+					filetypes = { "c", "cpp" },
+					root_dir = lspconfig.util.root_pattern(".git", "Makefile"),
+					capabilities = capabilities,
+				})
+			end
+
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 		end,
