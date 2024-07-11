@@ -25,9 +25,9 @@ M.setup = function()
 
 	mason.setup()
 
-	mason_lspconfig.setup({
-		ensure_installed = ftvim.builtin.mason.ensure_installed,
-	})
+	-- mason_lspconfig.setup({
+	-- 	ensure_installed = ftvim.builtin.mason.ensure_installed,
+	-- })
 
 	if ftvim.builtin.mason.on_config_done then
 		ftvim.builtin.mason.on_config_done()
