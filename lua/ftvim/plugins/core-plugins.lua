@@ -84,6 +84,7 @@ return {
 						root_dir = lspconfig.util.root_pattern('.git', 'Makefile'),  -- Directorio raíz para buscar configuraciones y archivos
 					},
 				}
+				lspconfig.norminette_lsp.setup {}
 			end
 
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
