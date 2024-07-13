@@ -3,7 +3,6 @@ local wk = require("whick-key")
 
 M.config = function()
 	ftvim.builtin.which_key = {
-		---@usage disable which-key completely [not recommended]
 		active = true,
 		on_config_done = nil,
 		setup = {
@@ -358,7 +357,7 @@ end
 M.setup = function()
 	local which_key = require("which-key")
 
-	which_key.setup(ftvim.builtin.which_key.setup)
+	which_key.setup(ftvim.builtin.which_key.config)
 
 	if ftvim.builtin.which_key.on_config_done then
 		ftvim.builtin.which_key.on_config_done(which_key)
