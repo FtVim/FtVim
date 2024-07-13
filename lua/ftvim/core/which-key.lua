@@ -29,11 +29,6 @@ M.config = function()
 			-- to enable all native operators, set the preset / operators plugin above
 			operators = { gc = "Comments" },
 			key_labels = {
-				-- override the label used to display some keys. It doesn't effect WK in any other way.
-				-- For example:
-				-- ["<space>"] = "SPC",
-				-- ["<cr>"] = "RET",
-				-- ["<tab>"] = "TAB",
 			},
 			icons = {
 				breadcrumb = ftvim.icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
@@ -78,7 +73,7 @@ M.config = function()
 			},
 		},
 
-		mappings = {
+		keymaps = {
 			{
 				mode = { "n" },
 				{
@@ -357,7 +352,7 @@ M.setup = function()
 
 	which_key.setup(ftvim.builtin.which_key.setup)
 
-	local mappings = ftvim.builtin.which_key.mappings
+	local mappings = ftvim.builtin.which_key.keymaps
 
 	which_key.register(mappings)
 
