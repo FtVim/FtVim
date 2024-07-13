@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-	local wk = require("which_key")
+	local wk = require("which-key")
 
 	ftvim.builtin.which_key = {
 		---@usage disable which-key completely [not recommended]
