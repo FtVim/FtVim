@@ -77,7 +77,8 @@ M.config = function()
 				filetypes = { "TelescopePrompt" },
 			},
 		},
-		opts = {
+
+		mappings = {
 			{
 				mode = { "n" },
 				{
@@ -356,7 +357,9 @@ M.setup = function()
 
 	which_key.setup(ftvim.builtin.which_key.setup)
 
-	local opts = ftvim.builtin.which_key.opts
+	local mappings = ftvim.builtin.which_key.mappings
+
+	which_key.register(mappings)
 
 	if ftvim.builtin.which_key.on_config_done then
 		ftvim.builtin.which_key.on_config_done(which_key)
