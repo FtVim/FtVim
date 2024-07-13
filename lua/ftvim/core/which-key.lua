@@ -360,10 +360,6 @@ M.setup = function()
 
 	which_key.setup(ftvim.builtin.which_key.setup)
 
-	local mappings = ftvim.builtin.which_key.opts.spec
-
-	which_key.register(mappings)
-
 	if ftvim.builtin.which_key.on_config_done then
 		ftvim.builtin.which_key.on_config_done(which_key)
 	end
