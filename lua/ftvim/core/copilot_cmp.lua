@@ -1,49 +1,40 @@
-local M = {
-  "zbirenbaum/copilot.lua",
-  cmd = "Copilot",
-  event = "InsertEnter",
-  dependencies = {
-    "zbirenbaum/copilot-cmp",
+local ok, copilot = pcall(require, "copilot")
+if not ok then
+  return
+end
+
+copilot.setup {
+  panel = {
+    keymap = {
+      jump_next = "<c-j>",
+      jump_prev = "<c-k>",
+      accept = "<c-l>",
+      refresh = "r",
+      open = "<M-CR>",
+    },
+  },
+  suggestion = {
+    enabled = true,
+    auto_trigger = true,
+    keymap = {
+      accept = "<c-l>",
+      next = "<c-j>",
+      prev = "<c-k>",
+      dismiss = "<c-h>",
+    },
+  },
+  filetypes = {
+    yaml = false,
+    markdown = true,
+    help = false,
+    gitcommit = false,
+    gitrebase = false,
+    hgcommit = false,
+    svn = false,
+    cvs = false,
+    ["."] = false,
   },
 }
 
-function M.config()
-  require("copilot").setup {
-    panel = {
-      keymap = {
-        jump_next = "<c-j>",
-        jump_prev = "<c-k>",
-        accept = "<c-l>",
-        refresh = "r",
-        open = "<M-CR>",
-      },
-    },
-    suggestion = {
-      enabled = true,
-      auto_trigger = true,
-      keymap = {
-        accept = "<c-l>",
-        next = "<c-j>",
-        prev = "<c-k>",
-        dismiss = "<c-h>",
-      },
-    },
-    filetypes = {
-      yaml = true,
-      markdown = true,
-      help = false,
-      gitcommit = false,
-      gitrebase = false,
-      cvs = false,
-      ["."] = false,
-    },
-    copilot_node_command = "node",
-  }
-
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap("n", "<c-s>", ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
-
-  require("copilot_cmp").setup()
-end
-
-return M
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", "<c-s>", "<cmd>lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
