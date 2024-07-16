@@ -1,31 +1,49 @@
-local M = {}
+local M = {
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
+  event = "InsertEnter",
+  dependencies = {
+    "zbirenbaum/copilot-cmp",
+  },
+}
 
-M.setup = function()
-	local ok, copilot = pcall(require, "copilot")
-	if not ok then
-		print("Error loading copilot")
-		return
-	end
+function M.config()
+  require("copilot").setup {
+    panel = {
+      keymap = {
+        jump_next = "<c-j>",
+        jump_prev = "<c-k>",
+        accept = "<c-l>",
+        refresh = "r",
+        open = "<M-CR>",
+      },
+    },
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      keymap = {
+        accept = "<c-l>",
+        next = "<c-j>",
+        prev = "<c-k>",
+        dismiss = "<c-h>",
+      },
+    },
+    filetypes = {
+      yaml = true,
+      markdown = true,
+      help = false,
+      gitcommit = false,
+      gitrebase = false,
+      cvs = false,
+      ["."] = false,
+    },
+    copilot_node_command = "node",
+  }
 
-	copilot.config()
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_set_keymap("n", "<c-s>", ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
 
-	copilot.setup {
-		suggestion = {
-			keymap = {
-				accept = "",
-				next = "",
-				prev = "",
-				dismiss = "",
-			},
-		},
-	}
-
-	local opts = { noremap = true, silent = true }
-	vim.api.nvim_set_keymap("n", "", "lua require('copilot.suggestion').toggle_auto_trigger()", opts)
-
-	if ftvim.builtin.copilot_cmp.on_config_done then
-		ftvim.builtin.copilot_cmp.on_config_done()
-	end
+  -- require("copilot_cmp").setup()
 end
 
 return M
