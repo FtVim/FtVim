@@ -16,6 +16,7 @@ M.config = function()
 				-- the presets plugin, adds help for a bunch of default keybindings in Neovim
 				-- No actual key bindings are created
 				presets = {
+					operators = false, -- adds help for operators like d, y, ...
 					motions = false, -- adds help for motions
 					text_objects = false, -- help for text objects triggered after entering an operator
 					windows = false, -- default bindings on <c-w>
@@ -26,7 +27,6 @@ M.config = function()
 			},
 			-- add operators that will trigger motion and text object completion
 			-- to enable all native operators, set the preset / operators plugin above
-			operators = { gc = "Comments" },
 			icons = {
 				breadcrumb = ftvim.icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
 				separator = ftvim.icons.ui.BoldArrowRight, -- symbol used between a key and it's label
