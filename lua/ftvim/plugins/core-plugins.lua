@@ -463,4 +463,19 @@ return {
 			{ "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
 		},
 	},
+
+	-- Copilot
+
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		after = { "copilot.lua" },
+		config = function()
+			require("ftvim.core.copilot_cmp").setup()
+		end,
+	},
 }
