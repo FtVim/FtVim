@@ -6,7 +6,6 @@ M.setup = function()
 		return
 	end
 
-	copilot.setup()
 	copilot.setup {
 		suggestion = {
 			keymap = {
