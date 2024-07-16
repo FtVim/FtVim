@@ -21,7 +21,7 @@ local builtins = {
 	"ftvim.core.persistence",
 	"ftvim.core.mason",
 	"ftvim.core.alpha",
-	--"ftvim.core.copilot_cmp",
+	"ftvim.core.copilot",
 }
 
 function M.config(config)
