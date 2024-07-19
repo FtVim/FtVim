@@ -13,6 +13,7 @@ local banner = {
 function M.get_sections()
 	local header = {
 		type = "text",
+		theme = "hyper",
 		val = function()
 			return banner
 		end,
