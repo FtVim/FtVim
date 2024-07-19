@@ -1,8 +1,8 @@
 vim.notify("Starting FtVim")
 
-vim.g.mapleader = (ftvim.leader == "space" and " ") or ftvim.leader
-
 require("ftvim.bootstrap"):init()
+
+vim.g.mapleader = (ftvim.leader == "space" and " ") or ftvim.leader
 
 local plugins = require("ftvim.plugins.core-plugins")
 require("ftvim.core.theme").setup()
