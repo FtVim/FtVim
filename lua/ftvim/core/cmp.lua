@@ -16,7 +16,7 @@ M.config = function()
 			["<C-j>"] = "select_next_item", -- next suggestion
 			["<C-b>"] = "scroll_docs(-4)",
 			["<C-f>"] = "scroll_docs(4)",
-			-- ["<C-Space>"] = "complete", -- show completion suggestions
+			["<C-Space>"] = "complete", -- show completion suggestions
 			["<C-e>"] = "abort", -- close completion window
 			["<CR>"] = "confirm({ select = true })",
 		},
@@ -63,7 +63,7 @@ M.setup = function()
 			["<C-j>"] = cmp.mapping.select_next_item(),
 			["<C-b>"] = cmp.mapping.scroll_docs(-4),
 			["<C-f>"] = cmp.mapping.scroll_docs(4),
-			-- ["<C-Space>"] = cmp.mapping.complete(),
+			["<C-Space>"] = cmp.mapping.complete(),
 			["<C-e>"] = cmp.mapping.abort(),
 			["<CR>"] = cmp.mapping.confirm({ select = true }),
 		}),
