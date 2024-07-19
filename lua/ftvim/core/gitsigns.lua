@@ -7,34 +7,36 @@ M.config = function()
 		opts = {
 			signs = {
 				add = {
-					hl = "GitSignsAdd",
 					text = ftvim.icons.ui.BoldLineLeft,
-					numhl = "GitSignsAddNr",
-					linehl = "GitSignsAddLn",
 				},
 				change = {
-					hl = "GitSignsChange",
 					text = ftvim.icons.ui.BoldLineLeft,
-					numhl = "GitSignsChangeNr",
-					linehl = "GitSignsChangeLn",
 				},
 				delete = {
-					hl = "GitSignsDelete",
 					text = ftvim.icons.ui.Triangle,
-					numhl = "GitSignsDeleteNr",
-					linehl = "GitSignsDeleteLn",
 				},
 				topdelete = {
-					hl = "GitSignsDelete",
 					text = ftvim.icons.ui.Triangle,
-					numhl = "GitSignsDeleteNr",
-					linehl = "GitSignsDeleteLn",
 				},
 				changedelete = {
-					hl = "GitSignsChange",
 					text = ftvim.icons.ui.BoldLineLeft,
-					numhl = "GitSignsChangeNr",
-					linehl = "GitSignsChangeLn",
+				},
+			},
+			signs_staged = {
+				add = {
+					text = ftvim.icons.ui.BoldLineLeft,
+				},
+				change = {
+					text = ftvim.icons.ui.BoldLineLeft,
+				},
+				delete = {
+					text = ftvim.icons.ui.Triangle,
+				},
+				topdelete = {
+					text = ftvim.icons.ui.Triangle,
+				},
+				changedelete = {
+					text = ftvim.icons.ui.BoldLineLeft,
 				},
 			},
 			signcolumn = true,
@@ -66,7 +68,7 @@ M.config = function()
 				row = 0,
 				col = 1,
 			},
-			yadm = { enable = false },
+			-- yadm = { enable = false },
 		},
 	}
 end
@@ -75,6 +77,23 @@ M.setup = function()
 	local gitsigns = reload("gitsigns")
 
 	gitsigns.setup(ftvim.builtin.gitsigns.opts)
+
+	vim.api.nvim_set_hl(0, 'GitSignsAdd', { link = 'GitSignsAdd' })
+	vim.api.nvim_set_hl(0, 'GitSignsAddLn', { link = 'GitSignsAddLn' })
+	vim.api.nvim_set_hl(0, 'GitSignsAddNr', { link = 'GitSignsAddNr' })
+	vim.api.nvim_set_hl(0, 'GitSignsChange', { link = 'GitSignsChange' })
+	vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { link = 'GitSignsChangeLn' })
+	vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { link = 'GitSignsChangeNr' })
+	vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { link = 'GitSignsChange' })
+	vim.api.nvim_set_hl(0, 'GitSignsChangedeleteLn', { link = 'GitSignsChangeLn' })
+	vim.api.nvim_set_hl(0, 'GitSignsChangedeleteNr', { link = 'GitSignsChangeNr' })
+	vim.api.nvim_set_hl(0, 'GitSignsDelete', { link = 'GitSignsDelete' })
+	vim.api.nvim_set_hl(0, 'GitSignsDeleteLn', { link = 'GitSignsDeleteLn' })
+	vim.api.nvim_set_hl(0, 'GitSignsDeleteNr', { link = 'GitSignsDeleteNr' })
+	vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { link = 'GitSignsDelete' })
+	vim.api.nvim_set_hl(0, 'GitSignsTopdeleteLn', { link = 'GitSignsDeleteLn' })
+	vim.api.nvim_set_hl(0, 'GitSignsTopdeleteNr', { link = 'GitSignsDeleteNr' })
+
 	if ftvim.builtin.gitsigns.on_config_done then
 		ftvim.builtin.gitsigns.on_config_done(gitsigns)
 	end
