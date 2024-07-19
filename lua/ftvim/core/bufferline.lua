@@ -59,9 +59,6 @@ M.config = function()
 			tab_size = 18,
 			diagnostics = "nvim_lsp",
 			diagnostics_update_in_insert = false,
-			diagnostics_indicator = diagnostics_indicator,
-			-- NOTE: this will be called a lot so don't do any heavy processing here
-			custom_filter = custom_filter,
 			offsets = {
 				{
 					filetype = "neo-tree",

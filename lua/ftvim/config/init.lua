@@ -3,6 +3,9 @@ local M = {}
 function M:init()
 	ftvim = vim.deepcopy(require("ftvim.config.defaults"))
 
+	vim.g.mapleader = (ftvim.leader == "space" and " ") or ftvim.leader
+	vim.g.maplocalleader = " "
+
 	local keymappings = require("ftvim.keymappings")
 	keymappings.load_defaults()
 

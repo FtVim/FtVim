@@ -6,7 +6,7 @@ function M.config()
 		---@usage disable telescope completely [not recommended]
 		active = true,
 		on_config_done = nil,
-		theme = "dropdown", ---@type telescope_themes
+		theme = "dropdown",
 		defaults = {
 			prompt_prefix = ftvim.icons.ui.Telescope .. " ",
 			selection_caret = ftvim.icons.ui.Forward .. " ",
