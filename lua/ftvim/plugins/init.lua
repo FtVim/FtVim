@@ -6,7 +6,7 @@ local plugins = require("ftvim.plugins.core-plugins")
 require("ftvim.core.theme").setup()
 require("ftvim.plugin-loader").load({ plugins, ftvim.plugins })
 
-vim.g.mapleader = ftvim.leader
+vim.g.mapleader = (ftvim.leader == "space" and " ") or ftvim.leader
 
 return {
 	{ "folke/lazy.nvim", version = "*" },
