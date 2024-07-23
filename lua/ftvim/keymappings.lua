@@ -1,6 +1,10 @@
+local config = require('config')
+
 local M = {}
 
 local generic_opts_any = { noremap = true, silent = true }
+
+local map = vim.keymap.set
 
 local generic_opts = {
 	insert_mode = generic_opts_any,
@@ -48,6 +52,7 @@ local defaults = {
 		-- Move current line / block with Alt-j/k a la vscode.
 		["<A-j>"] = ":m .+1<CR>==",
 		["<A-k>"] = ":m .-2<CR>==",
+
 	},
 
 	term_mode = {
@@ -86,6 +91,23 @@ if vim.fn.has("mac") == 1 then
 	defaults.normal_mode["<A-Down>"] = defaults.normal_mode["<C-Down>"]
 	defaults.normal_mode["<A-Left>"] = defaults.normal_mode["<C-Left>"]
 	defaults.normal_mode["<A-Right>"] = defaults.normal_mode["<C-Right>"]
+end
+
+local function add_learn_to_move_keymaps()
+    return {
+		map("n", "<left>", function()
+			vim.notify("Use h to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<right>",  function()
+			vim.notify("Use l to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<up>",  function()
+			vim.notify("Use k to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<down>",  function()
+			vim.notify("Use j to move!!", "Error", { title = "Learn to move"})
+		end),
+    }
 end
 
 function M.clear(keymaps)
@@ -131,13 +153,22 @@ function M.load(keymaps)
 end
 
 function M.load_defaults()
-	M.load(M.get_defaults())
-	ftvim.keys = ftvim.keys or {}
-	for idx, _ in pairs(defaults) do
-		if not ftvim.keys[idx] then
-			ftvim.keys[idx] = {}
-		end
-	end
+    local default_keymaps = M.get_defaults()
+
+    if config.learn_to_move then
+        local learn_to_move_keymaps = add_learn_to_move_keymaps()
+        for key, value in pairs(learn_to_move_keymaps) do
+            default_keymaps.normal_mode[key] = value
+        end
+    end
+
+    M.load(default_keymaps)
+    ftvim.keys = ftvim.keys or {}
+    for idx, _ in pairs(default_keymaps) do
+        if not ftvim.keys[idx] then
+            ftvim.keys[idx] = {}
+        end
+    end
 end
 
 function M.get_defaults()
