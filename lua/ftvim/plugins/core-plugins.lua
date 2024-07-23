@@ -16,6 +16,7 @@ return {
 
     {
         "rcarriga/nvim-notify",
+		event = "BufEnter",
         keys = {
             {
                 "<leader>un",
