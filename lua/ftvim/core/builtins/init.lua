@@ -22,7 +22,7 @@ local builtins = {
 	"ftvim.core.mason",
 	"ftvim.core.alpha",
 	"ftvim.core.copilot",
-	"ftvim.core.notify",
+	"ftvim.core.notifications",
 }
 
 function M.config(config)

@@ -26,7 +26,7 @@ return {
             },
         },
         config = function()
-            require("ftvim.core.notify").setup()
+            require("ftvim.core.notifications").setup()
         end,
     },
 

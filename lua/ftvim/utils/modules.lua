@@ -88,4 +88,23 @@ function M.require_on_exported_call(require_path)
 	})
 end
 
+local map = vim.keymap.set
+
+function M.learn_to_move()
+    return {
+		map("n", "<left>", function()
+			vim.notify("Use h to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<right>",  function()
+			vim.notify("Use l to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<up>",  function()
+			vim.notify("Use k to move!!", "Error", { title = "Learn to move"})
+		end),
+		map("n", "<down>",  function()
+			vim.notify("Use j to move!!", "Error", { title = "Learn to move"})
+		end),
+    }
+end
+
 return M
