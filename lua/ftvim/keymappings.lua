@@ -1,4 +1,4 @@
-local config = require('ftvim.config')
+local config = require('ftvim.config.defaults')
 
 local M = {}
 
