@@ -12,6 +12,24 @@ return {
 		config = function() end,
 	},
 
+	-- Notify
+
+    {
+        "rcarriga/nvim-notify",
+        keys = {
+            {
+                "<leader>un",
+                function()
+                    require("notify").dismiss({ silent = true, pending = true })
+                end,
+                desc = "Dismiss All Notifications",
+            },
+        },
+        config = function()
+            require("ftvim.core.notify").setup()
+        end,
+    },
+
 	-- Autocompletion
 
 	{
