@@ -72,14 +72,6 @@ return {
 			require("ftvim.core.mason").setup()
 		end,
 	},
-    -- Otros plugins...
-	{
-		"nvimtools/none-ls.nvim",
-		config = function()
-			require("ftvim.core.none").setup()
-		end,
-		-- Otros plugins...
-	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },

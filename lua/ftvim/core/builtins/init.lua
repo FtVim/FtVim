@@ -23,7 +23,6 @@ local builtins = {
 	"ftvim.core.alpha",
 	"ftvim.core.copilot",
 	"ftvim.core.notifications",
-	"ftvim.core.none",
 }
 
 function M.config(config)
