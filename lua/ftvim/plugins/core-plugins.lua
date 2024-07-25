@@ -78,7 +78,6 @@ return {
 		config = function()
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			local lspconfig = require("lspconfig")
-			local on_attach = lspconfig.on_attach
 			local lsp_available = function(server_name)
 				local server_available, server = lspconfig.util.available_servers(server_name)
 				return server_available
@@ -87,7 +86,6 @@ return {
 			if lsp_available("lua_ls") then
 				lspconfig.lua_ls.setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 					filetypes = { "lua" }
 				})
 			end
@@ -95,14 +93,12 @@ return {
 			if lsp_available("clangd") then
 				lspconfig.clangd.setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 					filetypes = { "c", "cpp" }
 				})
 			end
 			if lsp_available("pyright") then
 				lspconfig.pyright.setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
 					filetypes = { "python" }
 				})
 			end
