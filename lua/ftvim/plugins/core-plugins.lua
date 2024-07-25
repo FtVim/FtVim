@@ -85,13 +85,21 @@ return {
 
 			if lsp_available("lua_ls") then
 				lspconfig.lua_ls.setup({
-					capabilities = capabilities
+					capabilities = capabilities,
+					filetypes = { "lua" }
 				})
 			end
 
 			if lsp_available("clangd") then
 				lspconfig.clangd.setup({
-					capabilities = capabilities
+					capabilities = capabilities,
+					filetypes = { "c", "cpp" }
+				})
+			end
+			if lsp_available("pyright") then
+				lspconfig.clangd.setup({
+					capabilities = capabilities,
+					filetypes = { "python" }
 				})
 			end
 
