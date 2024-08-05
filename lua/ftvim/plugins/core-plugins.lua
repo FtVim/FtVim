@@ -93,6 +93,7 @@ return {
 			if lsp_available("clangd") then
 				lspconfig.clangd.setup({
 					capabilities = capabilities,
+					autostart = false,
 					filetypes = { "c", "cpp" }
 				})
 			end

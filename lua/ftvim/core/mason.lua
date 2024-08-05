@@ -3,10 +3,10 @@ local M = {}
 M.config = function()
 	ftvim.builtin.mason = {
 		active = true,
-		-- ensure_installed = {
-		-- 	"clangd",
-		-- 	"lua_ls", -- Remove later if necessary
-		-- },
+		ensure_installed = {
+			"clangd",
+			"lua_ls", -- Remove later if necessary
+		},
 	}
 end
 
