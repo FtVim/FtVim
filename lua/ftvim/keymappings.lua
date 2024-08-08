@@ -29,6 +29,7 @@ local defaults = {
 
 		-- Move current line / block with Alt-j/k ala vscode.
 		["<A-k>"] = "<Esc>:m .-2<CR>==gi",
+		["jk"] = "<Esc>",
 	},
 
 	normal_mode = {
