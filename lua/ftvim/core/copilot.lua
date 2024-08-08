@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
     ftvim.builtin.copilot = {
-        active = true,
+        active = false,
         on_config_done = nil,
         options = {
             panel = {
@@ -60,4 +60,3 @@ M.setup = function()
 end
 
 return M
-

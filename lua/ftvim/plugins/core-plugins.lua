@@ -501,6 +501,7 @@ return {
         config = function()
             require("ftvim.core.copilot").setup()
         end,
+		enabled = ftvim.builtin.copilot.active
     },
     {
         "zbirenbaum/copilot-cmp",
@@ -508,5 +509,6 @@ return {
         config = function()
             require("copilot_cmp").setup()
         end,
+		enabled = ftvim.builtin.copilot.active
     },
 }
