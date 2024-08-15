@@ -106,7 +106,7 @@ return {
 			if lsp_available("asm-lsp") then
 				lspconfig.asm_lsp.setup({
 					capabilities = capabilities,
-					filetypes = { "assembly" }
+					filetypes = { "asm" }
 				})
 			end
 
