@@ -110,6 +110,13 @@ return {
 				})
 			end
 
+			if lsp_available("astro-language-server") then
+				lspconfig.astro.setup({
+					capabilities = capabilities,
+					filetypes = { "astro" }
+				})
+			end
+
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 		end,
