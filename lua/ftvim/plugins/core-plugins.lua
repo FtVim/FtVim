@@ -109,11 +109,16 @@ return {
 					filetypes = { "asm" }
 				})
 			end
-
 			if lsp_available("astro-language-server") then
 				lspconfig.astro.setup({
 					capabilities = capabilities,
-					filetypes = { "astro" }
+					filetypes = { "astro", "astro-ls" }
+				})
+			end
+			if lsp_available("typescript-language-server") then
+				lspconfig.tsserver.setup({
+					capabilities = capabilities,
+					filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
 				})
 			end
 
