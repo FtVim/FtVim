@@ -6,7 +6,7 @@ local M = {}
 ---@type string[]
 M.core_imports = {}
 
-M.file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
+M.lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
 ---@type table<string, string>
 M.deprecated_extras = {
@@ -18,6 +18,10 @@ M.deprecated_extras = {
   ["ftvim.plugins.extras.coding.mini-ai"] = "`mini.ai` is now a core FtVim plugin (again)",
   ["ftvim.plugins.extras.lazyrc"] = "local spec files are now a lazy.nvim feature",
   ["ftvim.plugins.extras.editor.trouble-v3"] = "Trouble v3 has been merged in main",
+  ["ftvim.plugins.extras.lang.python-semshi"] = [[The python-semshi extra has been removed,
+  because it's causing too many issues.
+  Either use `basedpyright`, or copy the [old extra](https://github.com/FtVim/FtVim/blob/c1f5fcf9c7ed2659c9d5ac41b3bb8a93e0a3c6a0/lua/ftvim/plugins/extras/lang/python-semshi.lua#L1) to your own config.
+  ]],
 }
 
 M.deprecated_modules = {}
@@ -38,7 +42,6 @@ function M.save_core()
   end
   M.core_imports = vim.deepcopy(require("lazy.core.config").spec.modules)
 end
-
 
 function M.setup()
   M.fix_imports()
@@ -67,7 +70,6 @@ function M.extra_idx(name)
   end
 end
 
-
 function M.lazy_file()
   -- This autocmd will only trigger when a file was loaded from the cmdline.
   -- It will render the file as quickly as possible.
@@ -94,7 +96,7 @@ function M.lazy_file()
     end,
   })
 
-    -- Add support for the LazyFile event
+  -- Add support for the LazyFile event
   local Event = require("lazy.core.handler.event")
 
   Event.mappings.LazyFile = { id = "LazyFile", event = M.lazy_file_events }

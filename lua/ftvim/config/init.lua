@@ -1,12 +1,12 @@
-_G.FtVim = require("ftvim.util")
+_G.Ftvim = require("ftvim.util")
 
----@class FtVimConfig: FtVimOptions
+---@class FtvimConfig: FtvimOptions
 local M = {}
 
-M.version = "0.0.0" 
-FtVim.config = M
+M.version = "0.0.1" -- x-release-please-version
+Ftvim.config = M
 
----@class FtVimOptions
+---@class FtvimOptions
 local defaults = {
   -- colorscheme can be a string like `catppuccin` or a function that will load the colorscheme
   ---@type string|fun()
@@ -153,27 +153,27 @@ function M.json.load()
     if ok then
       M.json.data = vim.tbl_deep_extend("force", M.json.data, json or {})
       if M.json.data.version ~= M.json.version then
-        FtVim.json.migrate()
+        Ftvim.json.migrate()
       end
     end
   end
 end
 
----@type FtVimOptions
+---@type FtvimOptions
 local options
-local clipboard
+local lazy_clipboard
 
----@param opts? FtVimOptions
+---@param opts? FtvimOptions
 function M.setup(opts)
   options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 
   -- autocmds can be loaded lazily when not opening a file
-  local autocmds = vim.fn.argc(-1) == 0
-  if not autocmds then
+  local lazy_autocmds = vim.fn.argc(-1) == 0
+  if not lazy_autocmds then
     M.load("autocmds")
   end
 
-  local group = vim.api.nvim_create_augroup("FtVim", { clear = true })
+  local group = vim.api.nvim_create_augroup("Ftvim", { clear = true })
   vim.api.nvim_create_autocmd("User", {
     group = group,
     pattern = "VeryLazy",
@@ -182,19 +182,19 @@ function M.setup(opts)
         M.load("autocmds")
       end
       M.load("keymaps")
-      if clipboard ~= nil then
-        vim.opt.clipboard = clipboard
+      if lazy_clipboard ~= nil then
+        vim.opt.clipboard = lazy_clipboard
       end
 
-      FtVim.format.setup()
-      FtVim.news.setup()
-      FtVim.root.setup()
+      Ftvim.format.setup()
+      Ftvim.news.setup()
+      Ftvim.root.setup()
 
-      vim.api.nvim_create_user_command("FtExtras", function()
-        FtVim.extras.show()
-      end, { desc = "Manage FtVim extras" })
+      vim.api.nvim_create_user_command("LazyExtras", function()
+        Ftvim.extras.show()
+      end, { desc = "Manage Ftvim extras" })
 
-      vim.api.nvim_create_user_command("FtHealth", function()
+      vim.api.nvim_create_user_command("LazyHealth", function()
         vim.cmd([[Lazy! load all]])
         vim.cmd([[checkhealth]])
       end, { desc = "Load all plugins and run :checkhealth" })
@@ -208,8 +208,8 @@ function M.setup(opts)
     end,
   })
 
-  FtVim.track("colorscheme")
-  FtVim.try(function()
+  Ftvim.track("colorscheme")
+  Ftvim.try(function()
     if type(M.colorscheme) == "function" then
       M.colorscheme()
     else
@@ -218,11 +218,11 @@ function M.setup(opts)
   end, {
     msg = "Could not load your colorscheme",
     on_error = function(msg)
-      LazyVim.error(msg)
+      Ftvim.error(msg)
       vim.cmd.colorscheme("habamax")
     end,
   })
-  FtVim.track()
+  Ftvim.track()
 end
 
 ---@param buf? number
@@ -247,12 +247,12 @@ end
 function M.load(name)
   local function _load(mod)
     if require("lazy.core.cache").find(mod)[1] then
-      FtVim.try(function()
+      Ftvim.try(function()
         require(mod)
       end, { msg = "Failed loading " .. mod })
     end
   end
-  local pattern = "FtVim" .. name:sub(1, 1):upper() .. name:sub(2)
+  local pattern = "Ftvim" .. name:sub(1, 1):upper() .. name:sub(2)
   -- always load ftvim, then user file
   if M.defaults[name] or name == "options" then
     _load("ftvim.config." .. name)
@@ -260,7 +260,7 @@ function M.load(name)
   end
   _load("config." .. name)
   if vim.bo.filetype == "lazy" then
-    -- HACK: FtVim may have overwritten options of the Lazy ui, so reset this here
+    -- HACK: Ftvim may have overwritten options of the Lazy ui, so reset this here
     vim.cmd([[do VimResized]])
   end
   vim.api.nvim_exec_autocmds("User", { pattern = pattern, modeline = false })
@@ -272,32 +272,32 @@ function M.init()
     return
   end
   M.did_init = true
-  local plugin = require("lazy.core.config").spec.plugins.FtVim
+  local plugin = require("lazy.core.config").spec.plugins.Ftvim
   if plugin then
     vim.opt.rtp:append(plugin.dir)
   end
 
   package.preload["ftvim.plugins.lsp.format"] = function()
-    FtVim.deprecate([[require("ftvim.plugins.lsp.format")]], [[FtVim.format]])
-    return FtVim.format
+    Ftvim.deprecate([[require("ftvim.plugins.lsp.format")]], [[Ftvim.format]])
+    return Ftvim.format
   end
 
   -- delay notifications till vim.notify was replaced or after 500ms
-  FtVim.lazy_notify()
+  Ftvim.lazy_notify()
 
   -- load options here, before lazy init while sourcing plugin modules
   -- this is needed to make sure options will be correctly applied
   -- after installing missing plugins
   M.load("options")
   -- defer built-in clipboard handling: "xsel" and "pbcopy" can be slow
-  clipboard = vim.opt.clipboard
+  lazy_clipboard = vim.opt.clipboard
   vim.opt.clipboard = ""
 
   if vim.g.deprecation_warnings == false then
     vim.deprecate = function() end
   end
 
-  FtVim.plugin.setup()
+  Ftvim.plugin.setup()
   M.json.load()
 end
 
@@ -306,7 +306,7 @@ setmetatable(M, {
     if options == nil then
       return vim.deepcopy(defaults)[key]
     end
-    ---@cast options LazyVimConfig
+    ---@cast options FtvimConfig
     return options[key]
   end,
 })

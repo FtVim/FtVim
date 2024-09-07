@@ -1,7 +1,7 @@
-local Util = require("lazy.core.util")
+local LazyUtil = require("lazy.core.util")
 
----@class ftvim.util: FtUtilCore
----@field config FtVimConfig
+---@class ftvim.util: LazyUtilCore
+---@field config FtvimConfig
 ---@field ui ftvim.util.ui
 ---@field lsp ftvim.util.lsp
 ---@field root ftvim.util.root
@@ -20,7 +20,6 @@ local Util = require("lazy.core.util")
 ---@field cmp ftvim.util.cmp
 local M = {}
 
-
 ---@type table<string, string|string[]>
 local deprecated = {
   get_clients = "lsp",
@@ -37,17 +36,19 @@ local deprecated = {
 
 setmetatable(M, {
   __index = function(t, k)
-    if Util[k] then
-      return Util[k]
+    if LazyUtil[k] then
+      return LazyUtil[k]
     end
     local dep = deprecated[k]
     if dep then
       local mod = type(dep) == "table" and dep[1] or dep
       local key = type(dep) == "table" and dep[2] or k
-      M.deprecate([[FtVim.]] .. k, [[FtVim.]] .. mod .. "." .. key)
+      M.deprecate([[Ftvim.]] .. k, [[Ftvim.]] .. mod .. "." .. key)
+      ---@diagnostic disable-next-line: no-unknown
       t[mod] = require("ftvim.util." .. mod) -- load here to prevent loops
       return t[mod][key]
     end
+    ---@diagnostic disable-next-line: no-unknown
     t[k] = require("ftvim.util." .. k)
     return t[k]
   end,
@@ -126,7 +127,7 @@ end
 
 function M.deprecate(old, new)
   M.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), {
-    title = "FtVim",
+    title = "Ftvim",
     once = true,
     stacktrace = true,
     stacklevel = 6,
@@ -182,7 +183,7 @@ function M.on_load(name, fn)
     fn(name)
   else
     vim.api.nvim_create_autocmd("User", {
-      pattern = "FtLoad",
+      pattern = "LazyLoad",
       callback = function(event)
         if event.data == name then
           fn(name)
@@ -265,8 +266,8 @@ end
 for _, level in ipairs({ "info", "warn", "error" }) do
   M[level] = function(msg, opts)
     opts = opts or {}
-    opts.title = opts.title or "LazyVim"
-    return Util[level](msg, opts)
+    opts.title = opts.title or "Ftvim"
+    return LazyUtil[level](msg, opts)
   end
 end
 
