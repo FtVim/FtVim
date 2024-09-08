@@ -3,10 +3,12 @@
 set -eu pipefall
 
 declare -r INSTALL_PREFIX="${INSTALL_PREFIX:-"$HOME/.local"}"
-declare -r RELEASE_VER="${RELEASE_VER:-latest}"
+declare -r RELEASE_VER="${RELEASE_VER:-14.1.0}"
 
 declare ARCHIVE_NAME
 declare OS
+
+OS="$(uname -s)"
 
 if [ "$OS" == "Linux" ]; then
   ARCHIVE_NAME="ripgrep-${RELEASE_VER}-x86_64-unknown-linux-musl"
@@ -16,7 +18,6 @@ else
   echo "$OS platform is not supported currently"
   exit 1
 fi
-
 
 if [[ "${RELEASE_VER}" == "latest" ]]; then
   declare -r RELEASE_URL="https://github.com/BurntSushi/ripgrep/releases/${RELEASE_VER}/download/${ARCHIVE_NAME}.tar.gz"
@@ -40,8 +41,8 @@ function main() {
   install_ripgrep
 }
 
-function download_neovim() {
-  echo "Downloading Ripgrep's binary from $RELEASE_VER release.."
+function download_ripgrep() {
+  echo "Downloading Ripgrep's binary from $RELEASE_URL release.."
   if ! curl --progress-bar --fail -L "$RELEASE_URL" -o "$DOWNLOAD_DIR/$ARCHIVE_NAME.tar.gz"; then
     echo "Download failed.  Check that the release/filename are correct."
     exit 1

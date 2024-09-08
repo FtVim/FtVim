@@ -3,10 +3,12 @@
 set -eu pipefall
 
 declare -r INSTALL_PREFIX="${INSTALL_PREFIX:-"$HOME/.local"}"
-declare -r RELEASE_VER="${RELEASE_VER:-latest}"
+declare -r RELEASE_VER="${RELEASE_VER:-v0.10.0}"
 
 declare ARCHIVE_NAME
 declare OS
+
+OS="$(uname -s)"
 
 if [ "$OS" == "Linux" ]; then
   ARCHIVE_NAME="nvim-linux64"
