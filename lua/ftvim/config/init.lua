@@ -257,10 +257,11 @@ function M.init()
     return
   end
   M.did_init = true
-  local plugin = require("lazy.core.config").spec.plugins.FtVim
-  if plugin then
-    vim.opt.rtp:append(plugin.dir)
-  end
+  --this is for migration? https://lazy.folke.io/usage/migration
+  --local plugin = require("lazy.core.config").spec.plugins.FtVim
+  --if plugin then
+  --  vim.opt.rtp:append(plugin.dir)
+  --end
 
   -- load options here, before lazy init while sourcing plugin modules
   -- this is needed to make sure options will be correctly applied
