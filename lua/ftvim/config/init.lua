@@ -144,21 +144,6 @@ M.json = {
   },
 }
 
-function M.json.load()
-  local f = io.open(M.json.path, "r")
-  if f then
-    local data = f:read("*a")
-    f:close()
-    local ok, json = pcall(vim.json.decode, data, { luanil = { object = true, array = true } })
-    if ok then
-      M.json.data = vim.tbl_deep_extend("force", M.json.data, json or {})
-      if M.json.data.version ~= M.json.version then
-        Ftvim.json.migrate()
-      end
-    end
-  end
-end
-
 ---@type FtvimOptions
 local options
 local lazy_clipboard
@@ -272,18 +257,10 @@ function M.init()
     return
   end
   M.did_init = true
-  local plugin = require("lazy.core.config").spec.plugins.Ftvim
+  local plugin = require("lazy.core.config").spec.plugins.FtVim
   if plugin then
     vim.opt.rtp:append(plugin.dir)
   end
-
-  package.preload["ftvim.plugins.lsp.format"] = function()
-    Ftvim.deprecate([[require("ftvim.plugins.lsp.format")]], [[Ftvim.format]])
-    return Ftvim.format
-  end
-
-  -- delay notifications till vim.notify was replaced or after 500ms
-  Ftvim.lazy_notify()
 
   -- load options here, before lazy init while sourcing plugin modules
   -- this is needed to make sure options will be correctly applied
@@ -293,12 +270,7 @@ function M.init()
   lazy_clipboard = vim.opt.clipboard
   vim.opt.clipboard = ""
 
-  if vim.g.deprecation_warnings == false then
-    vim.deprecate = function() end
-  end
-
-  Ftvim.plugin.setup()
-  M.json.load()
+  --Ftvim.plugin.setup()
 end
 
 setmetatable(M, {
