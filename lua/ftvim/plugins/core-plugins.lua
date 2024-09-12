@@ -92,7 +92,12 @@ return {
 
 			if lsp_available("clangd") then
 				lspconfig.clangd.setup({
+					on_attach = on_attach,
 					capabilities = capabilities,
+					cmd = {
+						"clangd",
+						"--offset-encoding=utf-16",
+					},
 					autostart = false,
 					filetypes = { "c", "cpp" }
 				})
