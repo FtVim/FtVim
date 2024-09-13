@@ -116,8 +116,8 @@ return {
 					filetypes = { "python" }
 				})
 			end
-			if lsp_available("tsserver") then
-				lspconfig.tsserver.setup({
+			if lsp_available("ts_ls") then
+				lspconfig.ts_ls.setup({
 					capabilities = capabilities,
 					filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
 				})
