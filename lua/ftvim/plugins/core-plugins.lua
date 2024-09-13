@@ -116,6 +116,12 @@ return {
 					filetypes = { "python" }
 				})
 			end
+			if lsp_available("tsserver") then
+				lspconfig.tsserver.setup({
+					capabilities = capabilities,
+					filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
+				})
+			end
 
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
