@@ -119,7 +119,7 @@ return {
 			if lsp_available("ts_ls") then
 				lspconfig.ts_ls.setup({
 					capabilities = capabilities,
-					filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
+					filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" }
 				})
 			end
 
