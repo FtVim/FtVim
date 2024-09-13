@@ -1,6 +1,14 @@
 return {
 	{ "folke/lazy.nvim", tag = "stable" },
 
+	-- live server
+	{
+		'barrett-ruth/live-server.nvim',
+		config = function()
+			require('live-server').setup(opts)
+		end,
+	},
+
 	-- 42 Utils
 
 	{
