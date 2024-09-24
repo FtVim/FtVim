@@ -26,512 +26,516 @@ return {
     end
   },
 
-	-- Notify
-
-    {
-        "rcarriga/nvim-notify",
-		event = "BufLeave",
-        keys = {
-            {
-                "<leader>un",
-                function()
-                    require("notify").dismiss({ silent = true, pending = true })
-                end,
-                desc = "Dismiss All Notifications",
-            },
-        },
-        config = function()
-            require("ftvim.core.notifications").setup()
+  -- Notify
+  {
+    "rcarriga/nvim-notify",
+    event = "BufLeave",
+    keys = {
+      {
+        "<leader>un",
+        function()
+          require("notify").dismiss({ silent = true, pending = true })
         end,
+        desc = "Dismiss All Notifications",
+      },
+    },
+    config = function()
+      require("ftvim.core.notifications").setup()
+    end,
+  },
+
+  -- Autocompletion
+
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-buffer", -- source for text in buffer
+      "hrsh7th/cmp-path", -- source for file system paths
+      {
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      },
+      "saadparwaiz1/cmp_luasnip", -- for autocompletion
+      "rafamadriz/friendly-snippets", -- useful snippets
+      "onsails/lspkind.nvim", -- vs-code like pictograms
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+    },
+    config = function()
+      require("ftvim.core.cmp").setup()
+    end,
+    enabled = ftvim.builtin.cmp.active,
+  },
+
+  -- Mason and lsp
+
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("ftvim.core.mason").setup()
+    end,
+    build = ":MasonUpdate",
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("ftvim.core.mason").setup()
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "folke/neodev.nvim"
+    },
+    config = function()
+      require("neodev").setup()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local lspconfig = require("lspconfig")
+      local lsp_available = function(server_name)
+        local server_available, server = lspconfig.util.available_servers(server_name)
+        return server_available
+      end
+
+      if lsp_available("lua_ls") then
+        lspconfig.lua_ls.setup({
+          capabilities = capabilities,
+          filetypes = { "lua" }
+        })
+      end
+
+      if lsp_available("clangd") then
+        lspconfig.clangd.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          cmd = {
+            "clangd",
+            "--offset-encoding=utf-16",
+          },
+          autostart = false,
+          filetypes = { "c", "cpp" }
+        })
+      end
+      if lsp_available("pyright") then
+        lspconfig.pyright.setup({
+          capabilities = capabilities,
+          filetypes = { "python" }
+        })
+      end
+      if lsp_available("ts_ls") then
+        lspconfig.ts_ls.setup({
+          capabilities = capabilities,
+          filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" }
+        })
+      end
+
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+    end,
+  },
+
+  -- Themes
+
+  {
+
+    "folke/tokyonight.nvim",
+
+    lazy = not vim.startswith(ftvim.colorscheme, "tokyonight"),
+    config = function()
+      require("tokyonight").setup(ftvim.builtin.theme.tokyonight.options)
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+  },
+
+  -- Telescope
+
+  {
+
+    "nvim-telescope/telescope.nvim",
+
+    branch = "0.1.x",
+
+    config = function()
+      require("ftvim.core.telescope").setup()
+    end,
+
+    dependencies = { "telescope-fzf-native.nvim" },
+
+    lazy = true,
+
+    cmd = "Telescope",
+
+    enabled = ftvim.builtin.telescope.active,
+  },
+
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+    lazy = true,
+    enabled = ftvim.builtin.telescope.active,
+  },
+
+  -- Install nvim-cmp, and buffer source as a dependency
+
+  {
+
+    "hrsh7th/cmp-cmdline",
+
+    lazy = true,
+  },
+
+  -- Autopairs
+
+  {
+
+    "windwp/nvim-autopairs",
+
+    event = "InsertEnter",
+
+    config = function()
+      require("ftvim.core.autopairs").setup()
+    end,
+
+    enabled = ftvim.builtin.autopairs.active,
+
+    dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
+  },
+
+  -- Treesitter
+
+  {
+
+    "nvim-treesitter/nvim-treesitter",
+
+    -- run = ":TSUpdate",
+
+    config = function()
+      local utils = require("ftvim.utils")
+
+      local path = utils.join_paths(get_runtime_dir(), "site", "pack", "lazy", "opt", "nvim-treesitter")
+
+      vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
+
+      require("ftvim.core.treesitter").setup()
+    end,
+
+    cmd = {
+
+      "TSInstall",
+
+      "TSUninstall",
+
+      "TSUpdate",
+
+      "TSUpdateSync",
+
+      "TSInstallInfo",
+
+      "TSInstallSync",
+
+      "TSInstallFromGrammar",
     },
 
-	-- Autocompletion
-
-	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-buffer", -- source for text in buffer
-			"hrsh7th/cmp-path", -- source for file system paths
-			{
-				"L3MON4D3/LuaSnip",
-				-- follow latest release.
-				version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-			},
-			"saadparwaiz1/cmp_luasnip", -- for autocompletion
-			"rafamadriz/friendly-snippets", -- useful snippets
-			"onsails/lspkind.nvim", -- vs-code like pictograms
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-		},
-		config = function()
-			require("ftvim.core.cmp").setup()
-		end,
-		enabled = ftvim.builtin.cmp.active,
-	},
-
-	-- Mason and lsp
-
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("ftvim.core.mason").setup()
-		end,
-		build = ":MasonUpdate",
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("ftvim.core.mason").setup()
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
-		config = function()
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
-			local lspconfig = require("lspconfig")
-			local lsp_available = function(server_name)
-				local server_available, server = lspconfig.util.available_servers(server_name)
-				return server_available
-			end
-
-			if lsp_available("lua_ls") then
-				lspconfig.lua_ls.setup({
-					capabilities = capabilities,
-					filetypes = { "lua" }
-				})
-			end
-
-			if lsp_available("clangd") then
-				lspconfig.clangd.setup({
-					on_attach = on_attach,
-					capabilities = capabilities,
-					cmd = {
-						"clangd",
-						"--offset-encoding=utf-16",
-					},
-					autostart = false,
-					filetypes = { "c", "cpp" }
-				})
-			end
-			if lsp_available("pyright") then
-				lspconfig.pyright.setup({
-					capabilities = capabilities,
-					filetypes = { "python" }
-				})
-			end
-			if lsp_available("ts_ls") then
-				lspconfig.ts_ls.setup({
-					capabilities = capabilities,
-					filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" }
-				})
-			end
-
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
-		end,
-	},
-
-	-- Themes
-
-	{
-
-		"folke/tokyonight.nvim",
-
-		lazy = not vim.startswith(ftvim.colorscheme, "tokyonight"),
-		config = function()
-			require("tokyonight").setup(ftvim.builtin.theme.tokyonight.options)
-		end,
-	},
-	{
-		"rebelot/kanagawa.nvim",
-	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
-	},
+    event = "User FileOpened",
+  },
 
-	-- Telescope
+  -- NvimTree
 
-	{
+  {
 
-		"nvim-telescope/telescope.nvim",
+    "nvim-tree/nvim-tree.lua",
 
-		branch = "0.1.x",
+    config = function()
+      require("ftvim.core.nvimtree").setup()
+    end,
 
-		config = function()
-			require("ftvim.core.telescope").setup()
-		end,
+    enabled = ftvim.builtin.nvimtree.active,
 
-		dependencies = { "telescope-fzf-native.nvim" },
+    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
 
-		lazy = true,
+    event = "User DirOpened",
+  },
 
-		cmd = "Telescope",
+  -- Lir
 
-		enabled = ftvim.builtin.telescope.active,
-	},
+  {
 
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make",
-		lazy = true,
-		enabled = ftvim.builtin.telescope.active,
-	},
+    "tamago324/lir.nvim",
 
-	-- Install nvim-cmp, and buffer source as a dependency
+    config = function()
+      require("ftvim.core.lir").setup()
+    end,
 
-	{
+    enabled = ftvim.builtin.lir.active,
 
-		"hrsh7th/cmp-cmdline",
+    event = "User DirOpened",
+  },
 
-		lazy = true,
-	},
+  {
 
-	-- Autopairs
+    "lewis6991/gitsigns.nvim",
 
-	{
+    config = function()
+      require("ftvim.core.gitsigns").setup()
+    end,
 
-		"windwp/nvim-autopairs",
+    event = "User FileOpened",
 
-		event = "InsertEnter",
+    cmd = "Gitsigns",
 
-		config = function()
-			require("ftvim.core.autopairs").setup()
-		end,
+    enabled = ftvim.builtin.gitsigns.active,
+  },
 
-		enabled = ftvim.builtin.autopairs.active,
+  -- Whichkey
 
-		dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
-	},
+  {
 
-	-- Treesitter
+    "folke/which-key.nvim",
 
-	{
+    config = function()
+      require("ftvim.core.which-key").setup()
+    end,
 
-		"nvim-treesitter/nvim-treesitter",
+    cmd = "WhichKey",
 
-		-- run = ":TSUpdate",
+    event = "VeryLazy",
 
-		config = function()
-			local utils = require("ftvim.utils")
+    enabled = ftvim.builtin.which_key.active,
+  },
 
-			local path = utils.join_paths(get_runtime_dir(), "site", "pack", "lazy", "opt", "nvim-treesitter")
+  -- Comments
 
-			vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
+  {
 
-			require("ftvim.core.treesitter").setup()
-		end,
+    "numToStr/Comment.nvim",
 
-		cmd = {
+    config = function()
+      require("ftvim.core.comment").setup()
+    end,
 
-			"TSInstall",
+    keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
 
-			"TSUninstall",
+    event = "VimEnter",
 
-			"TSUpdate",
+    enabled = ftvim.builtin.comment.active,
+  },
 
-			"TSUpdateSync",
+  -- project.nvim
 
-			"TSInstallInfo",
+  {
 
-			"TSInstallSync",
+    "ahmedkhalf/project.nvim",
 
-			"TSInstallFromGrammar",
-		},
+    config = function()
+      require("ftvim.core.project").setup()
+    end,
 
-		event = "User FileOpened",
-	},
+    enabled = ftvim.builtin.project.active,
 
-	-- NvimTree
+    event = "VimEnter",
 
-	{
+    cmd = "Telescope projects",
+  },
 
-		"nvim-tree/nvim-tree.lua",
+  -- Icons
 
-		config = function()
-			require("ftvim.core.nvimtree").setup()
-		end,
+  {
 
-		enabled = ftvim.builtin.nvimtree.active,
+    "nvim-tree/nvim-web-devicons",
 
-		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+    enabled = ftvim.use_icons,
 
-		event = "User DirOpened",
-	},
+    lazy = true,
+  },
 
-	-- Lir
+  -- Status Line and Bufferline && mini-bufremove
 
-	{
+  {
 
-		"tamago324/lir.nvim",
+    -- "hoob3rt/lualine.nvim",
 
-		config = function()
-			require("ftvim.core.lir").setup()
-		end,
+    "nvim-lualine/lualine.nvim",
 
-		enabled = ftvim.builtin.lir.active,
+    config = function()
+      require("ftvim.core.lualine").setup()
+    end,
 
-		event = "User DirOpened",
-	},
+    event = "VimEnter",
 
-	{
+    enabled = ftvim.builtin.lualine.active,
+  },
 
-		"lewis6991/gitsigns.nvim",
+  {
 
-		config = function()
-			require("ftvim.core.gitsigns").setup()
-		end,
+    "akinsho/bufferline.nvim",
 
-		event = "User FileOpened",
+    config = function()
+      require("ftvim.core.bufferline").setup()
+    end,
 
-		cmd = "Gitsigns",
+    branch = "main",
 
-		enabled = ftvim.builtin.gitsigns.active,
-	},
+    event = "VimEnter",
 
-	-- Whichkey
+    enabled = ftvim.builtin.bufferline.active,
+  },
 
-	{
+  {
+    "echasnovski/mini.bufremove",
 
-		"folke/which-key.nvim",
+    branch = "main",
 
-		config = function()
-			require("ftvim.core.which-key").setup()
-		end,
+    config = function()
+      require("ftvim.core.mini_bufremove").setup()
+    end,
 
-		cmd = "WhichKey",
+    enabled = ftvim.builtin.mini_bufremove.active,
+  },
 
-		event = "VeryLazy",
+  -- alpha
 
-		enabled = ftvim.builtin.which_key.active,
-	},
+  {
 
-	-- Comments
+    "goolord/alpha-nvim",
 
-	{
+    config = function()
+      require("ftvim.core.alpha").setup()
+    end,
 
-		"numToStr/Comment.nvim",
+    enabled = ftvim.builtin.alpha.active,
 
-		config = function()
-			require("ftvim.core.comment").setup()
-		end,
+    event = "VimEnter",
+  },
 
-		keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
+  -- Terminal
 
-		event = "VimEnter",
+  {
 
-		enabled = ftvim.builtin.comment.active,
-	},
+    "akinsho/toggleterm.nvim",
 
-	-- project.nvim
+    branch = "main",
 
-	{
+    init = function()
+      require("ftvim.core.terminal").init()
+    end,
 
-		"ahmedkhalf/project.nvim",
+    config = function()
+      require("ftvim.core.terminal").setup()
+    end,
 
-		config = function()
-			require("ftvim.core.project").setup()
-		end,
+    cmd = {
 
-		enabled = ftvim.builtin.project.active,
+      "ToggleTerm",
 
-		event = "VimEnter",
+      "TermExec",
 
-		cmd = "Telescope projects",
-	},
+      "ToggleTermToggleAll",
 
-	-- Icons
+      "ToggleTermSendCurrentLine",
 
-	{
+      "ToggleTermSendVisualLines",
 
-		"nvim-tree/nvim-web-devicons",
-
-		enabled = ftvim.use_icons,
-
-		lazy = true,
-	},
-
-	-- Status Line and Bufferline && mini-bufremove
-
-	{
-
-		-- "hoob3rt/lualine.nvim",
-
-		"nvim-lualine/lualine.nvim",
-
-		config = function()
-			require("ftvim.core.lualine").setup()
-		end,
-
-		event = "VimEnter",
-
-		enabled = ftvim.builtin.lualine.active,
-	},
-
-	{
-
-		"akinsho/bufferline.nvim",
-
-		config = function()
-			require("ftvim.core.bufferline").setup()
-		end,
-
-		branch = "main",
-
-		event = "VimEnter",
-
-		enabled = ftvim.builtin.bufferline.active,
-	},
-
-	{
-		"echasnovski/mini.bufremove",
-
-		branch = "main",
-
-		config = function()
-			require("ftvim.core.mini_bufremove").setup()
-		end,
-
-		enabled = ftvim.builtin.mini_bufremove.active,
-	},
-
-	-- alpha
-
-	{
-
-		"goolord/alpha-nvim",
-
-		config = function()
-			require("ftvim.core.alpha").setup()
-		end,
-
-		enabled = ftvim.builtin.alpha.active,
-
-		event = "VimEnter",
-	},
-
-	-- Terminal
-
-	{
-
-		"akinsho/toggleterm.nvim",
-
-		branch = "main",
-
-		init = function()
-			require("ftvim.core.terminal").init()
-		end,
-
-		config = function()
-			require("ftvim.core.terminal").setup()
-		end,
-
-		cmd = {
-
-			"ToggleTerm",
-
-			"TermExec",
-
-			"ToggleTermToggleAll",
-
-			"ToggleTermSendCurrentLine",
-
-			"ToggleTermSendVisualLines",
-
-			"ToggleTermSendVisualSelection",
-		},
-
-		keys = ftvim.builtin.terminal.open_mapping,
-
-		enabled = ftvim.builtin.terminal.active,
-	},
-
-	-- Better UI
-
-	{
-
-		"RRethy/vim-illuminate",
-
-		config = function()
-			require("ftvim.core.illuminate").setup()
-		end,
-
-		event = "VimEnter",
-
-		enabled = ftvim.builtin.illuminate.active,
-	},
-
-	{
-
-		"lukas-reineke/indent-blankline.nvim",
-
-		main = "ibl",
-
-		config = function()
-			require("ibl").setup()
-		end,
-		opts = {},
-	},
-
-	{
-		"echasnovski/mini.indentscope",
-		version = false,
-		config = function()
-			require("ftvim.core.indentscope").setup()
-		end,
-		enabled = ftvim.builtin.indentscope.active,
-	},
-
-	{
-		"stevearc/dressing.nvim",
-		opts = {},
-	},
-
-	-- Session management
-
-	{
-		"folke/persistence.nvim",
-		event = "BufReadPre",
-		config = function()
-			require("ftvim.core.persistence").setup()
-		end,
-		enabled = ftvim.builtin.persistence.active,
-		-- library used by other plugins
-		{ "nvim-lua/plenary.nvim", lazy = true },
-	},
-
-	-- Search and replace
-
-	{
-		"nvim-pack/nvim-spectre",
-		build = false,
-		cmd = "Spectre",
-		opts = { open_cmd = "noswapfile vnew" },
-		-- stylua: ignore
-		keys = {
-			{ "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
-		},
-	},
-
-	-- Copilot
-
-    {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        config = function()
-            require("ftvim.core.copilot").setup()
-        end,
+      "ToggleTermSendVisualSelection",
     },
-    {
-        "zbirenbaum/copilot-cmp",
-        after = { "copilot.lua" },
-        config = function()
-            require("copilot_cmp").setup()
-        end,
+
+    keys = ftvim.builtin.terminal.open_mapping,
+
+    enabled = ftvim.builtin.terminal.active,
+  },
+
+  -- Better UI
+
+  {
+
+    "RRethy/vim-illuminate",
+
+    config = function()
+      require("ftvim.core.illuminate").setup()
+    end,
+
+    event = "VimEnter",
+
+    enabled = ftvim.builtin.illuminate.active,
+  },
+
+  {
+
+    "lukas-reineke/indent-blankline.nvim",
+
+    main = "ibl",
+
+    config = function()
+      require("ibl").setup()
+    end,
+    opts = {},
+  },
+
+  {
+    "echasnovski/mini.indentscope",
+    version = false,
+    config = function()
+      require("ftvim.core.indentscope").setup()
+    end,
+    enabled = ftvim.builtin.indentscope.active,
+  },
+
+  {
+    "stevearc/dressing.nvim",
+    opts = {},
+  },
+
+  -- Session management
+
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("ftvim.core.persistence").setup()
+    end,
+    enabled = ftvim.builtin.persistence.active,
+    -- library used by other plugins
+    { "nvim-lua/plenary.nvim", lazy = true },
+  },
+
+  -- Search and replace
+
+  {
+    "nvim-pack/nvim-spectre",
+    build = false,
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
+    -- stylua: ignore
+    keys = {
+      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
     },
+  },
+
+  -- Copilot
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("ftvim.core.copilot").setup()
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
 }
