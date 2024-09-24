@@ -19,6 +19,12 @@ return {
 		"42Paris/42header",
 		config = function() end,
 	},
+  {
+    "TuTaRdrgZ/ft_count_lines",
+    config = function()
+      require("ft_count_lines")
+    end
+  },
 
 	-- Notify
 
