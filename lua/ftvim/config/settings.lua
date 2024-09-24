@@ -30,6 +30,8 @@ M.load_defaults = function()
 		vim.o.noexpandtab = true -- tabs & indentation
 	end
 
+  vim.g.copilot_enable = 0
+
 	for k, v in pairs(default_options) do
 		vim.opt[k] = v
 	end
