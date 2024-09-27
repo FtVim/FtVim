@@ -24,7 +24,7 @@ return {
 	},
   {
     "TuTaRdrgZ/ft_count_lines.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("ft_count_lines").setup()
     end
