@@ -12,8 +12,11 @@ return {
 	-- 42 Utils
 
 	{
-		"cacharle/c_formatter_42.vim",
-		config = function() end,
+    "cacharle/c_formatter_42.vim",
+    config = function()
+      vim.api.nvim_set_keymap('n', "<leader>Ff", "<CMD>CFormatter42<CR>", { noremap = true, silent = true,
+    })
+  end
 	},
 	{
 		"42Paris/42header",
