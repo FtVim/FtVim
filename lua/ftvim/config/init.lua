@@ -1,9 +1,7 @@
 local M = {}
 
 local defaults = {
-  colorscheme = function()
-    require("tokyonight").load()
-  end,
+  colorscheme = "default",
   defaults = {
     autocmds = true,
     keymaps = true,
