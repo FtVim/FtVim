@@ -20,13 +20,6 @@ local defaults = {
     -- ftvim.config.options can't be configured here since that's loaded before ftvim setup
     -- if you want to disable loading options, add `package.loaded["ftvim.config.options"] = true` to the top of your init.lua
   },
-  news = {
-    -- When enabled, NEWS.md will be shown when changed.
-    -- This only contains big new features and breaking changes.
-    ftvim = true,
-    -- Same but for Neovim's news.txt
-    neovim = false,
-  },
   -- icons used by other plugins
   -- stylua: ignore
   icons = {
@@ -126,7 +119,6 @@ local defaults = {
       "Method",
       "Module",
       "Namespace",
-      -- "Package", -- remove package since luals uses it for control flow structures
       "Property",
       "Struct",
       "Trait",
@@ -134,27 +126,17 @@ local defaults = {
   },
 }
 
-M.json = {
-  version = 6,
-  path = vim.g.ftvim_json or vim.fn.stdpath("config") .. "/ftvim.json",
-  data = {
-    version = nil, ---@type string?
-    news = {}, ---@type table<string, string>
-    extras = {}, ---@type string[]
-  },
-}
-
 ---@type FtvimOptions
 local options
-local lazy_clipboard
+local clipboard
 
 ---@param opts? FtvimOptions
 function M.setup(opts)
   options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 
   -- autocmds can be loaded lazily when not opening a file
-  local lazy_autocmds = vim.fn.argc(-1) == 0
-  if not lazy_autocmds then
+  local autocmds = vim.fn.argc(-1) == 0
+  if not autocmds then
     M.load("autocmds")
   end
 
@@ -163,33 +145,17 @@ function M.setup(opts)
     group = group,
     pattern = "VeryLazy",
     callback = function()
-      if lazy_autocmds then
+      if autocmds then
         M.load("autocmds")
       end
       M.load("keymaps")
-      if lazy_clipboard ~= nil then
-        vim.opt.clipboard = lazy_clipboard
+      if clipboard ~= nil then
+        vim.opt.clipboard = clipboard
       end
 
       Ftvim.format.setup()
       Ftvim.news.setup()
       Ftvim.root.setup()
-
-      vim.api.nvim_create_user_command("LazyExtras", function()
-        Ftvim.extras.show()
-      end, { desc = "Manage Ftvim extras" })
-
-      vim.api.nvim_create_user_command("LazyHealth", function()
-        vim.cmd([[Lazy! load all]])
-        vim.cmd([[checkhealth]])
-      end, { desc = "Load all plugins and run :checkhealth" })
-
-      local health = require("lazy.health")
-      vim.list_extend(health.valid, {
-        "recommended",
-        "desc",
-        "vscode",
-      })
     end,
   })
 
@@ -257,18 +223,11 @@ function M.init()
     return
   end
   M.did_init = true
-  --this is for migration? https://lazy.folke.io/usage/migration
-  --local plugin = require("lazy.core.config").spec.plugins.FtVim
-  --if plugin then
-  --  vim.opt.rtp:append(plugin.dir)
-  --end
 
-  -- load options here, before lazy init while sourcing plugin modules
-  -- this is needed to make sure options will be correctly applied
-  -- after installing missing plugins
+  -- load options here
   M.load("options")
   -- defer built-in clipboard handling: "xsel" and "pbcopy" can be slow
-  lazy_clipboard = vim.opt.clipboard
+  clipboard = vim.opt.clipboard
   vim.opt.clipboard = ""
 
   --Ftvim.plugin.setup()
