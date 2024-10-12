@@ -196,6 +196,7 @@ end
 
 ---@param name "autocmds" | "options" | "keymaps"
 function M.load(name)
+  print("loading .." .. name)
   local function _load(mod)
     if require("lazy.core.cache").find(mod)[1] then
       Ftvim.try(function()
