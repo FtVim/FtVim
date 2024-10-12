@@ -12,5 +12,5 @@ require("ftvim.config").init()
 
 return {
   { "folke/lazy.nvim", version = "*" },
-  -- StepByStep { "FtVim/FtVim", priority = 10000, lazy = false, opts = {}, cond = true, version = "*" },
+  { "FtVim/FtVim", priority = 10000, lazy = false, opts = {}, cond = true, version = "*" },
 }

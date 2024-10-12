@@ -66,6 +66,25 @@ local defaults = {
 
 local options
 
+function M.setup(opts)
+  options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
+  require("lazy.core.util").track("colorscheme")
+  require("lazy.core.util").try(function()
+    if type(M.colorscheme) == "function" then
+      M.colorscheme()
+    else
+      vim.cmd.colorscheme(M.colorscheme)
+    end
+  end, {
+    msg = "Could not load your colorscheme",
+    on_error = function(msg)
+      require("lazy.core.util").error(msg)
+      vim.cmd.colorscheme("habamax")
+    end,
+  })
+  require("lazy.core.util").track()
+end
+
 function M.load(name)
   local function _load(mod)
     if require("lazy.core.cache").find(mod)[1] then
