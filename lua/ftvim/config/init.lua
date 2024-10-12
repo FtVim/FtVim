@@ -1,7 +1,7 @@
 local M = {}
 
 local defaults = {
-  colorscheme = "default",
+  colorscheme = vogsphere,
   defaults = {
     autocmds = true,
     keymaps = true,
@@ -77,7 +77,7 @@ function M.setup(opts)
     msg = "Could not load your colorscheme",
     on_error = function(msg)
       require("lazy.core.util").error(msg)
-      vim.cmd.colorscheme("habamax")
+      vim.cmd.colorscheme("default")
     end,
   })
   require("lazy.core.util").track()
