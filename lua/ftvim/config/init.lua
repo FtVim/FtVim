@@ -64,6 +64,8 @@ local defaults = {
   },
 }
 
+local options
+
 function M.load(name)
   local function _load(mod)
     if require("lazy.core.cache").find(mod)[1] then
@@ -86,5 +88,14 @@ function M.init()
   M.did_init = true
   M.load("options")
 end
+
+setmetatable(M, {
+  __index = function(_, key)
+    if options == nil then
+      return vim.deepcopy(defaults)[key]
+    end
+    return options[key]
+  end,
+})
 
 return M
