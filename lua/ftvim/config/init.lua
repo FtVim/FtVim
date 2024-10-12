@@ -1,7 +1,7 @@
 local M = {}
 
 local defaults = {
-  colorscheme = vogsphere,
+  colorscheme = "vogsphere",
   defaults = {
     autocmds = true,
     keymaps = true,
