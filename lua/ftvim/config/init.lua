@@ -66,6 +66,8 @@ local options
 
 function M.setup(opts)
   options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
+  M.load("autocmds")
+  M.load("keymaps")
   require("lazy.core.util").track("colorscheme")
   require("lazy.core.util").try(function()
     if type(M.colorscheme) == "function" then
@@ -104,6 +106,7 @@ function M.init()
   end
   M.did_init = true
   M.load("options")
+  -- require("ftvim.util.plugin").setup()
 end
 
 setmetatable(M, {
