@@ -20,35 +20,11 @@ local LazyUtil = require("lazy.core.util")
 ---@field cmp ftvim.util.cmp
 local M = {}
 
----@type table<string, string|string[]>
-local deprecated = {
-  get_clients = "lsp",
-  on_attach = "lsp",
-  on_rename = "lsp",
-  root_patterns = { "root", "patterns" },
-  get_root = { "root", "get" },
-  float_term = { "terminal", "open" },
-  toggle_diagnostics = { "toggle", "diagnostics" },
-  toggle_number = { "toggle", "number" },
-  fg = "ui",
-  telescope = "pick",
-}
-
 setmetatable(M, {
   __index = function(t, k)
     if LazyUtil[k] then
       return LazyUtil[k]
     end
-    local dep = deprecated[k]
-    if dep then
-      local mod = type(dep) == "table" and dep[1] or dep
-      local key = type(dep) == "table" and dep[2] or k
-      M.deprecate([[Ftvim.]] .. k, [[Ftvim.]] .. mod .. "." .. key)
-      ---@diagnostic disable-next-line: no-unknown
-      t[mod] = require("ftvim.util." .. mod) -- load here to prevent loops
-      return t[mod][key]
-    end
-    ---@diagnostic disable-next-line: no-unknown
     t[k] = require("ftvim.util." .. k)
     return t[k]
   end,
@@ -84,16 +60,6 @@ function M.has_extra(extra)
     or vim.tbl_contains(Config.json.data.extras, modname)
 end
 
----@param fn fun()
-function M.on_very_lazy(fn)
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "VeryLazy",
-    callback = function()
-      fn()
-    end,
-  })
-end
-
 --- This extends a deeply nested list with a key in a table
 --- that is a dot-separated string.
 --- The nested list will be created if it does not exist.
@@ -123,15 +89,6 @@ function M.opts(name)
   end
   local Plugin = require("lazy.core.plugin")
   return Plugin.values(plugin, "opts", false)
-end
-
-function M.deprecate(old, new)
-  M.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), {
-    title = "Ftvim",
-    once = true,
-    stacktrace = true,
-    stacklevel = 6,
-  })
 end
 
 -- delay notifications till vim.notify was replaced or after 500ms
