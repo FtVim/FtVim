@@ -106,7 +106,6 @@ function M.init()
   end
   M.did_init = true
   M.load("options")
-  -- require("ftvim.util.plugin").setup()
 end
 
 setmetatable(M, {
