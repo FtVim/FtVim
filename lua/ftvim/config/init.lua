@@ -105,6 +105,10 @@ function M.init()
     return
   end
   M.did_init = true
+  local plugin = require("lazy.core.config").spec.plugins.FtVim
+  if plugin then
+    vim.opt.rtp:append(plugin.dir)
+  end
   M.load("options")
 end
 
