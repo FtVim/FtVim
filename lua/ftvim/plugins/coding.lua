@@ -47,5 +47,32 @@ return {
 
 		event = "VeryLazy",
 
-	}
+	},
+	{ "nvim-lua/plenary.nvim", lazy = true },
+
+	-- Mason and lsp
+	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("ftvim.loader.mason").setup()
+		end,
+		build = ":MasonUpdate",
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("ftvim.loader.mason").setup()
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"folke/neodev.nvim"
+		},
+		config = function()
+			require("ftvim.loader.lsp").setup()
+		end,
+	},
 }

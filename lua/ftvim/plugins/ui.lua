@@ -33,4 +33,27 @@ return {
 
 		event = "VimEnter",
 	},
+	-- Mini.indentscope
+	{
+		"echasnovski/mini.indentscope",
+		version = false,
+		config = function()
+			require("ftvim.loader.indentscope").setup()
+		end,
+	},
+	-- Lir
+	{
+
+		"tamago324/lir.nvim",
+
+		config = function()
+			require("ftvim.loader.lir").setup()
+		end,
+
+		event = "User DirOpened",
+		{
+			"stevearc/dressing.nvim",
+			opts = {},
+		},
+	}
 }
