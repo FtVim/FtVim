@@ -1,8 +1,8 @@
-return {
-  "nvim-tree/nvim-tree.lua",
-  cmd = {"NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
-  config = function()
-    require("nvim-tree").setup({
+local M = {}
+
+local icons = require("ftvim.config").icons
+
+M.opts = {
       experimental = {},
       auto_reload_on_write = false,
       disable_netrw = false,
@@ -71,16 +71,16 @@ return {
           },
         },
         icons = {
-          webdev_colors = ftvim.use_icons,
+          webdev_colors = true,
 
           web_devicons = {
             file = {
-              enable = ftvim.use_icons,
-              color = ftvim.use_icons,
+              enable = true,
+              color = true,
             },
             folder = {
               enable = false,
-              color = ftvim.use_icons,
+              color = true,
             },
           },
           git_placement = "before",
@@ -90,37 +90,37 @@ return {
           diagnostics_placement = "signcolumn",
           bookmarks_placement = "signcolumn",
           show = {
-            file = ftvim.use_icons,
-            folder = ftvim.use_icons,
-            folder_arrow = ftvim.use_icons,
-            git = ftvim.use_icons,
-            modified = ftvim.use_icons,
-            diagnostics = ftvim.use_icons,
-            bookmarks = ftvim.use_icons,
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
+            modified = true,
+            diagnostics = true,
+            bookmarks = true,
           },
           glyphs = {
-            default = ftvim.icons.ui.Text,
-            symlink = ftvim.icons.ui.FileSymlink,
-            bookmark = ftvim.icons.ui.BookMark,
-            modified = ftvim.icons.ui.Circle,
+            default = icons.ui.Text,
+            symlink = icons.ui.FileSymlink,
+            bookmark = icons.ui.BookMark,
+            modified = icons.ui.Circle,
             folder = {
-              arrow_closed = ftvim.icons.ui.TriangleShortArrowRight,
-              arrow_open = ftvim.icons.ui.TriangleShortArrowDown,
-              default = ftvim.icons.ui.Folder,
-              open = ftvim.icons.ui.FolderOpen,
-              empty = ftvim.icons.ui.EmptyFolder,
-              empty_open = ftvim.icons.ui.EmptyFolderOpen,
-              symlink = ftvim.icons.ui.FolderSymlink,
-              symlink_open = ftvim.icons.ui.FolderOpen,
+              arrow_closed = icons.ui.TriangleShortArrowRight,
+              arrow_open = icons.ui.TriangleShortArrowDown,
+              default = icons.ui.Folder,
+              open = icons.ui.FolderOpen,
+              empty = icons.ui.EmptyFolder,
+              empty_open = icons.ui.EmptyFolderOpen,
+              symlink = icons.ui.FolderSymlink,
+              symlink_open = icons.ui.FolderOpen,
             },
             git = {
-              unstaged = ftvim.icons.git.FileUnstaged,
-              staged = ftvim.icons.git.FileStaged,
-              unmerged = ftvim.icons.git.FileUnmerged,
-              renamed = ftvim.icons.git.FileRenamed,
-              untracked = ftvim.icons.git.FileUntracked,
-              deleted = ftvim.icons.git.FileDeleted,
-              ignored = ftvim.icons.git.FileIgnored,
+              unstaged = icons.git.FileUnstaged,
+              staged = icons.git.FileStaged,
+              unmerged = icons.git.FileUnmerged,
+              renamed = icons.git.FileRenamed,
+              untracked = icons.git.FileUntracked,
+              deleted = icons.git.FileDeleted,
+              ignored = icons.git.FileIgnored,
             },
           },
         },
@@ -138,7 +138,7 @@ return {
         exclude = false,
       },
       diagnostics = {
-        enable = ftvim.use_icons,
+        enable = true,
         show_on_dirs = false,
         show_on_open_dirs = true,
         debounce_delay = 50,
@@ -147,10 +147,10 @@ return {
           max = vim.diagnostic.severity.ERROR,
         },
         icons = {
-          hint = ftvim.icons.diagnostics.BoldHint,
-          info = ftvim.icons.diagnostics.BoldInformation,
-          warning = ftvim.icons.diagnostics.BoldWarning,
-          error = ftvim.icons.diagnostics.BoldError,
+          hint = icons.diagnostics.BoldHint,
+          info = icons.diagnostics.BoldInformation,
+          warning = icons.diagnostics.BoldWarning,
+          error = icons.diagnostics.BoldError,
         },
       },
       filters = {
@@ -265,6 +265,17 @@ return {
         cmd = nil,
         args = {},
       }
-    })
-  end
 }
+
+M.setup = function()
+	local status_ok, nvim_tree = pcall(require, "nvim-tree")
+
+	if not status_ok then
+		print("Error loading nvim-tree")
+		return
+	end
+
+	nvim_tree.setup(M.opts)
+end
+
+return M

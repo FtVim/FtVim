@@ -65,6 +65,10 @@ map({ "n", "v" }, "<leader>cf", function()
   FtVim.format({ force = true })
 end, { desc = "Format" })
 
+-- Buffers
+map("n", "<S-h>", "<cmd>bprevious<cr>", {desc = "Previous Buffer"})
+map("n", "<S-l>", "<cmd>bnext<cr>", {desc = "Next Buffer"})
+
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })

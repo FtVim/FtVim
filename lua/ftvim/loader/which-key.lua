@@ -2,11 +2,8 @@ local M = {}
 
 local icons = require("ftvim.config").icons
 
-M.setup = function()
-	local which_key = require("which-key")
-
-	which_key.setup({	
-		plugins = {
+M.opts = {
+	plugins = {
 			marks = false, -- shows a list of your marks on ' and `
 			registers = false, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
 			spelling = {
@@ -48,7 +45,12 @@ M.setup = function()
 			filetypes = { "TelescopePrompt" },
 		},
 		preset = "modern",
-	})
+}
+
+M.setup = function()
+	local which_key = require("which-key")
+
+	which_key.setup(M.opts)
 
 	which_key.add({
 		{
