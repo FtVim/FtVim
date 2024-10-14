@@ -2,7 +2,7 @@ local M = {}
 
 local icons = require("ftvim.config").icons
 
-M.opts = {
+M.config = {
       experimental = {},
       auto_reload_on_write = false,
       disable_netrw = false,
@@ -267,7 +267,59 @@ M.opts = {
       }
 }
 
-M.setup = function()
+function M.start_telescope(telescope_mode)
+	local node = require("nvim-tree.lib").get_node_at_cursor()
+	local abspath = node.link_to or node.absolute_path
+	local is_folder = node.open ~= nil
+	local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
+	require("telescope.builtin")[telescope_mode]({
+		cwd = basedir,
+	})
+end
+
+local function on_attach(bufnr)
+	local api = require("nvim-tree.api")
+
+	local function telescope_find_files(_)
+		require("ftvim.loader.nvimtree").start_telescope("find_files")
+	end
+
+	local function telescope_live_grep(_)
+		require("ftvim.loader.nvimtree").start_telescope("live_grep")
+	end
+
+	local function opts(desc)
+		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+	end
+
+	api.config.mappings.default_on_attach(bufnr)
+
+	-- local useful_keys = {
+	-- 	["l"] = { api.node.open.edit, opts("Open") },
+	-- 	["o"] = { api.node.open.edit, opts("Open") },
+	-- 	["<CR>"] = { api.node.open.edit, opts("Open") },
+	-- 	["sv"] = { api.node.open.vertical, opts("Open: Vertical Split") },
+	-- 	["sh"] = { api.node.open.horizontal, opts("Open: Horizontal Split") },
+	-- 	["h"] = { api.node.navigate.parent_close, opts("Close Directory") },
+	-- 	["C"] = { api.tree.change_root_to_node, opts("CD") },
+	-- 	["gtg"] = { telescope_live_grep, opts("Telescope Live Grep") },
+	-- 	["gtf"] = { telescope_find_files, opts("Telescope Find File") },
+	-- }
+	-- local map = require("ftvim.util").safe_keymap_set
+
+	-- map("n", "l", api.node.open.edit(),  opts("Open") )
+	-- map("n", "o", api.node.open.edit(),  opts("Open") )
+	-- map("n", "<CR>", api.node.open.edit(),  opts("Open") )
+	-- map("n", "sv", api.node.open.vertical(),  opts("Open: Vertical Split") )
+	-- map("n", "sh",  api.node.open.horizontal(),  opts("Open: Horizontal Split") )
+	-- map("n", "h",  api.node.navigate.parent_close(),  opts("Close Directory") )
+	-- map("n", "C", api.tree.change_root_to_node(), opts("CD") )
+	-- map("n", "gtg", telescope_live_grep,  opts("Telescope Live Grep") )
+	-- map("n", "gtf", telescope_find_files,  opts("Telescope Find File") )
+
+end
+
+function M.setup()
 	local status_ok, nvim_tree = pcall(require, "nvim-tree")
 
 	if not status_ok then
@@ -275,7 +327,13 @@ M.setup = function()
 		return
 	end
 
-	nvim_tree.setup(M.opts)
+	-- Add useful keymaps
+	if M.config.on_attach == "default" then
+		M.config.on_attach = on_attach
+	end
+
+	nvim_tree.setup(M.config)
+
 end
 
 return M

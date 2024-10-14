@@ -75,4 +75,29 @@ return {
 			require("ftvim.loader.lsp").setup()
 		end,
 	},
+	-- Telescope
+
+	{
+
+		"nvim-telescope/telescope.nvim",
+
+		branch = "0.1.x",
+
+		config = function()
+			require("ftvim.loader.telescope").setup()
+		end,
+
+		dependencies = { "telescope-fzf-native.nvim" },
+
+		lazy = true,
+
+		cmd = "Telescope",
+
+	},
+
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "make",
+		lazy = true,
+	},
 }
