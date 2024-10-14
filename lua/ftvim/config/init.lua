@@ -2,64 +2,7 @@ local M = {}
 
 local defaults = {
   colorscheme = "vogsphere",
-  defaults = {
-    autocmds = true,
-    keymaps = true,
-  },
-  icons = {
-    misc = {
-      dots = "󰇘",
-    },
-    ft = {
-      octo = "",
-    },
-    git = {
-      added    = " ",
-      modified = " ",
-      removed  = " ",
-    },
-    kinds = {
-      Array         = " ",
-      Boolean       = "󰨙 ",
-      Class         = " ",
-      Codeium       = "󰘦 ",
-      Color         = " ",
-      Control       = " ",
-      Collapsed     = " ",
-      Constant      = "󰏿 ",
-      Constructor   = " ",
-      Copilot       = " ",
-      Enum          = " ",
-      EnumMember    = " ",
-      Event         = " ",
-      Field         = " ",
-      File          = " ",
-      Folder        = " ",
-      Function      = "󰊕 ",
-      Interface     = " ",
-      Key           = " ",
-      Keyword       = " ",
-      Method        = "󰊕 ",
-      Module        = " ",
-      Namespace     = "󰦮 ",
-      Null          = " ",
-      Number        = "󰎠 ",
-      Object        = " ",
-      Operator      = " ",
-      Package       = " ",
-      Property      = " ",
-      Reference     = " ",
-      Snippet       = " ",
-      String        = " ",
-      Struct        = "󰆼 ",
-      TabNine       = "󰏚 ",
-      Text          = " ",
-      TypeParameter = " ",
-      Unit          = " ",
-      Value         = " ",
-      Variable      = " ",
-    },
-  },
+  icons = require("ftvim.icons"),
 }
 
 local options
@@ -93,9 +36,7 @@ function M.load(name)
       end, { msg = "Failed loading " .. mod })
     end
   end
-  if M.defaults[name] or name == "options" then
-    _load("ftvim.config." .. name)
-  end
+  _load("ftvim.config." .. name)
   _load("config." .. name)
 end
 
