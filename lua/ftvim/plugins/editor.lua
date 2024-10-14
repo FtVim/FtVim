@@ -40,4 +40,14 @@ return {
 			require("mini.ai").setup()
 		end
 	},
+	{
+		"echasnovski/mini.bufremove",
+
+		branch = "main",
+
+		config = function()
+			require("ftvim.loader.mini_bufremove").setup()
+		end,
+	},
+
 }

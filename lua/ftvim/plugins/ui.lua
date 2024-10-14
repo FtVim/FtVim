@@ -55,5 +55,23 @@ return {
 			"stevearc/dressing.nvim",
 			opts = {},
 		},
-	}
+	},
+
+	-- Notifications
+	{
+		"rcarriga/nvim-notify",
+		event = "BufLeave",
+		keys = {
+			{
+				"<leader>un",
+				function()
+					require("notify").dismiss({ silent = true, pending = true })
+				end,
+				desc = "Dismiss All Notifications",
+			},
+		},
+		config = function()
+			require("ftvim.loader.notifications").setup()
+		end,
+	},
 }
