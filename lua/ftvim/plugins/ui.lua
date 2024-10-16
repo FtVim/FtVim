@@ -81,17 +81,17 @@ return {
 		opts = {},
 	},
 	-- Lualine
-	-- {
+	{
 
-	-- 	-- "hoob3rt/lualine.nvim",
+		-- "hoob3rt/lualine.nvim",
 
-	-- 	"nvim-lualine/lualine.nvim",
+		"nvim-lualine/lualine.nvim",
 
-	-- 	config = function()
-	-- 		require("ftvim.loader.lualine").setup()
-	-- 	end,
+		config = function()
+			require("ftvim.loader.lualine").setup()
+		end,
 
-	-- 	event = "VimEnter",
+		event = "VimEnter",
 
-	-- },
+	},
 }

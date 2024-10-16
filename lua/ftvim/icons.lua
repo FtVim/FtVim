@@ -52,6 +52,7 @@ return {
 		Branch = "",
 	},
 	ui = {
+		FtVim = "󰛓",
 		ArrowCircleDown = "",
 		ArrowCircleLeft = "",
 		ArrowCircleRight = "",
