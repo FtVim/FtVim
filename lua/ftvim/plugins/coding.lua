@@ -76,12 +76,8 @@ return {
 		end,
 	},
 	-- Telescope
-
 	{
-
 		"nvim-telescope/telescope.nvim",
-
-		branch = "0.1.x",
 
 		config = function()
 			require("ftvim.loader.telescope").setup()
@@ -94,10 +90,41 @@ return {
 		cmd = "Telescope",
 
 	},
-
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "make",
 		lazy = true,
+	},
+	-- Project.nvim
+	{
+		"ahmedkhalf/project.nvim",
+		config = function()
+			require("ftvim.loader.project").setup()
+		end,
+
+		lazy = true,
+
+		event = "VimEnter",
+
+		cmd = "Telescope projects"
+	},
+	-- Persistence
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre",
+		config = function()
+			require("ftvim.loader.persistence").setup()
+		end,
+	},
+	-- Search and Replace
+	{
+		"nvim-pack/nvim-spectre",
+		build = false,
+		cmd = "Spectre",
+		opts = { open_cmd = "noswapfile vnew" },
+		-- stylua: ignore
+		keys = {
+			{ "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
+		},
 	},
 }

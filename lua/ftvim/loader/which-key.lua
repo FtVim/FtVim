@@ -178,7 +178,7 @@ M.setup = function()
 		},
 		{ "<leader>cm", group = "Mason", nowait = true, remap = false },
 		{ "<leader>cm", "<cmd>Mason<cr>", desc = "Mason", nowait = true, remap = false },
-		{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Explorer", nowait = true, remap = false },
+		{ "<leader>e", "<cmd>Neotree toggle reveal_force_cwd<CR>", desc = "Explorer", nowait = true, remap = false },
 		{ "<leader>f", group = "Find", nowait = true, remap = false },
 		{ "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands", nowait = true, remap = false },
 		{

@@ -1,4 +1,15 @@
 return {
+	{
+
+		"lukas-reineke/indent-blankline.nvim",
+
+		main = "ibl",
+
+		config = function()
+			require("ibl").setup()
+		end,
+		opts = {},
+	},
 	-- Dashboard
 	{
 
@@ -58,4 +69,29 @@ return {
 			require("ftvim.loader.notifications").setup()
 		end,
 	},
+	-- Icons
+	{
+		"nvim-tree/nvim-web-devicons",
+
+		lazy = true,
+	},
+	-- Dressing.nvim
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
+	},
+	-- Lualine
+	-- {
+
+	-- 	-- "hoob3rt/lualine.nvim",
+
+	-- 	"nvim-lualine/lualine.nvim",
+
+	-- 	config = function()
+	-- 		require("ftvim.loader.lualine").setup()
+	-- 	end,
+
+	-- 	event = "VimEnter",
+
+	-- },
 }

@@ -124,11 +124,7 @@ function M.setup()
 
 	telescope.setup(M.config)
 
-	if true then
-		pcall(function()
-			require("telescope").load_extension("projects")
-		end)
-	end
+	require("telescope").load_extension("projects")
 
 	if M.config.extensions and M.config.extensions.fzf then
 		pcall(function()

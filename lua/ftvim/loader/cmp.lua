@@ -44,9 +44,6 @@ M.setup = function()
 		return
 	end
 
-	local luasnip = require("luasnip")
-	local lspkind = require("lspkind")
-
 	cmp.setup({
 		completion = M.config.completion,
 		snippet = {
