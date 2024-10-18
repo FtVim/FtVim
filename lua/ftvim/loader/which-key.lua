@@ -235,7 +235,7 @@ M.setup = function()
 			nowait = true,
 			remap = false,
 		},
-		{ "<leader>ft", "<cmd>Telescope colorscheme<cr>", desc = "Change theme", nowait = true, remap = false },
+		-- { "<leader>ft", "<cmd>Telescope colorscheme<cr>", desc = "Change theme", nowait = true, remap = false },
 		{ "<leader>g", group = "Git", nowait = true, remap = false },
 		{
 			"<leader>gC",
