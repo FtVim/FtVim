@@ -5,12 +5,8 @@ local opt = vim.opt
 
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
-opt.cursorline = false 
-if vim.fn.has("nvim-0.10") == 1 then
-	opt.expandtab = false -- tabs & indentation
-else 
-	opt.noexpandtab = true -- tabs & indentation
-end
+opt.cursorline = false -- Highlight the current line
+opt.expandtab = false -- tabs & indentation
 opt.foldlevel = 99
 opt.formatexpr = "v:lua.require'ftvim.util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
