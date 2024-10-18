@@ -60,11 +60,6 @@ map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
--- formatting
-map({ "n", "v" }, "<leader>cf", function()
-  FtVim.format({ force = true })
-end, { desc = "Format" })
-
 -- Buffers
 map("n", "<S-h>", "<cmd>bprevious<cr>", {desc = "Previous Buffer"})
 map("n", "<S-l>", "<cmd>bnext<cr>", {desc = "Next Buffer"})
@@ -77,3 +72,12 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- learn to move
+map("n", "<down>", function() vim.notify("Use j to move down!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Down" })
+map("n", "<up>", function() vim.notify("Use k to move up!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Up" })
+map("n", "<left>", function() vim.notify("Use h to move left!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Left" })
+map("n", "<right>", function() vim.notify("Use l to move right!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Right" })
+
+-- better escape
+map("i", "jk", "<esc>", { desc = "Better Escape" })
