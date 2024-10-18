@@ -55,7 +55,7 @@ return {
 	-- Notifications
 	{
 		"rcarriga/nvim-notify",
-		event = "BufLeave",
+		event = "VimEnter",
 		keys = {
 			{
 				"<leader>un",
