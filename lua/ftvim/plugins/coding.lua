@@ -1,4 +1,28 @@
 return {
+	-- 42 utils
+
+	{
+		"cacharle/c_formatter_42.vim",
+		config = function() end,
+	},
+	{
+		"42Paris/42header",
+		config = function() end,
+	},
+	
+	-- FtVim plugins
+	{
+		"FtVim/norminette-lint.nvim",
+		config = function()
+			require("norminette-lint").setup()
+		end
+	},
+	{
+		"FtVim/ft_count_lines.nvim",
+		config = function()
+			require("ft_count_lines").setup()
+		end
+	},
 	-- Autopairs
 	{
 

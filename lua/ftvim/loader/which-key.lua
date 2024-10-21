@@ -69,6 +69,7 @@ M.setup = function()
 			nowait = true,
 			remap = false,
 		},
+		{ "<leader>Ff", "<cmd>CFormatter42<cr>", nowait = true, desc = "C formatter", remap = false },
 		{ "<leader>T", group = "Treesitter", nowait = true, remap = false },
 		{ "<leader>Ti", ":TSConfigInfo<cr>", desc = "Info", nowait = true, remap = false },
 		{ "<leader>b", group = "Buffers", nowait = true, remap = false },
