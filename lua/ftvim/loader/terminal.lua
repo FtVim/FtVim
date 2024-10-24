@@ -39,7 +39,6 @@ M.config = {
 	},
 	-- Add executables on the config.lua
 	-- { cmd, keymap, description, direction, size }
-	-- TODO: pls add mappings in which key and refactor this
 	execs = {
 		{ nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
 		{ nil, "<M-2>", "Vertical Terminal", "vertical", 0.4 },

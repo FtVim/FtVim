@@ -18,6 +18,12 @@ map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
+-- Terminal window move
+map("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Go to Left Window"})
+map("t", "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Go to Lower Window"})
+map("t", "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Go to Upper Window"})
+map("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Go to Right Window"})
+
 -- Move Lines
 map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
 map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
