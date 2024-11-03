@@ -215,13 +215,13 @@ M.setup = function()
 			nowait = true,
 			remap = false,
 		},
-		{
-			"<leader>fp",
-			"<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
-			desc = "Colorscheme with Preview",
-			nowait = true,
-			remap = false,
-		},
+		-- {
+		-- 	"<leader>fp",
+		-- 	"<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
+		-- 	desc = "Colorscheme with Preview",
+		-- 	nowait = true,
+		-- 	remap = false,
+		-- },
 		{
 			"<leader>fr",
 			"<cmd>Telescope oldfiles<cr>",
