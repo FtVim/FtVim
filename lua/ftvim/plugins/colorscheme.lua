@@ -5,7 +5,11 @@ return {
 	lazy = false,
 	config = function()
 		require("telescope-colorscheme-persist").setup({
-			keybind = "<leader>ft"
+			keybind = "<leader>ft",
+			file_path = vim.fn.stdpath("data") .. "/telescope-colorscheme-persist.nvim/.nvim.colorscheme-persist.lua",
+			fallback = "default",
+			picker_opts = require("telescope.themes").get_dropdown(),
+			debug = false,
 		})
 	end,
   },
