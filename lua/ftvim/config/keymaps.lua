@@ -62,6 +62,15 @@ map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+map("n", "<leader>xd", function()
+  if vim.diagnostic.is_enabled() then
+    vim.diagnostic.enable(false)
+    vim.notify("Diagnostics disabled", vim.log.levels.WARN)
+  else
+    vim.diagnostic.enable()
+    vim.notify("Diagnostics enabled", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle Diagnostics" })
 
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })

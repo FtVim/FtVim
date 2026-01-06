@@ -219,6 +219,7 @@ return {
         { "<leader>wsv", "<cmd>vsplit<cr>", desc = "Vertical" },
         { "<leader>ww", "<cmd>split new<cr>", desc = "New Window" },
         { "<leader>x", group = "Diagnostics" },
+        { "<leader>xd", desc = "Toggle Diagnostics" },
         { "<leader>xl", "<cmd>lopen<cr>", desc = "Location List" },
         { "<leader>xq", "<cmd>copen<cr>", desc = "Quickfix List" },
         {
