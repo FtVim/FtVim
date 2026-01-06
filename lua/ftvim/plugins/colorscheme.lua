@@ -1,61 +1,21 @@
+-- FtVim Colorschemes
+
 return {
-  {
-	"tingey21/telescope-colorscheme-persist.nvim",
-	dependencies = { "nvim-telescope/telescope.nvim" },
-	lazy = false,
-	config = function()
-		require("telescope-colorscheme-persist").setup({
-			keybind = "<leader>ft",
-			file_path = vim.fn.stdpath("data") .. "/telescope-colorscheme-persist.nvim/.nvim.colorscheme-persist.lua",
-			fallback = "default",
-			picker_opts = require("telescope.themes").get_dropdown(),
-			debug = false,
-		})
-	end,
-  },
-
-  -- vogsphere
-  {
-    "FtVim/vogsphere.nvim",
-    lazy = false,
-    opts = {},
-  },
-
-  -- tokyonight
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    opts = {},
-  },
-
-  -- kanagawa
-  {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    opts = {},
-  },
-
-  -- catppuccin
+  -- Catppuccin (default)
   {
     "catppuccin/nvim",
-    lazy = true,
     name = "catppuccin",
+    lazy = false,
+    priority = 1000,
     opts = {
+      flavour = "mocha",
       integrations = {
-        aerial = true,
         alpha = true,
-        cmp = true,
-        dashboard = true,
-        flash = true,
-        grug_far = true,
+        blink_cmp = true,
         gitsigns = true,
-        headlines = true,
         illuminate = true,
         indent_blankline = { enabled = true },
-        leap = true,
-        lsp_trouble = true,
         mason = true,
-        markdown = true,
         mini = true,
         native_lsp = {
           enabled = true,
@@ -66,17 +26,29 @@ return {
             information = { "undercurl" },
           },
         },
-        navic = { enabled = true, custom_bg = "lualine" },
-        neotest = true,
         neotree = true,
-        noice = true,
         notify = true,
         semantic_tokens = true,
         telescope = true,
         treesitter = true,
-        treesitter_context = true,
         which_key = true,
       },
     },
+  },
+
+  -- Tokyo Night
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = {
+      style = "moon",
+    },
+  },
+
+  -- Kanagawa
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = true,
+    opts = {},
   },
 }

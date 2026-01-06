@@ -1,3 +1,5 @@
+-- FtVim Autocommands
+
 local function augroup(name)
   return vim.api.nvim_create_augroup("ftvim_" .. name, { clear = true })
 end
@@ -10,7 +12,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- resize splits if window got resized
+-- Resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
   group = augroup("resize_splits"),
   callback = function()
@@ -20,7 +22,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
--- go to last loc when opening a buffer
+-- Go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("last_loc"),
   callback = function(event)
@@ -38,7 +40,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- make it easier to close man-files when opened inline
+-- Make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("man_unlisted"),
   pattern = { "man" },
@@ -47,13 +49,31 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("bigfile"),
-  pattern = "bigfile",
-  callback = function(ev)
-    vim.b.minianimate_disable = true
-    vim.schedule(function()
-      vim.bo[ev.buf].syntax = vim.filetype.match({ buf = ev.buf }) or ""
-    end)
+-- Close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("close_with_q"),
+  pattern = {
+    "help",
+    "lspinfo",
+    "notify",
+    "qf",
+    "checkhealth",
+    "man",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+  end,
+})
+
+-- Auto create dir when saving a file
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  group = augroup("auto_create_dir"),
+  callback = function(event)
+    if event.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
+    local file = vim.uv.fs_realpath(event.match) or event.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
