@@ -36,7 +36,7 @@ nvim
 
 ## Requirements
 
-- Neovim >= 0.10.0
+- Neovim >= 0.11.0
 - Git >= 2.19.0
 - A Nerd Font (for icons)
 - ripgrep (for searching)
