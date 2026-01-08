@@ -3,7 +3,7 @@
 set -eu pipefall
 
 declare -r INSTALL_PREFIX="${INSTALL_PREFIX:-"$HOME/.local"}"
-declare -r RELEASE_VER="${RELEASE_VER:-v0.10.0}"
+declare -r RELEASE_VER="${RELEASE_VER:-v0.11.5}"
 
 declare ARCHIVE_NAME
 declare OS
@@ -11,7 +11,7 @@ declare OS
 OS="$(uname -s)"
 
 if [ "$OS" == "Linux" ]; then
-  ARCHIVE_NAME="nvim-linux64"
+  ARCHIVE_NAME="nvim-linux-x86_64"
 elif [ "$OS" == "Darwin" ]; then
   ARCHIVE_NAME="nvim-macos-x86_64"
 else
@@ -25,20 +25,15 @@ if [[ "${RELEASE_VER}" == "latest" ]]; then
 else
   declare -r RELEASE_URL="https://github.com/neovim/neovim/releases/download/${RELEASE_VER}/${ARCHIVE_NAME}.tar.gz"
 fi
-declare -r CHECKSUM_URL="$RELEASE_URL.sha256sum"
 
 DOWNLOAD_DIR="$(mktemp -d)"
 readonly DOWNLOAD_DIR
-
-RELEASE_SHA="$(curl -Ls "$CHECKSUM_URL" | awk '{print $1}')"
-readonly RELEASE_SHA
 
 function main() {
   if [ ! -d "$INSTALL_PREFIX" ]; then
     mkdir -p "$INSTALL_PREFIX"
   fi
   download_neovim
-  verify_neovim
   install_neovim
 }
 
@@ -50,19 +45,6 @@ function download_neovim() {
   fi
   echo "Download complete!"
 }
-
-function verify_neovim() {
-  echo "Verifying the installation.."
-  DOWNLOADED_SHA="$(openssl dgst -sha256 "$DOWNLOAD_DIR/$ARCHIVE_NAME.tar.gz" | awk '{print $2}')"
-
-  if [ "$RELEASE_SHA" != "$DOWNLOADED_SHA" ]; then
-    echo "Error! checksum mismatch."
-    echo "Expected: $RELEASE_SHA but got: $DOWNLOADED_SHA"
-    exit 1
-  fi
-  echo "Verification complete!"
-}
-
 
 function install_neovim() {
   echo "Installing Neovim.."
