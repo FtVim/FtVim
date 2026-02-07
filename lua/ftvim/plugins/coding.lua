@@ -139,7 +139,7 @@ return {
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map("<leader>ch", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, "Toggle Inlay Hints")
           end
         end,
@@ -160,6 +160,7 @@ return {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
+        -- Allow custom setup handlers
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then
             return
@@ -170,10 +171,10 @@ return {
           end
         end
 
-        require("lspconfig")[server].setup(server_opts)
+        vim.lsp.config(server, server_opts)
+        vim.lsp.enable(server)
       end
 
-      -- Get ensure_installed list from servers
       local ensure_installed = {}
       for server, server_opts in pairs(servers) do
         if server_opts then
@@ -184,17 +185,24 @@ return {
         end
       end
 
-      -- Setup mason-lspconfig if available
       local have_mason, mlsp = pcall(require, "mason-lspconfig")
       if have_mason then
-        mlsp.setup({
+        mlsp.setup {
           ensure_installed = ensure_installed,
           handlers = { setup_server },
-        })
+        }
       else
-        -- Fallback: setup servers directly without mason
         for server, _ in pairs(servers) do
           setup_server(server)
+        end
+      end
+
+      for server, server_opts in pairs(servers) do
+        if server_opts then
+          server_opts = server_opts == true and {} or server_opts
+          if server_opts.mason == false then
+            setup_server(server)
+          end
         end
       end
     end,
@@ -214,14 +222,13 @@ return {
     },
     config = function(_, opts)
       require("mason").setup(opts)
-      local mr = require("mason-registry")
+      local mr = require "mason-registry"
       mr:on("package:install:success", function()
         vim.defer_fn(function()
-          -- Trigger FileType event to load newly installed LSP
-          require("lazy.core.handler.event").trigger({
+          require("lazy.core.handler.event").trigger {
             event = "FileType",
             buf = vim.api.nvim_get_current_buf(),
-          })
+          }
         end, 100)
       end)
 
@@ -257,7 +264,7 @@ return {
       {
         "<leader>cf",
         function()
-          require("conform").format({ async = true, lsp_fallback = true })
+          require("conform").format { async = true, lsp_fallback = true }
         end,
         mode = { "n", "v" },
         desc = "Format",
@@ -268,9 +275,7 @@ return {
         lua = { "stylua" },
         sh = { "shfmt" },
       },
-      -- Set to false by default, users can enable in their config
       format_on_save = false,
-      -- Uncomment to enable format on save:
       -- format_on_save = {
       --   timeout_ms = 500,
       --   lsp_fallback = true,

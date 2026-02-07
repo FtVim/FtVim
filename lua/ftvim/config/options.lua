@@ -71,11 +71,16 @@ opt.wildmode = "longest:full,full"
 
 -- Spelling
 opt.spelllang = { "en" }
-opt.spelloptions:append("noplainbuffer")
-opt.spelllang:append("cjk")
+opt.spelloptions:append "noplainbuffer"
+opt.spelllang:append "cjk"
 
 -- Shortmess
-opt.shortmess:append({ W = true, I = true, c = true, C = true })
+opt.shortmess:append { W = true, I = true, c = true, C = true }
 
 -- Whichwrap
-opt.whichwrap:append("<,>,[,],h,l")
+opt.whichwrap:append "<,>,[,],h,l"
+
+local mise_shims = vim.env.HOME .. "/.local/share/mise/shims"
+if vim.uv.fs_stat(mise_shims) then
+  vim.env.PATH = mise_shims .. ":" .. vim.env.PATH
+end
