@@ -10,7 +10,7 @@ local defaults = {
   -- Colorscheme to use (string or function)
   colorscheme = "catppuccin",
   -- Icons used throughout FtVim
-  icons = require("ftvim.icons"),
+  icons = require "ftvim.icons",
   -- Load default configs
   defaults = {
     autocmds = true,
@@ -28,16 +28,23 @@ function M.setup(opts)
 
   -- Load autocmds
   if options.defaults.autocmds then
-    M.load("autocmds")
+    M.load "autocmds"
   end
 
   -- Load keymaps
   if options.defaults.keymaps then
-    M.load("keymaps")
+    M.load "keymaps"
   end
 
-  -- Apply colorscheme
+  local colorscheme_before = vim.g.colors_name
   vim.schedule(function()
+    local user_set_colorscheme = options.colorscheme ~= defaults.colorscheme
+    local changed_externally = vim.g.colors_name ~= colorscheme_before
+
+    if changed_externally and not user_set_colorscheme then
+      return
+    end
+
     M.load_colorscheme()
   end)
 end
@@ -53,7 +60,7 @@ function M.load_colorscheme()
   end)
   if not ok then
     vim.notify("Failed to load colorscheme: " .. tostring(err), vim.log.levels.ERROR)
-    vim.cmd.colorscheme("habamax")
+    vim.cmd.colorscheme "habamax"
   end
 end
 
@@ -63,14 +70,14 @@ function M.load(name)
   -- Load FtVim's config
   local ftvim_mod = "ftvim.config." .. name
   local ok, err = pcall(require, ftvim_mod)
-  if not ok and not err:match("module.*not found") then
+  if not ok and not err:match "module.*not found" then
     vim.notify("Error loading " .. ftvim_mod .. ": " .. err, vim.log.levels.ERROR)
   end
 
   -- Load user's config (from lua/config/)
   local user_mod = "config." .. name
   ok, err = pcall(require, user_mod)
-  if not ok and not err:match("module.*not found") then
+  if not ok and not err:match "module.*not found" then
     vim.notify("Error loading " .. user_mod .. ": " .. err, vim.log.levels.ERROR)
   end
 end
@@ -92,7 +99,7 @@ function M.init()
 
   -- Load options early (before plugins)
   if defaults.defaults.options then
-    M.load("options")
+    M.load "options"
   end
 end
 

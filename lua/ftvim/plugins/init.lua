@@ -27,6 +27,9 @@ return {
     cond = true,
     version = "*",
     opts = {},
+    config = function(_, opts)
+      require("ftvim").setup(opts)
+    end,
   },
 
   -- Plenary (utility library used by many plugins)
