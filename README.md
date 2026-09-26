@@ -109,9 +109,6 @@ nvim --headless -u tests/minimal_init.lua "+luafile tests/keymaps.lua"
 nvim --headless -u tests/minimal_init.lua "+luafile scripts/gen-docs.lua"  # regenerate docs/KEYMAPS.md
 ```
 
-Releases are made by release-please from [Conventional Commits](https://www.conventionalcommits.org)
-(`feat: ...`, `fix: ...`).
-
 ## License
 
 MIT

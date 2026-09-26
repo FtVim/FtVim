@@ -1,6 +1,6 @@
 local M = {}
 
-M.version = "2.0.0" -- x-release-please-version
+M.version = "2.0.0"
 
 ---@param opts? FtVimConfig
 function M.setup(opts)
