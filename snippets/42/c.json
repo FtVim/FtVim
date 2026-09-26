@@ -1,0 +1,83 @@
+{
+  "Header guard": {
+    "prefix": "hguard",
+    "body": [
+      "#ifndef ${1:NAME_H}",
+      "# define $1",
+      "",
+      "$0",
+      "",
+      "#endif"
+    ],
+    "description": "Header guard, e.g. FT_PRINTF_H (new headers get one automatically)"
+  },
+  "Main": {
+    "prefix": "main",
+    "body": [
+      "int\tmain(int argc, char **argv)",
+      "{",
+      "\t$0",
+      "\treturn (0);",
+      "}"
+    ],
+    "description": "main with arguments"
+  },
+  "Main void": {
+    "prefix": "mainv",
+    "body": [
+      "int\tmain(void)",
+      "{",
+      "\t$0",
+      "\treturn (0);",
+      "}"
+    ],
+    "description": "main without arguments"
+  },
+  "While loop": {
+    "prefix": "while",
+    "body": [
+      "while (${1:i} < ${2:n})",
+      "{",
+      "\t$0",
+      "\t$1++;",
+      "}"
+    ],
+    "description": "while loop with index (no for loops in the norm)"
+  },
+  "Malloc": {
+    "prefix": "malloc",
+    "body": [
+      "${1:ptr} = malloc(sizeof(${2:char}) * (${3:len}));",
+      "if (!$1)",
+      "\treturn (${4:NULL});"
+    ],
+    "description": "malloc with NULL check"
+  },
+  "Write": {
+    "prefix": "write",
+    "body": [
+      "write(${1:1}, ${2:str}, ${3:len});"
+    ],
+    "description": "write(fd, buf, len)"
+  },
+  "Typedef struct": {
+    "prefix": "struct",
+    "body": [
+      "typedef struct s_${1:name}",
+      "{",
+      "\t$0",
+      "}\tt_$1;"
+    ],
+    "description": "typedef struct s_name / t_name (42 norm)"
+  },
+  "Function": {
+    "prefix": "func",
+    "body": [
+      "${1:int}\t${2:ft_name}(${3:void})",
+      "{",
+      "\t$0",
+      "}"
+    ],
+    "description": "Function definition"
+  }
+}

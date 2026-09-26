@@ -1,0 +1,180 @@
+*ftvim.txt*  A Neovim distribution made for 42 students
+
+==============================================================================
+CONTENTS                                                      *ftvim-contents*
+
+  1. Introduction ........................................ |ftvim-intro|
+  2. Configuration ....................................... |ftvim-config|
+  3. Extras .............................................. |ftvim-extras|
+  4. 42 tools ............................................ |ftvim-42|
+  5. Debugging ........................................... |ftvim-dap|
+  6. Options ............................................. |ftvim-options|
+  7. Keymaps ............................................. |ftvim-keymaps|
+
+==============================================================================
+1. INTRODUCTION                                                  *ftvim-intro*
+
+FtVim is a Neovim distribution originally made for 42 Barcelona students. It
+gives you LSP, completion, fuzzy finding and git out of the box, plus tools
+for the 42 curriculum (norminette, 42 header, exam mode...).
+
+Run |:checkhealth| `ftvim` (or <leader>FH) to see what is missing on your machine.
+
+Website: https://ftvim.github.io
+
+==============================================================================
+2. CONFIGURATION                                                *ftvim-config*
+
+Your config lives in `~/.config/nvim` (see the starter template). FtVim loads
+these files from it, after its own defaults:
+
+  lua/config/options.lua    options, loaded before plugins
+  lua/config/keymaps.lua    keymaps
+  lua/config/autocmds.lua   autocommands
+
+FtVim itself is configured through the `opts` of its lazy.nvim spec: >lua
+
+  { "FtVim/FtVim", import = "ftvim.plugins", opts = {
+    colorscheme = "tokyonight",   -- string or function
+    defaults = {
+      options = true,   -- set to false to skip FtVim's options
+      keymaps = true,   -- set to false to skip FtVim's keymaps
+      autocmds = true,  -- set to false to skip FtVim's autocommands
+    },
+  } }
+<
+Your own `lua/config/*.lua` files are loaded even when a default is disabled.
+
+==============================================================================
+3. EXTRAS                                                       *ftvim-extras*
+
+Extras are optional sets of plugins and settings.
+
+                                                                *:FtVimExtras*
+:FtVimExtras            Pick extras to enable or disable (<leader>Fx). The
+                        selection is saved in `~/.config/nvim/ftvim.json`.
+                        Restart Neovim to apply.
+
+You can also import them in your config: >lua
+  { import = "ftvim.plugins.extras.lang.42" },
+<
+  lang.42       42 tools, see |ftvim-42| (includes lang.python and dap)
+  lang.cpp      C++ (CPP Modules, ft_irc): .tpp files, clang-format
+  lang.docker   Docker (Inception): dockerls, compose, yamlls, hadolint
+  lang.web      Web (ft_transcendence): TypeScript, eslint, tailwind, prettier
+  lang.python   Python: flake8 and mypy
+  lang.rails    Ruby on Rails: solargraph, ERB
+  dap           Debugging, see |ftvim-dap|
+  copilot       GitHub Copilot completion
+
+==============================================================================
+4. 42 TOOLS                                                         *ftvim-42*
+
+Enabled by the `lang.42` extra. Needs: `pipx install norminette c-formatter-42 compiledb`
+
+Norminette errors show up as diagnostics while you type (you don't need to
+save), and the statusline shows `Norm ✓` or `Norm ✗ <count>`.
+
+New `.c`, `.h`, `.cpp`, `.hpp` and `Makefile` files get the 42 header, and
+headers also get a guard. `.h` files are treated as C.
+
+                                                                  *:FtVimExam*
+:FtVimExam [on|off]     Exam mode (<leader>Fe): turns off LSP, completion,
+                        diagnostics, Copilot and autopairs so you can practice
+                        in exam conditions. Run it again to turn it off.
+
+                                                                 *:FtVimCheck*
+:FtVimCheck [funcs...]  Checks the project before you submit it (<leader>FC):
+                        - norminette on every file
+                        - Makefile: rules all, clean, fclean, re, $(NAME) and
+                          the -Wall -Wextra -Werror flags
+                        - `make re` compiles
+                        - no relink: `make` has nothing to do after `make re`
+                        - functions used by the binary (with `nm`). Pass the
+                          allowed functions to flag forbidden ones: >
+                            :FtVimCheck malloc free write
+<                         or set |g:ft42_allowed_functions|, or list them in
+                          a `.allowed_functions` file in the project root.
+                        Results go to the quickfix list.
+
+                                                                  *:FtVimNorm*
+:FtVimNorm              Norminette on the whole project (<leader>Fn).
+
+                                                                  *:FtVimMake*
+:FtVimMake [target]     Runs make in the background and loads the errors in
+                        the quickfix list (<leader>Fm).
+
+                                                              *:FtVimValgrind*
+:FtVimValgrind [args]   Runs the Makefile's NAME under valgrind in a terminal
+                        (interactive programs work) and loads the errors and
+                        leaks, pointing at your code, in the quickfix list
+                        (<leader>Fv). Linux only.
+
+                                                                 *:FtVimClass*
+:FtVimClass {Name}      Creates Name.hpp and Name.cpp with a class in
+                        Orthodox Canonical Form (in include/ and src/ if they
+                        exist).
+
+                                                             *:FtVimCompileDb*
+:FtVimCompileDb         Generates `compile_commands.json` with compiledb
+                        (<leader>Fg) from a dry-run of your Makefile (nothing
+                        is compiled), so clangd uses your exact flags and
+                        include paths, sub-makes like libft included.
+                        It is generated automatically the first time you open
+                        a C/C++ file of a project with a Makefile, and updated
+                        when you save the Makefile (see |g:ft42_compile_db|).
+                        It is added to `.git/info/exclude`, so git ignores it
+                        without touching your .gitignore: it won't be
+                        submitted by accident.
+
+                                                          *:FtVimCompileFlags*
+:FtVimCompileFlags      Writes `compile_flags.txt` (the 42 flags and every
+                        directory with headers) for projects without a
+                        Makefile. Also excluded from git.
+
+Other keymaps: <leader>Fh insert header, <leader>Ff format with
+c_formatter_42, <leader>Fc count function lines.
+
+Snippets: `hguard`, `main`, `mainv`, `while`, `malloc`, `write`, `struct`,
+`func` (C), `ocf`, `cout` (C++) and `42make` (Makefile).
+
+==============================================================================
+5. DEBUGGING                                                       *ftvim-dap*
+
+Enabled by the `dap` extra (included in `lang.42`). Uses gdb >= 14 when it is
+installed, codelldb (installed with Mason) otherwise.
+
+Compile with `-g`, set a breakpoint with <leader>db and start with <leader>dc
+or <F5>. The program defaults to the Makefile's NAME.
+
+==============================================================================
+6. OPTIONS                                                     *ftvim-options*
+
+Set them in `lua/config/options.lua`.
+
+*g:user42* *g:mail42*
+    Login and email for the 42 header. Default: $USER42 / $MAIL42, then
+    $USER and <user>@student.42barcelona.com.
+
+*g:ft42_auto_header*
+    Set to `false` to not insert the header in new files.
+
+*g:ft42_compile_db*
+    Set to `false` to not generate compile_commands.json automatically.
+
+*g:ft42_allowed_functions*
+    Allowed functions for |:FtVimCheck|, e.g. `{ "malloc", "free", "write" }`.
+
+*g:ft42_valgrind_program*
+    Program for |:FtVimValgrind| when it is not the Makefile's NAME.
+
+*g:ftvim_autoformat*
+    Set to `true` to format on save (c_formatter_42 for C). Toggle it with
+    <leader>uf. `vim.b.ftvim_autoformat` overrides it per buffer.
+
+==============================================================================
+7. KEYMAPS                                                     *ftvim-keymaps*
+
+See |ftvim-keymaps.txt| for the full list, or search them with <leader>Fk.
+
+ vim:tw=78:ts=8:ft=help:norl:

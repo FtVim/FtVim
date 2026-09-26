@@ -2,9 +2,7 @@ local map = require("ftvim.util").safe_keymap_set
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
-map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 -- Move to window using the <ctrl> hjkl keys
 map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
@@ -19,10 +17,10 @@ map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Wi
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
 -- Terminal window move
-map("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Go to Left Window"})
-map("t", "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Go to Lower Window"})
-map("t", "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Go to Upper Window"})
-map("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Go to Right Window"})
+map("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Go to Left Window" })
+map("t", "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Go to Lower Window" })
+map("t", "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Go to Upper Window" })
+map("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Go to Right Window" })
 
 -- Move Lines
 map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
@@ -76,8 +74,8 @@ map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- Buffers
-map("n", "<S-h>", "<cmd>bprevious<cr>", {desc = "Previous Buffer"})
-map("n", "<S-l>", "<cmd>bnext<cr>", {desc = "Next Buffer"})
+map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous Buffer" })
+map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
@@ -89,10 +87,18 @@ map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- learn to move
-map("n", "<down>", function() vim.notify("Use j to move down!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Down" })
-map("n", "<up>", function() vim.notify("Use k to move up!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Up" })
-map("n", "<left>", function() vim.notify("Use h to move left!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Left" })
-map("n", "<right>", function() vim.notify("Use l to move right!!", "Warn", { title = "Learn to move" }) end, { desc = "Move Right" })
+map("n", "<down>", function()
+  vim.notify("Use j to move down!!", vim.log.levels.WARN, { title = "Learn to move" })
+end, { desc = "Move Down" })
+map("n", "<up>", function()
+  vim.notify("Use k to move up!!", vim.log.levels.WARN, { title = "Learn to move" })
+end, { desc = "Move Up" })
+map("n", "<left>", function()
+  vim.notify("Use h to move left!!", vim.log.levels.WARN, { title = "Learn to move" })
+end, { desc = "Move Left" })
+map("n", "<right>", function()
+  vim.notify("Use l to move right!!", vim.log.levels.WARN, { title = "Learn to move" })
+end, { desc = "Move Right" })
 
 -- better escape
 map("i", "jk", "<esc>", { desc = "Better Escape" })

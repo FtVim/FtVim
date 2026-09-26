@@ -1,0 +1,34 @@
+{
+  "42 Makefile": {
+    "prefix": "42make",
+    "body": [
+      "NAME\t\t= ${1:program}",
+      "",
+      "CC\t\t\t= cc",
+      "CFLAGS\t\t= -Wall -Wextra -Werror",
+      "RM\t\t\t= rm -f",
+      "",
+      "SRCS\t\t= ${2:main.c}",
+      "OBJS\t\t= \\$(SRCS:.c=.o)",
+      "",
+      "all:\t\t\\$(NAME)",
+      "",
+      "\\$(NAME):\t\\$(OBJS)",
+      "\t\\$(CC) \\$(CFLAGS) \\$(OBJS) -o \\$(NAME)",
+      "",
+      "%.o:\t\t%.c",
+      "\t\\$(CC) \\$(CFLAGS) -c \\$< -o \\$@",
+      "",
+      "clean:",
+      "\t\\$(RM) \\$(OBJS)",
+      "",
+      "fclean:\t\tclean",
+      "\t\\$(RM) \\$(NAME)",
+      "",
+      "re:\t\t\tfclean all",
+      "",
+      ".PHONY:\t\tall clean fclean re"
+    ],
+    "description": "Makefile with the mandatory 42 rules (no relink)"
+  }
+}

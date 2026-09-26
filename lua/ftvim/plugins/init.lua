@@ -1,14 +1,14 @@
 -- FtVim Core Plugins
 -- This file is loaded first and initializes FtVim
 
-if vim.fn.has("nvim-0.11.0") == 0 then
+if vim.fn.has "nvim-0.11.0" == 0 then
   vim.api.nvim_echo({
     { "FtVim requires Neovim >= 0.11.0\n", "ErrorMsg" },
     { "Please upgrade Neovim to use FtVim\n", "WarningMsg" },
     { "Press any key to exit", "MoreMsg" },
   }, true, {})
   vim.fn.getchar()
-  vim.cmd([[quit]])
+  vim.cmd [[quit]]
   return {}
 end
 
@@ -55,9 +55,16 @@ return {
       ensure_installed = {
         "bash",
         "c",
+        "cpp",
+        "diff",
+        "gitcommit",
+        "json",
         "lua",
+        "make",
         "markdown",
+        "markdown_inline",
         "python",
+        "query",
         "vim",
         "vimdoc",
       },

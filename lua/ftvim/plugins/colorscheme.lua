@@ -10,11 +10,9 @@ return {
     opts = {
       flavour = "mocha",
       integrations = {
-        alpha = true,
         blink_cmp = true,
         gitsigns = true,
         illuminate = true,
-        indent_blankline = { enabled = true },
         mason = true,
         mini = true,
         native_lsp = {
@@ -27,9 +25,8 @@ return {
           },
         },
         neotree = true,
-        notify = true,
         semantic_tokens = true,
-        telescope = true,
+        snacks = true,
         treesitter = true,
         which_key = true,
       },

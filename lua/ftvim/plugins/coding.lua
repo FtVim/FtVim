@@ -23,8 +23,11 @@ return {
         ["<C-j>"] = { "select_next", "fallback" },
       },
       enabled = function()
-        -- Disable in Telescope prompt and other special buffers
-        local disabled_filetypes = { "TelescopePrompt", "neo-tree-popup", "notify" }
+        -- vim.g.ftvim_completion = false disables completion globally (used by exam mode)
+        if vim.g.ftvim_completion == false or vim.b.ftvim_completion == false then
+          return false
+        end
+        local disabled_filetypes = { "snacks_picker_input", "neo-tree-popup" }
         return not vim.tbl_contains(disabled_filetypes, vim.bo.filetype)
       end,
       appearance = {
@@ -58,8 +61,8 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
     },
     opts = {
       -- LSP servers to install and configure
@@ -89,7 +92,7 @@ return {
             "--clang-tidy",
             "--header-insertion=iwyu",
             "--completion-style=detailed",
-            "--function-arg-placeholders",
+            "--function-arg-placeholders=1",
             "--fallback-style=llvm",
           },
           init_options = {
@@ -119,28 +122,9 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("ftvim_lsp_attach", { clear = true }),
         callback = function(event)
-          local map = function(keys, func, desc, mode)
-            mode = mode or "n"
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-          end
-
-          map("gd", vim.lsp.buf.definition, "Goto Definition")
-          map("gr", vim.lsp.buf.references, "References")
-          map("gI", vim.lsp.buf.implementation, "Goto Implementation")
-          map("gy", vim.lsp.buf.type_definition, "Goto Type Definition")
-          map("gD", vim.lsp.buf.declaration, "Goto Declaration")
-          map("K", vim.lsp.buf.hover, "Hover")
-          map("gK", vim.lsp.buf.signature_help, "Signature Help")
-          map("<c-k>", vim.lsp.buf.signature_help, "Signature Help", "i")
-          map("<leader>ca", vim.lsp.buf.code_action, "Code Action", { "n", "v" })
-          map("<leader>cr", vim.lsp.buf.rename, "Rename")
-
-          -- Inlay hints toggle
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map("<leader>ch", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, "Toggle Inlay Hints")
+          if client then
+            require("ftvim.lsp.keymaps").on_attach(client, event.buf)
           end
         end,
       })
@@ -155,65 +139,59 @@ return {
         capabilities = blink.get_lsp_capabilities(capabilities)
       end
 
-      local function setup_server(server)
-        local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
+      local have_mason, mlsp = pcall(require, "mason-lspconfig")
 
-        -- Allow custom setup handlers
-        if opts.setup[server] then
-          if opts.setup[server](server, server_opts) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, server_opts) then
-            return
-          end
+      ---Configure a server. Returns true if it should be enabled by FtVim/mason.
+      ---@return boolean
+      local function setup_server(server)
+        local server_opts = servers[server] == true and {} or servers[server]
+        server_opts = vim.tbl_deep_extend("force", {
+          capabilities = vim.deepcopy(capabilities),
+        }, server_opts)
+        server_opts.mason = nil
+
+        -- Allow custom setup handlers (return true to skip the default setup)
+        local custom = opts.setup[server] or opts.setup["*"]
+        if custom and custom(server, server_opts) then
+          return false
         end
 
         vim.lsp.config(server, server_opts)
-        vim.lsp.enable(server)
+        return true
       end
 
-      local ensure_installed = {}
+      local ensure_installed = {} ---@type string[]
+      local exclude = {} ---@type string[]
       for server, server_opts in pairs(servers) do
         if server_opts then
-          server_opts = server_opts == true and {} or server_opts
-          if server_opts.mason ~= false then
+          local use_mason = have_mason and (server_opts == true or server_opts.mason ~= false)
+          if not setup_server(server) then
+            exclude[#exclude + 1] = server
+          elseif use_mason then
             ensure_installed[#ensure_installed + 1] = server
+          else
+            vim.lsp.enable(server)
           end
         end
       end
 
-      local have_mason, mlsp = pcall(require, "mason-lspconfig")
+      -- mason-lspconfig enables installed servers (and newly installed ones) via vim.lsp.enable()
       if have_mason then
         mlsp.setup {
           ensure_installed = ensure_installed,
-          handlers = { setup_server },
+          automatic_enable = { exclude = exclude },
         }
-      else
-        for server, _ in pairs(servers) do
-          setup_server(server)
-        end
-      end
-
-      for server, server_opts in pairs(servers) do
-        if server_opts then
-          server_opts = server_opts == true and {} or server_opts
-          if server_opts.mason == false then
-            setup_server(server)
-          end
-        end
       end
     end,
   },
 
   -- Mason (LSP/DAP/Linter/Formatter installer)
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = "Mason",
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     build = ":MasonUpdate",
+    opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
         "stylua",
@@ -234,8 +212,10 @@ return {
 
       mr.refresh(function()
         for _, tool in ipairs(opts.ensure_installed) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
+          local ok, p = pcall(mr.get_package, tool)
+          if not ok then
+            vim.notify("Mason: unknown package " .. tool, vim.log.levels.WARN)
+          elseif not p:is_installed() and not p:is_installing() then
             p:install()
           end
         end
@@ -264,10 +244,18 @@ return {
       {
         "<leader>cf",
         function()
-          require("conform").format { async = true, lsp_fallback = true }
+          require("conform").format { async = true, lsp_format = "fallback" }
         end,
         mode = { "n", "v" },
         desc = "Format",
+      },
+      {
+        "<leader>uf",
+        function()
+          vim.g.ftvim_autoformat = not vim.g.ftvim_autoformat
+          vim.notify("Format on save " .. (vim.g.ftvim_autoformat and "enabled" or "disabled"))
+        end,
+        desc = "Toggle Format on Save",
       },
     },
     opts = {
@@ -275,23 +263,62 @@ return {
         lua = { "stylua" },
         sh = { "shfmt" },
       },
-      format_on_save = false,
-      -- format_on_save = {
-      --   timeout_ms = 500,
-      --   lsp_fallback = true,
-      -- },
+      -- Disabled by default. Enable with `vim.g.ftvim_autoformat = true` (or per buffer with
+      -- `vim.b.ftvim_autoformat`), or toggle it with <leader>uf
+      format_on_save = function(buf)
+        local enabled = vim.b[buf].ftvim_autoformat
+        if enabled == nil then
+          enabled = vim.g.ftvim_autoformat
+        end
+        if enabled then
+          return { timeout_ms = 1000, lsp_format = "fallback" }
+        end
+      end,
     },
   },
 
-  -- Comment.nvim
+  -- nvim-lint (linting). Extras add linters with `opts.linters_by_ft` and `opts.linters`
   {
-    "numToStr/Comment.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "gc", mode = { "n", "v" }, desc = "Comment toggle linewise" },
-      { "gb", mode = { "n", "v" }, desc = "Comment toggle blockwise" },
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+    opts = {
+      -- Events that trigger linting
+      events = { "BufReadPost", "BufWritePost", "InsertLeave" },
+      ---@type table<string, string[]>
+      linters_by_ft = {},
+      -- Linter definitions or overrides (a table is merged into the existing linter)
+      ---@type table<string, table|fun():table>
+      linters = {},
     },
-    opts = {},
+    config = function(_, opts)
+      local lint = require "lint"
+      for name, linter in pairs(opts.linters) do
+        if type(linter) == "table" and type(lint.linters[name]) == "table" then
+          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+        else
+          lint.linters[name] = linter
+        end
+      end
+      lint.linters_by_ft = opts.linters_by_ft
+
+      -- Debounced: bursts of events lint once, and the first BufReadPost runs after the filetype is set
+      local timer = assert(vim.uv.new_timer())
+      local function try_lint()
+        timer:start(100, 0, function()
+          vim.schedule(function()
+            -- vim.g.ftvim_lint = false disables linting globally (used by exam mode)
+            if vim.g.ftvim_lint ~= false then
+              lint.try_lint()
+            end
+          end)
+        end)
+      end
+      vim.api.nvim_create_autocmd(opts.events, {
+        group = vim.api.nvim_create_augroup("ftvim_lint", { clear = true }),
+        callback = try_lint,
+      })
+      try_lint()
+    end,
   },
 
   -- Autopairs
@@ -305,7 +332,7 @@ return {
         javascript = { "string", "template_string" },
         java = false,
       },
-      disable_filetype = { "TelescopePrompt", "spectre_panel" },
+      disable_filetype = { "snacks_picker_input" },
       fast_wrap = {
         map = "<M-e>",
         chars = { "{", "[", "(", '"', "'" },

@@ -5,10 +5,10 @@ on:
     branches:
       - "main"
     paths:
-      - 'lua/**'
-      - 'snapshots/**'
-      - 'tests/**'
-      - 'utils/**'
+      - "lua/**"
+      - "tests/**"
+      - ".stylua.toml"
+      - ".github/workflows/format.yml"
 
 jobs:
   stylua-check:
@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Lint with stylua
-        uses: JohnnyMorganz/stylua-action@v2
+        uses: JohnnyMorganz/stylua-action@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # CLI arguments
-          version: 0.15.3
+          version: 2.5.2
           args: --check .

@@ -2,35 +2,48 @@
 -- Enable with: { import = "ftvim.plugins.extras.lang.42" }
 --
 -- This extra includes:
--- - 42 Header (Stdheader)
--- - C Formatter 42 (c_formatter_42.vim) - requires: pip install c-formatter-42
+-- - 42 header (:Stdheader, <leader>Fh), inserted automatically in new files
+-- - Norminette diagnostics while you type, and a counter in the statusline
+-- - C formatter 42 (<leader>Ff, or on save with vim.g.ftvim_autoformat = true)
 -- - Line counter (ft_count_lines.nvim)
--- - Python linting with flake8 and mypy
+-- - Exam mode: no LSP, completion, diagnostics or Copilot (:FtVimExam, <leader>Fe)
+-- - Pre-submission checks: norminette, Makefile, relink, forbidden functions (:FtVimCheck)
+-- - compile_commands.json generated automatically with compiledb, so clangd knows your flags
+--   and include paths (:FtVimCompileDb, <leader>Fg)
+-- - :FtVimMake, :FtVimNorm, :FtVimValgrind, :FtVimClass, :FtVimCompileFlags
+-- - C/C++ debugging (extras.dap) and Python piscine linting (extras.lang.python)
+--
+-- Requires: pipx install norminette c-formatter-42 compiledb
+--
+-- Options (set them in lua/config/options.lua):
+--   vim.g.user42 / vim.g.mail42      your 42 login and email (default: $USER42 / $MAIL42 / $USER)
+--   vim.g.ft42_auto_header = false   don't insert the header in new files
+--   vim.g.ft42_compile_db = false    don't generate compile_commands.json automatically
+--   vim.g.ft42_allowed_functions     allowed functions for :FtVimCheck, e.g. { "malloc", "free", "write" }
+
+-- .h files are C for 42 (Neovim detects them as C++ by default)
+vim.g.c_syntax_for_h = 1
+
+require("ftvim.ft42").setup()
 
 return {
+  { import = "ftvim.plugins.extras.lang.python" },
+  { import = "ftvim.plugins.extras.dap" },
+
   -- 42 Header
   {
     "42Paris/42header",
+    -- Loaded when opening files so it updates the "Updated:" line on save
+    event = { "BufReadPre", "BufNewFile" },
     cmd = { "Stdheader" },
     keys = {
       { "<leader>Fh", "<cmd>Stdheader<cr>", desc = "Insert 42 Header" },
     },
     init = function()
-      -- Set your 42 username and email
-      -- You can override these in your config
+      -- Set your 42 username and email (you can override these in your config)
       vim.g.user42 = vim.g.user42 or os.getenv "USER42" or os.getenv "USER" or "marvin"
-      vim.g.mail42 = vim.g.mail42 or os.getenv "MAIL42" or (vim.g.user42 .. "@student.42.fr")
+      vim.g.mail42 = vim.g.mail42 or os.getenv "MAIL42" or (vim.g.user42 .. "@student.42barcelona.com")
     end,
-  },
-
-  -- C Formatter 42
-  -- Requires: pip install c-formatter-42
-  {
-    "cacharle/c_formatter_42.vim",
-    ft = { "c", "cpp" },
-    keys = {
-      { "<leader>Ff", "<cmd>CFormatter42<cr>", desc = "Format C (42 norm)" },
-    },
   },
 
   -- Line counter
@@ -45,16 +58,18 @@ return {
     end,
   },
 
-  -- Add nvim-lint for Python linting (flake8 + mypy)
+  -- Norminette
   {
     "mfussenegger/nvim-lint",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
       linters_by_ft = {
-        python = { "flake8", "mypy" },
+        c = { "norminette" },
       },
-      -- Mypy configuration for 42 strict mode
       linters = {
+        norminette = function()
+          return require("ftvim.ft42.norminette").linter()
+        end,
+        -- Mypy flags used in the 42 Python piscine
         mypy = {
           args = {
             "--warn-return-any",
@@ -72,62 +87,116 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      local lint = require "lint"
-
-      -- Apply custom linter configurations
-      for name, config in pairs(opts.linters or {}) do
-        if type(config) == "table" and config.args then
-          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name] or {}, config)
-        end
-      end
-
-      lint.linters_by_ft = opts.linters_by_ft
-
-      -- Auto-lint on save and text change
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
-        group = vim.api.nvim_create_augroup("ftvim_lint", { clear = true }),
-        callback = function()
-          -- Only lint if buffer is modifiable and has a filetype we care about
-          local ft = vim.bo.filetype
-          if lint.linters_by_ft[ft] then
-            lint.try_lint()
-          end
-        end,
-      })
-    end,
   },
 
-  -- Ensure mason installs the Python linters
+  -- C formatter 42 (pip install --user c-formatter-42)
   {
-    "williamboman/mason.nvim",
+    "stevearc/conform.nvim",
+    keys = {
+      {
+        "<leader>Ff",
+        function()
+          require("conform").format { formatters = { "c_formatter_42" }, async = true }
+        end,
+        mode = { "n", "v" },
+        desc = "Format C (42 norm)",
+      },
+    },
     opts = {
-      ensure_installed = {
-        "flake8",
-        "mypy",
+      formatters_by_ft = {
+        c = { "c_formatter_42" },
+      },
+      formatters = {
+        c_formatter_42 = {
+          command = "c_formatter_42",
+          stdin = true,
+        },
       },
     },
   },
 
-  -- Add keybindings for 42 tools in which-key
+  -- clangd: never add #includes on its own (the subjects restrict which headers/functions you can use)
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        clangd = {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=never",
+            "--completion-style=detailed",
+            "--function-arg-placeholders=1",
+          },
+        },
+      },
+    },
+  },
+
+  -- 42 snippets (hguard, main, 42make, ...)
+  {
+    "saghen/blink.cmp",
+    optional = true,
+    opts = {
+      sources = {
+        providers = {
+          snippets = {
+            opts = {
+              search_paths = {
+                vim.fn.stdpath "config" .. "/snippets",
+                require("ftvim.util").root() .. "/snippets/42",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  -- Statusline: norminette counter and exam mode indicator
+  {
+    "nvim-lualine/lualine.nvim",
+    optional = true,
+    opts = function(_, opts)
+      local norminette = require "ftvim.ft42.norminette"
+      local has_norminette = vim.fn.executable "norminette" == 1
+      table.insert(opts.sections.lualine_x, 1, {
+        function()
+          local count = norminette.count()
+          return count == 0 and "Norm ✓" or ("Norm ✗ " .. count)
+        end,
+        cond = function()
+          return has_norminette and vim.bo.filetype == "c" and norminette.count() ~= nil
+        end,
+        color = function()
+          return norminette.count() == 0 and "DiagnosticOk" or "DiagnosticError"
+        end,
+      })
+      table.insert(opts.sections.lualine_x, 1, {
+        function()
+          return "EXAM"
+        end,
+        cond = function()
+          return package.loaded["ftvim.ft42.exam"] ~= nil and require("ftvim.ft42.exam").enabled
+        end,
+        color = "DiagnosticWarn",
+      })
+    end,
+  },
+
   {
     "folke/which-key.nvim",
     optional = true,
-    opts = function(_, opts)
-      opts = opts or {}
-      return opts
-    end,
-    specs = {
-      {
-        "folke/which-key.nvim",
-        opts = function()
-          require("which-key").add {
-            { "<leader>F", group = "FtVim/42" },
-            { "<leader>Ff", desc = "Format C (42 norm)" },
-            { "<leader>Fh", desc = "Insert 42 Header" },
-            { "<leader>Fc", desc = "Count Lines (42)" },
-          }
-        end,
+    opts = {
+      spec = {
+        { "<leader>F", group = "FtVim/42" },
+        { "<leader>Fe", "<cmd>FtVimExam<cr>", desc = "Toggle Exam Mode" },
+        { "<leader>FC", "<cmd>FtVimCheck<cr>", desc = "Check Project (before submitting)" },
+        { "<leader>Fn", "<cmd>FtVimNorm<cr>", desc = "Norminette (project)" },
+        { "<leader>Fm", "<cmd>FtVimMake<cr>", desc = "Make" },
+        { "<leader>Fv", "<cmd>FtVimValgrind<cr>", desc = "Valgrind" },
+        { "<leader>Fg", "<cmd>FtVimCompileDb<cr>", desc = "Generate compile_commands.json" },
       },
     },
   },

@@ -1,0 +1,52 @@
+name: tests
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  tests:
+    name: "Neovim ${{ matrix.nvim }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        nvim: ["v0.11.5", "latest"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Neovim
+        run: RELEASE_VER=${{ matrix.nvim }} ./scripts/install-neovim.sh
+
+      - name: Add ~/.local/bin to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install norminette, c_formatter_42 and compiledb
+        run: pipx install norminette && pipx install c-formatter-42 && pipx install compiledb
+
+      - name: Install plugins
+        run: nvim --headless -u tests/minimal_init.lua "+Lazy! sync" +qa
+
+      - name: Smoke test
+        run: nvim --headless -u tests/minimal_init.lua "+luafile tests/smoke.lua"
+
+      - name: 42 tools
+        run: nvim --headless -u tests/minimal_init.lua "+luafile tests/ft42.lua"
+
+      - name: Keymap conflicts
+        run: nvim --headless -u tests/minimal_init.lua "+luafile tests/keymaps.lua"
+
+      - name: Keymap docs are up to date
+        run: |
+          nvim --headless -u tests/minimal_init.lua "+luafile scripts/gen-docs.lua"
+          git diff --exit-code docs/KEYMAPS.md doc/ftvim-keymaps.txt ||
+            echo "::warning::Keymap docs are outdated, run scripts/gen-docs.lua"
+
+      - name: Startup time
+        run: |
+          nvim --headless --startuptime startup.log -u tests/minimal_init.lua +qa
+          echo "Startup: $(grep 'NVIM STARTED' startup.log | awk '{print $1}') ms (headless, all extras)" >> "$GITHUB_STEP_SUMMARY"

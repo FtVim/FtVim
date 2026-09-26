@@ -12,7 +12,7 @@
 
 <div align="center">
  
-[![Neovim Minimum Version](https://img.shields.io/badge/Neovim-0.10-blueviolet.svg?style=flat-square&logo=Neovim&color=90E59A&logoColor=white)](https://github.com/neovim/neovim)
-[![GitHub Issues](https://img.shields.io/github/issues/NvChad/NvChad.svg?style=flat-square&label=Issues&color=d77982)](https://github.com/FtVim/FtVim/issues)
+[![Neovim Minimum Version](https://img.shields.io/badge/Neovim-0.11-blueviolet.svg?style=flat-square&logo=Neovim&color=90E59A&logoColor=white)](https://github.com/neovim/neovim)
+[![GitHub Issues](https://img.shields.io/github/issues/FtVim/FtVim.svg?style=flat-square&label=Issues&color=d77982)](https://github.com/FtVim/FtVim/issues)
 
 </div>

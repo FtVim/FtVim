@@ -1,0 +1,11 @@
+{
+  "name": "ftvim-42",
+  "description": "42 snippets for FtVim (norm-friendly)",
+  "contributes": {
+    "snippets": [
+      { "language": ["c"], "path": "./c.json" },
+      { "language": ["cpp"], "path": "./cpp.json" },
+      { "language": ["make"], "path": "./make.json" }
+    ]
+  }
+}

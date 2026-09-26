@@ -1,5 +1,18 @@
 -- FtVim Editor Plugins
 
+local icons = require "ftvim.icons"
+
+local logo = [[
+    ███████████ ███████████ █████   █████ █████ ██████   ██████
+   ░░███░░░░░░█░█░░░███░░░█░░███   ░░███ ░░███ ░░██████ ██████ 
+    ░███   █ ░ ░   ░███  ░  ░███    ░███  ░███  ░███░█████░███ 
+    ░███████       ░███     ░███    ░███  ░███  ░███░░███ ░███ 
+    ░███░░░█       ░███     ░░███   ███   ░███  ░███ ░░░  ░███ 
+    ░███  ░        ░███      ░░░█████░    ░███  ░███      ░███ 
+    █████          █████       ░░███      █████ █████     █████
+   ░░░░░          ░░░░░         ░░░      ░░░░░ ░░░░░     ░░░░░  
+]]
+
 return {
   -- Neo-tree (file explorer)
   {
@@ -15,7 +28,7 @@ return {
       { "<leader>e", "<cmd>Neotree toggle reveal_force_cwd<cr>", desc = "Explorer" },
     },
     deactivate = function()
-      vim.cmd([[Neotree close]])
+      vim.cmd [[Neotree close]]
     end,
     init = function()
       -- Load neo-tree if opening a directory
@@ -29,7 +42,7 @@ return {
           end
           local stats = vim.uv.fs_stat(vim.fn.argv(0))
           if stats and stats.type == "directory" then
-            require("neo-tree")
+            require "neo-tree"
           end
         end,
       })
@@ -94,13 +107,43 @@ return {
           },
         },
       },
-      -- Only enable picker for now, disable other features
-      bigfile = { enabled = false },
-      notifier = { enabled = false },
+      bigfile = { enabled = true },
+      input = { enabled = true },
+      notifier = { enabled = true, timeout = 3000 },
+      indent = {
+        enabled = true,
+        scope = { enabled = true },
+      },
+      terminal = {
+        win = { style = "terminal" },
+      },
+      dashboard = {
+        enabled = true,
+        preset = {
+          header = logo,
+          -- stylua: ignore
+          keys = {
+            { icon = icons.ui.FindFile, key = "f", desc = "Find File", action = function() Snacks.picker.files() end },
+            { icon = icons.ui.NewFile, key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = icons.ui.History, key = "r", desc = "Recent Files", action = function() Snacks.picker.recent() end },
+            { icon = icons.ui.FindText, key = "t", desc = "Find Text", action = function() Snacks.picker.grep() end },
+            { icon = icons.ui.Gear, key = "c", desc = "Config", action = ":e $MYVIMRC | cd %:p:h" },
+            { icon = icons.ui.Package, key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = icons.ui.SignOut, key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1, padding = 1 },
+          { section = "startup" },
+          { text = { "ftvim.github.io", hl = "SnacksDashboardFooter" }, align = "center", padding = { 0, 1 } },
+        },
+      },
       quickfile = { enabled = false },
       statuscolumn = { enabled = false },
       words = { enabled = false },
     },
+    -- stylua: ignore
     keys = {
       -- Find
       { "<leader>ff", function() Snacks.picker.files() end, desc = "Find File" },
@@ -120,6 +163,14 @@ return {
       { "<leader>gc", function() Snacks.picker.git_log() end, desc = "Git Commits" },
       { "<leader>gC", function() Snacks.picker.git_log_file() end, desc = "Git Buffer Commits" },
       { "<leader>go", function() Snacks.picker.git_status() end, desc = "Git Status" },
+      -- Notifications
+      { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+      { "<leader>nh", function() Snacks.notifier.show_history() end, desc = "Notification History" },
+      -- Terminal: <C-\> float, <leader>th horizontal, <leader>tv vertical
+      { "<C-\\>", function() Snacks.terminal.toggle(nil, { count = 1, win = { position = "float" } }) end, mode = { "n", "t" }, desc = "Toggle Terminal" },
+      { "<leader>tf", function() Snacks.terminal.toggle(nil, { count = 1, win = { position = "float" } }) end, desc = "Float Terminal" },
+      { "<leader>th", function() Snacks.terminal.toggle(nil, { count = 2, win = { position = "bottom", height = 0.3 } }) end, desc = "Horizontal Terminal" },
+      { "<leader>tv", function() Snacks.terminal.toggle(nil, { count = 3, win = { position = "right", width = 0.4 } }) end, desc = "Vertical Terminal" },
     },
   },
 
@@ -127,7 +178,9 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
+    opts_extend = { "spec" },
     opts = {
+      spec = {},
       plugins = {
         marks = false,
         registers = false,
@@ -147,59 +200,43 @@ return {
         separator = "➜",
         group = "+",
       },
-      layout = {
+      win = {
         height = { min = 4, max = 25 },
+      },
+      layout = {
         width = { min = 20, max = 50 },
         spacing = 3,
-        align = "center",
       },
       show_help = true,
       show_keys = true,
-      triggers = { "<leader>" },
-      disable = {
-        buftypes = {},
-        filetypes = {},
+      triggers = {
+        { "<leader>", mode = { "n", "v" } },
       },
     },
     config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.add({
-        { "<leader>;", "<cmd>Alpha<cr>", desc = "Dashboard" },
-        { "<leader>/", "<Plug>(comment_toggle_linewise_current)", desc = "Comment Line" },
+      local wk = require "which-key"
+      -- FtVim defaults go first so specs from extras/users (opts.spec) can override them
+      -- stylua: ignore
+      table.insert(opts.spec, 1, {
+        { "<leader>;", function() Snacks.dashboard() end, desc = "Dashboard" },
+        { "<leader>/", "gcc", desc = "Comment Line", remap = true },
         { "<leader>F", group = "FtVim" },
         { "<leader>Fk", function() Snacks.picker.keymaps() end, desc = "View Keymappings" },
+        { "<leader>Fx", "<cmd>FtVimExtras<cr>", desc = "Extras" },
+        { "<leader>FH", "<cmd>checkhealth ftvim<cr>", desc = "Health Check" },
         { "<leader>T", group = "Treesitter" },
         { "<leader>Ti", "<cmd>TSConfigInfo<cr>", desc = "Info" },
         { "<leader>b", group = "Buffers" },
-        { "<leader>bD", "<cmd>BufferLineSortByDirectory<cr>", desc = "Sort by Directory" },
+        { "<leader>bs", "<cmd>BufferLineSortByDirectory<cr>", desc = "Sort by Directory" },
         { "<leader>bL", "<cmd>BufferLineSortByExtension<cr>", desc = "Sort by Language" },
         { "<leader>bW", "<cmd>noautocmd w<cr>", desc = "Save Without Formatting" },
         { "<leader>bb", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous" },
-        {
-          "<leader>bd",
-          function()
-            require("mini.bufremove").delete(0, false)
-          end,
-          desc = "Close Buffer",
-        },
         { "<leader>be", "<cmd>BufferLinePickClose<cr>", desc = "Pick to Close" },
         { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Find" },
-        { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Close Left" },
         { "<leader>bj", "<cmd>BufferLinePick<cr>", desc = "Jump" },
-        { "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "Close Right" },
         { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next" },
+        -- LSP mappings (<leader>ca, <leader>cr, ...) are buffer-local, set on LspAttach
         { "<leader>c", group = "Code" },
-        { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action" },
-        { "<leader>cd", vim.lsp.buf.definition, desc = "Goto Definition" },
-        { "<leader>ci", vim.lsp.buf.implementation, desc = "Goto Implementation" },
-        { "<leader>cr", vim.lsp.buf.references, desc = "Goto References" },
-        { "<leader>cs", vim.lsp.buf.signature_help, desc = "Signature Help" },
-        { "<leader>ct", vim.lsp.buf.type_definition, desc = "Goto Type Definition" },
-        { "<leader>cv", vim.lsp.buf.hover, desc = "Hover" },
-        { "<leader>cx", vim.lsp.buf.rename, desc = "Rename" },
-        { "<leader>cm", group = "Mason" },
-        { "<leader>cmm", "<cmd>Mason<cr>", desc = "Mason" },
         { "<leader>f", group = "Find" },
         { "<leader>fn", "<cmd>enew<cr>", desc = "New File" },
         { "<leader>g", group = "Git" },
@@ -210,7 +247,10 @@ return {
         { "<leader>pl", "<cmd>Lazy<cr>", desc = "Lazy" },
         { "<leader>ps", "<cmd>Lazy sync<cr>", desc = "Sync" },
         { "<leader>pu", "<cmd>Lazy update<cr>", desc = "Update" },
+        { "<leader>n", group = "Notifications" },
         { "<leader>q", group = "Quit" },
+        { "<leader>t", group = "Terminal" },
+        { "<leader>u", group = "UI" },
         { "<leader>qq", "<cmd>confirm q<cr>", desc = "Quit" },
         { "<leader>w", group = "Windows" },
         { "<leader>wd", "<cmd>q<cr>", desc = "Close Window" },
@@ -224,63 +264,32 @@ return {
         { "<leader>xq", "<cmd>copen<cr>", desc = "Quickfix List" },
         {
           mode = "v",
-          { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Comment Selection" },
+          { "<leader>/", "gc", desc = "Comment Selection", remap = true },
         },
       })
+      wk.setup(opts)
     end,
-  },
-
-  -- Toggleterm (terminal)
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    cmd = { "ToggleTerm", "TermExec" },
-    keys = {
-      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
-      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float Terminal" },
-      { "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", desc = "Horizontal Terminal" },
-      { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
-    },
-    opts = {
-      size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
-        end
-      end,
-      open_mapping = [[<c-\>]],
-      hide_numbers = true,
-      shade_terminals = true,
-      shading_factor = 2,
-      start_in_insert = true,
-      insert_mappings = true,
-      persist_size = true,
-      direction = "float",
-      close_on_exit = true,
-      shell = vim.o.shell,
-      float_opts = {
-        border = "curved",
-        winblend = 0,
-      },
-    },
   },
 
   -- Mini.ai (better text objects)
   {
     "echasnovski/mini.ai",
     event = "VeryLazy",
+    dependencies = {
+      -- Provides the @function/@class/... queries used below
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
+    },
     opts = function()
-      local ai = require("mini.ai")
+      local ai = require "mini.ai"
       return {
         n_lines = 500,
         custom_textobjects = {
-          o = ai.gen_spec.treesitter({
+          o = ai.gen_spec.treesitter {
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+          },
+          f = ai.gen_spec.treesitter { a = "@function.outer", i = "@function.inner" },
+          c = ai.gen_spec.treesitter { a = "@class.outer", i = "@class.inner" },
         },
       }
     end,

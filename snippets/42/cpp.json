@@ -1,0 +1,38 @@
+{
+  "Orthodox Canonical Form class": {
+    "prefix": "ocf",
+    "body": [
+      "class ${1:${TM_FILENAME_BASE}}",
+      "{",
+      "\tpublic:",
+      "\t\t$1(void);",
+      "\t\t$1(const $1 &other);",
+      "\t\t$1 &operator=(const $1 &other);",
+      "\t\t~$1(void);",
+      "",
+      "\tprivate:",
+      "\t\t$0",
+      "};"
+    ],
+    "description": "Class declaration in Orthodox Canonical Form (C++98)"
+  },
+  "Header guard": {
+    "prefix": "hguard",
+    "body": [
+      "#ifndef ${1:NAME_HPP}",
+      "# define $1",
+      "",
+      "$0",
+      "",
+      "#endif"
+    ],
+    "description": "Header guard, e.g. FT_PRINTF_HPP (new headers get one automatically)"
+  },
+  "cout": {
+    "prefix": "cout",
+    "body": [
+      "std::cout << $1 << std::endl;"
+    ],
+    "description": "std::cout << ... << std::endl"
+  }
+}

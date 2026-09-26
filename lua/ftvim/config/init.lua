@@ -26,15 +26,12 @@ local options
 function M.setup(opts)
   options = vim.tbl_deep_extend("force", defaults, opts or {})
 
-  -- Load autocmds
-  if options.defaults.autocmds then
-    M.load "autocmds"
-  end
+  M.load("autocmds", options.defaults.autocmds)
+  M.load("keymaps", options.defaults.keymaps)
 
-  -- Load keymaps
-  if options.defaults.keymaps then
-    M.load "keymaps"
-  end
+  vim.api.nvim_create_user_command("FtVimExtras", function()
+    require("ftvim.extras").show()
+  end, { desc = "Enable/disable FtVim extras" })
 
   local colorscheme_before = vim.g.colors_name
   vim.schedule(function()
@@ -65,20 +62,22 @@ function M.load_colorscheme()
 end
 
 ---Load a config module (autocmds, keymaps, options)
+---The user's module (lua/config/<name>.lua) is always loaded, even when FtVim's defaults are disabled.
 ---@param name "autocmds"|"keymaps"|"options"
-function M.load(name)
-  -- Load FtVim's config
-  local ftvim_mod = "ftvim.config." .. name
-  local ok, err = pcall(require, ftvim_mod)
-  if not ok and not err:match "module.*not found" then
-    vim.notify("Error loading " .. ftvim_mod .. ": " .. err, vim.log.levels.ERROR)
+---@param load_defaults? boolean Load FtVim's defaults for this module (default: true)
+function M.load(name, load_defaults)
+  local mods = { "config." .. name }
+  if load_defaults ~= false then
+    table.insert(mods, 1, "ftvim.config." .. name)
   end
-
-  -- Load user's config (from lua/config/)
-  local user_mod = "config." .. name
-  ok, err = pcall(require, user_mod)
-  if not ok and not err:match "module.*not found" then
-    vim.notify("Error loading " .. user_mod .. ": " .. err, vim.log.levels.ERROR)
+  for _, mod in ipairs(mods) do
+    -- Only require modules that exist, so errors inside them are never mistaken for "not found"
+    if #vim.loader.find(mod) > 0 then
+      local ok, err = pcall(require, mod)
+      if not ok then
+        vim.notify("Error loading " .. mod .. ": " .. err, vim.log.levels.ERROR)
+      end
+    end
   end
 end
 
@@ -97,10 +96,16 @@ function M.init()
     vim.opt.rtp:append(plugin.dir)
   end
 
-  -- Load options early (before plugins)
-  if defaults.defaults.options then
-    M.load "options"
+  -- Load options early (before plugins). setup() hasn't run yet, so read the user's
+  -- `defaults.options` straight from the FtVim spec.
+  local load_options = true
+  if plugin then
+    local ok, opts = pcall(require("lazy.core.plugin").values, plugin, "opts", false)
+    if ok and vim.tbl_get(opts or {}, "defaults", "options") == false then
+      load_options = false
+    end
   end
+  M.load("options", load_options)
 end
 
 -- Metatable for easy access to options

@@ -22,6 +22,12 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
   end
 end
 
+---Directory where FtVim is installed (the repository root)
+---@return string
+function M.root()
+  return vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h:h:h")
+end
+
 ---Check if a plugin is available
 ---@param plugin string
 ---@return boolean
@@ -37,7 +43,7 @@ function M.opts(name)
   if not plugin then
     return {}
   end
-  local Plugin = require("lazy.core.plugin")
+  local Plugin = require "lazy.core.plugin"
   return Plugin.values(plugin, "opts", false)
 end
 

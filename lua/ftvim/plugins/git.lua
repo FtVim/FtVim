@@ -31,25 +31,25 @@ return {
         -- Navigation
         map("n", "]h", function()
           if vim.wo.diff then
-            vim.cmd.normal({ "]c", bang = true })
+            vim.cmd.normal { "]c", bang = true }
           else
-            gs.nav_hunk("next")
+            gs.nav_hunk "next"
           end
         end, "Next Hunk")
 
         map("n", "[h", function()
           if vim.wo.diff then
-            vim.cmd.normal({ "[c", bang = true })
+            vim.cmd.normal { "[c", bang = true }
           else
-            gs.nav_hunk("prev")
+            gs.nav_hunk "prev"
           end
         end, "Prev Hunk")
 
         map("n", "]H", function()
-          gs.nav_hunk("last")
+          gs.nav_hunk "last"
         end, "Last Hunk")
         map("n", "[H", function()
-          gs.nav_hunk("first")
+          gs.nav_hunk "first"
         end, "First Hunk")
 
         -- Actions
@@ -60,14 +60,14 @@ return {
         map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
         map("n", "<leader>ghb", function()
-          gs.blame_line({ full = true })
+          gs.blame_line { full = true }
         end, "Blame Line")
         map("n", "<leader>ghB", function()
           gs.blame()
         end, "Blame Buffer")
         map("n", "<leader>ghd", gs.diffthis, "Diff This")
         map("n", "<leader>ghD", function()
-          gs.diffthis("~")
+          gs.diffthis "~"
         end, "Diff This ~")
 
         -- Text object
